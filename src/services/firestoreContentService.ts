@@ -19,6 +19,7 @@ import {
 } from '../types/contentEngine';
 import { 
   loadAllProjectSettings, 
+  saveAllProjectSettings,
   loadAllContentProjects, 
   saveAllContentProjects, 
   loadAllPublishingJobs,
@@ -82,7 +83,6 @@ export class FirestoreContentService {
     } else {
       current.push(settings);
     }
-    const { saveAllProjectSettings } = await import('../utils/contentStorage');
     saveAllProjectSettings(current);
 
     if (!isFirestoreOperational()) return;
@@ -392,4 +392,3 @@ export class FirestoreContentService {
     }
   }
 }
-

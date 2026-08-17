@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { UserProfile, Campaign, StudentRecord, Stage } from './types';
 import { 
   loadUserProfile, 
@@ -15,16 +15,6 @@ import {
 } from './utils/storage';
 import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
-import { DashboardView } from './components/DashboardView';
-import { AcademyView } from './components/AcademyView';
-import { AdminDashboardView } from './components/AdminDashboardView';
-import { EmailAutomationView } from './components/EmailAutomationView';
-import { ToolboxView } from './components/ToolboxView';
-import { ProgressView } from './components/ProgressView';
-import { ProfileView } from './components/ProfileView';
-import { SettingsView } from './components/SettingsView';
-import { PublicLandingView } from './components/PublicLandingView';
-import { ContentEngineView } from './components/ContentEngine/ContentEngineView';
 import { VisitorAccessGateModal } from './components/VisitorAccessGateModal';
 import { FragGommarDrawer } from './components/FragGommarDrawer';
 import { CelebrationModal } from './components/CelebrationModal';
@@ -36,6 +26,26 @@ import { EmailVerificationView } from './components/EmailVerificationView';
 import { AuthModal } from './components/AuthModal';
 import { Loader2 } from 'lucide-react';
 import gommarLogo from './assets/images/gommar_logo.jpg';
+
+const DashboardView = lazy(() => import('./components/DashboardView').then((module) => ({ default: module.DashboardView })));
+const AcademyView = lazy(() => import('./components/AcademyView').then((module) => ({ default: module.AcademyView })));
+const AdminDashboardView = lazy(() => import('./components/AdminDashboardView').then((module) => ({ default: module.AdminDashboardView })));
+const EmailAutomationView = lazy(() => import('./components/EmailAutomationView').then((module) => ({ default: module.EmailAutomationView })));
+const ToolboxView = lazy(() => import('./components/ToolboxView').then((module) => ({ default: module.ToolboxView })));
+const ProgressView = lazy(() => import('./components/ProgressView').then((module) => ({ default: module.ProgressView })));
+const ProfileView = lazy(() => import('./components/ProfileView').then((module) => ({ default: module.ProfileView })));
+const SettingsView = lazy(() => import('./components/SettingsView').then((module) => ({ default: module.SettingsView })));
+const PublicLandingView = lazy(() => import('./components/PublicLandingView').then((module) => ({ default: module.PublicLandingView })));
+const ContentEngineView = lazy(() => import('./components/ContentEngine/ContentEngineView').then((module) => ({ default: module.ContentEngineView })));
+
+function ViewLoadingFallback() {
+  return (
+    <div className="flex min-h-48 items-center justify-center gap-3 text-sm font-semibold text-indigo-300">
+      <Loader2 className="h-5 w-5 animate-spin" />
+      <span>Bereich wird geladen...</span>
+    </div>
+  );
+}
 
 export default function App() {
   const { user: firebaseUser, loading: authLoading, authState } = useAuth();
@@ -330,6 +340,7 @@ export default function App() {
 
         {/* Content View Area */}
         <main className="flex-1 p-4 lg:p-8 w-full min-w-0">
+          <Suspense fallback={<ViewLoadingFallback />}>
           {activeView === 'dashboard' && (
             <DashboardView
               user={user}
@@ -423,6 +434,7 @@ export default function App() {
               onResetProgress={handleResetProgress}
             />
           )}
+          </Suspense>
         </main>
       </div>
 

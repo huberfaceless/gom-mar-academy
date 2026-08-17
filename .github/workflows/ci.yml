@@ -1,0 +1,41 @@
+name: Projektpruefung
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: TypeScript und Produktions-Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Repository laden
+        uses: actions/checkout@v4
+
+      - name: Bun einrichten
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Abhaengigkeiten installieren
+        run: bun install --frozen-lockfile
+
+      - name: TypeScript pruefen
+        run: bun run lint
+
+      - name: Produktions-Build erstellen
+        run: bun run build
