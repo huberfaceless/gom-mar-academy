@@ -1,0 +1,176 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile, role and academy membership tier",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["member", "admin"] },
+        "tier": { "type": "string", "enum": ["FREE", "PRO", "PREMIUM"] },
+        "level": { "type": "number" },
+        "xp": { "type": "number" },
+        "currentStageId": { "type": "number" },
+        "currentLessonId": { "type": "string" },
+        "completedTaskIds": { "type": "array", "items": { "type": "string" } },
+        "unlockedStageIds": { "type": "array", "items": { "type": "number" } },
+        "leadsCount": { "type": "number" },
+        "activeCampaignsCount": { "type": "number" },
+        "earnedBadges": { "type": "array", "items": { "type": "string" } },
+        "niche": { "type": "string" },
+        "targetAudience": { "type": "string" },
+        "offerName": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "email"]
+    },
+    "ProjectSettings": {
+      "title": "ProjectSettings",
+      "description": "Content brand project settings such as Vital50",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "websiteUrl": { "type": "string" },
+        "targetAudience": { "type": "string" },
+        "coreTopics": { "type": "array", "items": { "type": "string" } },
+        "language": { "type": "string" },
+        "defaultCta": { "type": "string" },
+        "defaultTargetUrl": { "type": "string" },
+        "brandVoice": { "type": "string" },
+        "pinterestBoardDefault": { "type": "string" },
+        "youtubeChannelName": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "name"]
+    },
+    "CentralContentProject": {
+      "title": "CentralContentProject",
+      "description": "Multi-channel content set containing brief, blog article, pins, videos and shorts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "projectId": { "type": "string" },
+        "topic": { "type": "string" },
+        "status": { "type": "string" },
+        "mainKeyword": { "type": "string" },
+        "secondaryKeywords": { "type": "array", "items": { "type": "string" } },
+        "targetAudience": { "type": "string" },
+        "searchIntent": { "type": "string" },
+        "desiredCta": { "type": "string" },
+        "targetUrl": { "type": "string" },
+        "language": { "type": "string" },
+        "brandVoice": { "type": "string" },
+        "contentBrief": { "type": "object" },
+        "blogArticle": { "type": "object" },
+        "pinterestPins": { "type": "array", "items": { "type": "object" } },
+        "youtubeVideo": { "type": "object" },
+        "youtubeShorts": { "type": "array", "items": { "type": "object" } },
+        "calendarItems": { "type": "array", "items": { "type": "object" } },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "scheduledDate": { "type": "string" },
+        "publishedDate": { "type": "string" }
+      },
+      "required": ["id", "userId", "topic"]
+    },
+    "PublishingJob": {
+      "title": "PublishingJob",
+      "description": "Publishing queue item for multi-platform distribution",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "projectId": { "type": "string" },
+        "contentProjectId": { "type": "string" },
+        "contentId": { "type": "string" },
+        "platform": { "type": "string", "enum": ["BLOG", "PINTEREST", "YOUTUBE"] },
+        "contentType": { "type": "string", "enum": ["ARTICLE", "PIN", "VIDEO", "SHORT"] },
+        "scheduledAt": { "type": "string" },
+        "status": { "type": "string", "enum": ["DRAFT", "GENERATING", "NEEDS_REVIEW", "APPROVED", "SCHEDULED", "PUBLISHING", "PUBLISHED", "FAILED", "CANCELLED"] },
+        "attempts": { "type": "number" },
+        "maxAttempts": { "type": "number" },
+        "lastError": { "type": "string" },
+        "nextAttemptAt": { "type": "string" },
+        "payload": { "type": "object" },
+        "publishedAt": { "type": "string" },
+        "publishedUrl": { "type": "string" },
+        "externalId": { "type": "string" },
+        "lockedAt": { "type": "string" },
+        "lockedBy": { "type": "string" },
+        "lockExpiresAt": { "type": "string" },
+        "executionLogs": { "type": "array", "items": { "type": "object" } },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "platform", "contentType", "status"]
+    },
+    "SchedulerExecutionLog": {
+      "title": "SchedulerExecutionLog",
+      "description": "Audit log entry for scheduler background execution",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "jobId": { "type": "string" },
+        "userId": { "type": "string" },
+        "platform": { "type": "string" },
+        "contentType": { "type": "string" },
+        "startedAt": { "type": "string" },
+        "completedAt": { "type": "string" },
+        "status": { "type": "string" },
+        "attempts": { "type": "number" },
+        "maxAttempts": { "type": "number" },
+        "lastError": { "type": "string" },
+        "publishedAt": { "type": "string" },
+        "publishedUrl": { "type": "string" },
+        "externalId": { "type": "string" },
+        "triggeredBy": { "type": "string" }
+      },
+      "required": ["id", "jobId", "userId", "startedAt", "completedAt", "status"]
+    },
+    "SchedulerJob": {
+      "title": "SchedulerJob",
+      "description": "Scheduled trigger record referencing a publishing job",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "publishingJobId": { "type": "string" },
+        "scheduledAt": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "PROCESSING", "COMPLETED", "FAILED", "CANCELLED"] },
+        "lastError": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "publishingJobId", "scheduledAt", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User account document"
+    },
+    "/projects/{projectId}": {
+      "schema": "ProjectSettings",
+      "description": "Brand/Project settings"
+    },
+    "/contentProjects/{contentProjectId}": {
+      "schema": "CentralContentProject",
+      "description": "Content set documents"
+    },
+    "/publishingJobs/{jobId}": {
+      "schema": "PublishingJob",
+      "description": "Publishing queue jobs"
+    },
+    "/schedulerJobs/{jobId}": {
+      "schema": "SchedulerJob",
+      "description": "Scheduler dispatch records"
+    }
+  }
+}

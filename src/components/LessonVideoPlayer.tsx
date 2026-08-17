@@ -1,0 +1,495 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Lesson } from '../types';
+import { 
+  Play, 
+  Pause, 
+  RotateCcw, 
+  Volume2, 
+  VolumeX, 
+  Maximize2, 
+  Sparkles, 
+  Clock, 
+  Video, 
+  Tv, 
+  Rewind, 
+  FastForward, 
+  Subtitles, 
+  Link2, 
+  Check, 
+  ChevronRight, 
+  Zap, 
+  Lightbulb, 
+  Wrench,
+  ShieldCheck
+} from 'lucide-react';
+
+interface LessonVideoPlayerProps {
+  lesson: Lesson;
+  niche?: string;
+}
+
+export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, niche }) => {
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [showCaptions, setShowCaptions] = useState<boolean>(true);
+  const [activeSlide, setActiveSlide] = useState<number>(0);
+  const [customVideoUrl, setCustomVideoUrl] = useState<string>(lesson.learnContent.videoUrl || '');
+  const [isEditingUrl, setIsEditingUrl] = useState<boolean>(false);
+  const [tempUrlInput, setTempUrlInput] = useState<string>('');
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Parse total duration in seconds from string "7:45" or fallback to 480 seconds (8 min)
+  const parseDurationSeconds = (durStr?: string): number => {
+    if (!durStr) return 480;
+    const parts = durStr.split(':');
+    if (parts.length === 2) {
+      return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+    }
+    return 480;
+  };
+
+  const totalDurationSeconds = parseDurationSeconds(lesson.learnContent.videoDuration);
+
+  // Parse chapters time into seconds
+  const chaptersWithSeconds = (lesson.learnContent.videoChapters || [
+    { time: '0:00', title: '01. Einführung & Überblick' },
+    { time: '2:15', title: '02. Kern-Prinzipien & Methodik' },
+    { time: '4:30', title: '03. Praxisbeispiel & Anwendung' },
+    { time: '6:50', title: '04. Zusammenfassung & Umsetzung' },
+  ]).map((chap) => {
+    const parts = chap.time.split(':');
+    const sec = parts.length === 2 ? parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10) : 0;
+    return { ...chap, seconds: sec };
+  });
+
+  // Timer loop for video playback simulation
+  useEffect(() => {
+    let timer: any;
+    if (isPlaying) {
+      timer = setInterval(() => {
+        setCurrentTime((prev) => {
+          if (prev >= totalDurationSeconds) {
+            setIsPlaying(false);
+            if ('speechSynthesis' in window) {
+              window.speechSynthesis.cancel();
+            }
+            return 0;
+          }
+          return prev + 1;
+        });
+      }, 1000 / playbackSpeed);
+    } else {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.pause();
+      }
+    }
+
+    return () => clearInterval(timer);
+  }, [isPlaying, playbackSpeed, totalDurationSeconds]);
+
+  // Update active slide based on current time position
+  useEffect(() => {
+    const progressRatio = currentTime / totalDurationSeconds;
+    if (progressRatio < 0.25) setActiveSlide(0);
+    else if (progressRatio < 0.55) setActiveSlide(1);
+    else if (progressRatio < 0.8) setActiveSlide(2);
+    else setActiveSlide(3);
+  }, [currentTime, totalDurationSeconds]);
+
+  // Handle German Voice Speech Narration via Web Speech API
+  const speakNarration = (text: string) => {
+    if (!('speechSynthesis' in window) || isMuted) return;
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'de-DE';
+    utterance.rate = playbackSpeed;
+
+    // Try to pick a natural German voice if available
+    const voices = window.speechSynthesis.getVoices();
+    const deVoice = voices.find((v) => v.lang.includes('de'));
+    if (deVoice) utterance.voice = deVoice;
+
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const handlePlayToggle = () => {
+    if (!isPlaying) {
+      setIsPlaying(true);
+      if ('speechSynthesis' in window) {
+        if (window.speechSynthesis.paused) {
+          window.speechSynthesis.resume();
+        } else {
+          // Construct narration text for current lesson
+          const narrationText = `Lektion ${lesson.id}: ${lesson.title}. ${lesson.learnContent.summaryText} Die wichtigsten Punkte sind: ${lesson.learnContent.bulletPoints.join('. ')}. Merk-Satz: ${lesson.understandContent.coreTakeaway}`;
+          speakNarration(narrationText);
+        }
+      }
+    } else {
+      setIsPlaying(false);
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.pause();
+      }
+    }
+  };
+
+  const handleSeek = (newTimeSec: number) => {
+    const clamped = Math.max(0, Math.min(newTimeSec, totalDurationSeconds));
+    setCurrentTime(clamped);
+    if (isPlaying && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const textToSpeak = `Kapitel erreicht. ${lesson.title}. ${lesson.learnContent.summaryText}`;
+      speakNarration(textToSpeak);
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  };
+
+  // Convert YouTube link to embed URL if applicable
+  const getEmbedUrl = (url: string) => {
+    if (!url) return '';
+    if (url.includes('youtube.com/watch?v=')) {
+      const id = url.split('v=')[1]?.split('&')[0];
+      return `https://www.youtube.com/embed/${id}?autoplay=1`;
+    }
+    if (url.includes('youtu.be/')) {
+      const id = url.split('youtu.be/')[1]?.split('?')[0];
+      return `https://www.youtube.com/embed/${id}?autoplay=1`;
+    }
+    return url;
+  };
+
+  const handleSaveCustomUrl = () => {
+    setCustomVideoUrl(tempUrlInput.trim());
+    setIsEditingUrl(false);
+  };
+
+  const toggleFullscreen = () => {
+    if (!containerRef.current) return;
+    if (!document.fullscreenElement) {
+      containerRef.current.requestFullscreen().then(() => setIsFullscreen(true)).catch(() => {});
+    } else {
+      document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
+    }
+  };
+
+  return (
+    <div ref={containerRef} className="space-y-4">
+      {/* Top Video Header Control Bar */}
+      <div className="flex items-center justify-between gap-3 text-xs bg-slate-900 border border-slate-800 p-3 rounded-2xl">
+        <div className="flex items-center gap-2">
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="font-extrabold text-white uppercase tracking-wider">
+            {customVideoUrl ? 'YouTube Video Player' : 'GOM-MAR Masterclass Player'}
+          </span>
+          <span className="text-slate-500">•</span>
+          <span className="text-slate-400 font-mono">HD 1080p</span>
+        </div>
+
+        <button
+          onClick={() => {
+            setTempUrlInput(customVideoUrl);
+            setIsEditingUrl(!isEditingUrl);
+          }}
+          className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+        >
+          <Link2 className="w-3.5 h-3.5 text-emerald-400" />
+          <span>{customVideoUrl ? 'Video-URL ändern' : '🎥 YouTube Video einbetten'}</span>
+        </button>
+      </div>
+
+      {/* URL Edit Drawer */}
+      {isEditingUrl && (
+        <div className="p-4 rounded-2xl bg-slate-900 border border-emerald-500/40 text-xs space-y-3 animate-fadeIn">
+          <p className="font-bold text-emerald-300">
+            Füge einen YouTube-Link oder Video-Embed für Lektion {lesson.id} ein:
+          </p>
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              value={tempUrlInput}
+              onChange={(e) => setTempUrlInput(e.target.value)}
+              placeholder="https://www.youtube.com/watch?v=..."
+              className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:border-emerald-400"
+            />
+            <button
+              onClick={handleSaveCustomUrl}
+              className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold flex items-center gap-1 transition-colors cursor-pointer"
+            >
+              <Check className="w-4 h-4" />
+              <span>Speichern</span>
+            </button>
+            {customVideoUrl && (
+              <button
+                onClick={() => {
+                  setCustomVideoUrl('');
+                  setIsEditingUrl(false);
+                }}
+                className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
+              >
+                Zurücksetzen
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Embedded YouTube / External Player if custom URL exists */}
+      {customVideoUrl ? (
+        <div className="relative aspect-video bg-slate-950 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+          <iframe
+            src={getEmbedUrl(customVideoUrl)}
+            title={lesson.title}
+            className="w-full h-full border-0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      ) : (
+        /* Interactive Masterclass Video Stage */
+        <div className="relative aspect-video bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between p-6 sm:p-8 group select-none">
+          {/* Background Animated Wave Pattern */}
+          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+
+          {/* Top Stage Bar */}
+          <div className="relative z-10 flex items-center justify-between">
+            <div className="flex items-center gap-2 bg-slate-900/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-slate-800 text-xs text-slate-300">
+              <Tv className="w-4 h-4 text-emerald-400" />
+              <span className="font-extrabold text-white">Etappe {lesson.stageId}</span>
+              <span className="text-slate-500">•</span>
+              <span className="text-emerald-400 font-semibold">Lektion {lesson.id}</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[11px] font-bold">
+                {lesson.learnContent.videoTitle || 'GOM-MAR Masterclass'}
+              </span>
+            </div>
+          </div>
+
+          {/* Center Visual Slide Canvas (Changes based on activeSlide / progress) */}
+          <div className="relative z-10 my-auto text-center max-w-2xl mx-auto space-y-4 px-4 py-2">
+            {activeSlide === 0 && (
+              <div className="space-y-3 animate-fadeIn">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold">
+                  <Sparkles className="w-4 h-4 text-emerald-400 animate-spin" />
+                  <span>Teil 1: Einführung & Ausrichtung</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight leading-tight">
+                  {lesson.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
+                  {lesson.description}
+                </p>
+              </div>
+            )}
+
+            {activeSlide === 1 && (
+              <div className="space-y-3 animate-fadeIn">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-bold">
+                  <Zap className="w-4 h-4 text-blue-400" />
+                  <span>Teil 2: Die 3 Kern-Prinzipien</span>
+                </div>
+                <div className="grid grid-cols-1 gap-2 text-left bg-slate-900/80 backdrop-blur border border-slate-800 p-4 rounded-2xl">
+                  {lesson.learnContent.bulletPoints.map((bp, idx) => (
+                    <div key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-slate-200">
+                      <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                      <span>{bp}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeSlide === 2 && (
+              <div className="space-y-3 animate-fadeIn">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-bold">
+                  <Lightbulb className="w-4 h-4 text-purple-400" />
+                  <span>Teil 3: Konkretes Praxisbeispiel</span>
+                </div>
+                <div className="bg-purple-950/40 border border-purple-500/30 p-4 rounded-2xl text-xs sm:text-sm text-purple-100 font-medium leading-relaxed text-left">
+                  {lesson.learnContent.practicalExamples?.[0] || lesson.learnContent.summaryText}
+                </div>
+              </div>
+            )}
+
+            {activeSlide === 3 && (
+              <div className="space-y-3 animate-fadeIn">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold">
+                  <ShieldCheck className="w-4 h-4 text-amber-400" />
+                  <span>Teil 4: Fazit & Deine Aufgabe</span>
+                </div>
+                <div className="bg-amber-950/40 border border-amber-500/30 p-4 rounded-2xl text-xs sm:text-sm text-amber-100 font-bold">
+                  "{lesson.understandContent.coreTakeaway}"
+                </div>
+              </div>
+            )}
+
+            {/* Subtitles Overlay Bar */}
+            {showCaptions && (
+              <div className="inline-block bg-slate-950/90 backdrop-blur-md border border-slate-800/80 px-4 py-2 rounded-2xl text-xs text-emerald-300 font-medium shadow-xl">
+                🎙️ {isPlaying ? (
+                  <span>Sprachausgabe: "{lesson.learnContent.summaryText.slice(0, 110)}..."</span>
+                ) : (
+                  <span>Klicke Play, um das Video mit Audio-Erklärung zu starten</span>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Center Play Button Overlay when paused */}
+          {!isPlaying && (
+            <button
+              onClick={handlePlayToggle}
+              className="absolute inset-0 m-auto w-20 h-20 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center shadow-2xl shadow-emerald-500/50 hover:scale-110 transition-transform duration-300 cursor-pointer z-20"
+            >
+              <Play className="w-10 h-10 ml-1 fill-current" />
+            </button>
+          )}
+
+          {/* Bottom Video Controls Bar */}
+          <div className="relative z-10 bg-slate-950/90 backdrop-blur-md border border-slate-800 p-3.5 rounded-2xl space-y-2.5">
+            {/* Scrubber Progress Bar */}
+            <div
+              onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const ratio = clickX / rect.width;
+                handleSeek(Math.floor(ratio * totalDurationSeconds));
+              }}
+              className="w-full h-2 bg-slate-800 hover:h-3 rounded-full cursor-pointer relative overflow-hidden transition-all group/scrubber"
+            >
+              <div
+                className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-300"
+                style={{ width: `${(currentTime / totalDurationSeconds) * 100}%` }}
+              />
+            </div>
+
+            {/* Controls Row */}
+            <div className="flex items-center justify-between text-xs text-slate-300">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handlePlayToggle}
+                  className="p-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition-all cursor-pointer"
+                >
+                  {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
+                </button>
+
+                <button
+                  onClick={() => handleSeek(currentTime - 10)}
+                  className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                  title="10s zurück"
+                >
+                  <Rewind className="w-4 h-4" />
+                </button>
+
+                <button
+                  onClick={() => handleSeek(currentTime + 10)}
+                  className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                  title="10s vor"
+                >
+                  <FastForward className="w-4 h-4" />
+                </button>
+
+                <div className="font-mono text-slate-200 text-[11px] font-bold">
+                  <span>{formatTime(currentTime)}</span>
+                  <span className="text-slate-600 mx-1">/</span>
+                  <span className="text-slate-400">{formatTime(totalDurationSeconds)}</span>
+                </div>
+              </div>
+
+              {/* Right Controls */}
+              <div className="flex items-center gap-2">
+                {/* Speed selector */}
+                <button
+                  onClick={() => {
+                    const speeds = [1, 1.25, 1.5, 2];
+                    const nextIdx = (speeds.indexOf(playbackSpeed) + 1) % speeds.length;
+                    setPlaybackSpeed(speeds[nextIdx]);
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-mono text-[11px] font-bold transition-colors cursor-pointer"
+                >
+                  {playbackSpeed}x
+                </button>
+
+                {/* Captions Toggle */}
+                <button
+                  onClick={() => setShowCaptions(!showCaptions)}
+                  className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                    showCaptions ? 'bg-emerald-500/20 text-emerald-400' : 'hover:bg-slate-800 text-slate-500'
+                  }`}
+                  title="Untertitel umschalten"
+                >
+                  <Subtitles className="w-4 h-4" />
+                </button>
+
+                {/* Mute Toggle */}
+                <button
+                  onClick={() => {
+                    setIsMuted(!isMuted);
+                    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+                  }}
+                  className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                >
+                  {isMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4" />}
+                </button>
+
+                {/* Fullscreen */}
+                <button
+                  onClick={toggleFullscreen}
+                  className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                >
+                  <Maximize2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Interactive Video Chapters List */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+        <div className="flex items-center justify-between text-xs">
+          <p className="font-extrabold text-white uppercase tracking-wider flex items-center gap-1.5">
+            <Clock className="w-4 h-4 text-emerald-400" />
+            <span>Interaktive Video-Kapitel ({chaptersWithSeconds.length})</span>
+          </p>
+          <span className="text-[11px] text-slate-400">Klicke ein Kapitel, um direkt dorthin zu springen</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {chaptersWithSeconds.map((chap, idx) => {
+            const isChapActive = currentTime >= chap.seconds && (idx === chaptersWithSeconds.length - 1 || currentTime < chaptersWithSeconds[idx + 1].seconds);
+            return (
+              <button
+                key={idx}
+                onClick={() => handleSeek(chap.seconds)}
+                className={`p-3 rounded-xl border text-left text-xs transition-all flex items-center justify-between gap-2 cursor-pointer ${
+                  isChapActive
+                    ? 'bg-emerald-500/15 border-emerald-500/50 text-emerald-300 font-bold'
+                    : 'bg-slate-950/60 border-slate-800 hover:border-slate-700 text-slate-300'
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full ${isChapActive ? 'bg-emerald-400 animate-pulse' : 'bg-slate-700'}`} />
+                  <span className="font-medium text-white">{chap.title}</span>
+                </div>
+                <span className="font-mono text-[11px] text-emerald-400 shrink-0 font-bold">
+                  {chap.time}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};

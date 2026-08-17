@@ -1,0 +1,489 @@
+import React, { useState, useEffect } from 'react';
+import { UserProfile, Campaign, StudentRecord, Stage } from './types';
+import { 
+  loadUserProfile, 
+  saveUserProfile, 
+  loadCampaigns, 
+  saveCampaigns, 
+  calculateLevelAndTitle,
+  loadStudents,
+  saveStudents,
+  addOrUpdateStudentRecord,
+  loadAcademyStages,
+  saveAcademyStages,
+  resetAcademyStagesToDefault
+} from './utils/storage';
+import { Header } from './components/Header';
+import { Sidebar } from './components/Sidebar';
+import { DashboardView } from './components/DashboardView';
+import { AcademyView } from './components/AcademyView';
+import { AdminDashboardView } from './components/AdminDashboardView';
+import { EmailAutomationView } from './components/EmailAutomationView';
+import { ToolboxView } from './components/ToolboxView';
+import { ProgressView } from './components/ProgressView';
+import { ProfileView } from './components/ProfileView';
+import { SettingsView } from './components/SettingsView';
+import { PublicLandingView } from './components/PublicLandingView';
+import { ContentEngineView } from './components/ContentEngine/ContentEngineView';
+import { VisitorAccessGateModal } from './components/VisitorAccessGateModal';
+import { FragGommarDrawer } from './components/FragGommarDrawer';
+import { CelebrationModal } from './components/CelebrationModal';
+import { BottomNav } from './components/BottomNav';
+import { Footer } from './components/Footer';
+import { LegalModal, LegalDocType } from './components/LegalModal';
+import { useAuth } from './context/AuthContext';
+import { EmailVerificationView } from './components/EmailVerificationView';
+import { AuthModal } from './components/AuthModal';
+import { Loader2 } from 'lucide-react';
+import gommarLogo from './assets/images/gommar_logo.jpg';
+
+export default function App() {
+  const { user: firebaseUser, loading: authLoading, authState } = useAuth();
+
+  const [user, setUser] = useState<UserProfile>(() => {
+    const loaded = loadUserProfile();
+    return loaded;
+  });
+
+  const [campaigns, setCampaigns] = useState<Campaign[]>(loadCampaigns());
+  const [stages, setStages] = useState<Stage[]>(loadAcademyStages());
+  const [students, setStudents] = useState<StudentRecord[]>(loadStudents());
+  const [activeView, setActiveView] = useState<string>('dashboard');
+
+  // Auth modal toggle with mode support
+  const [authModalState, setAuthModalState] = useState<{
+    isOpen: boolean;
+    mode: 'login' | 'register' | 'forgot_password';
+  }>({
+    isOpen: false,
+    mode: 'register',
+  });
+
+  // Legal Modal State (Impressum, Datenschutz, Cookies)
+  const [isLegalModalOpen, setIsLegalModalOpen] = useState<boolean>(false);
+  const [legalModalDoc, setLegalModalDoc] = useState<LegalDocType>('imprint');
+
+  const handleOpenLegalModal = (docType: LegalDocType) => {
+    setLegalModalDoc(docType);
+    setIsLegalModalOpen(true);
+  };
+
+  // Deep linking state for Academy
+  const [academyStageId, setAcademyStageId] = useState<number | undefined>(user.currentStageId || 1);
+  const [academyLessonId, setAcademyLessonId] = useState<string | undefined>(user.currentLessonId || '1.1');
+  const [toolboxCategory, setToolboxCategory] = useState<string | undefined>('content');
+
+  // Frag GOM-MAR AI Assistant Drawer State
+  const [isFragGommarOpen, setIsFragGommarOpen] = useState<boolean>(false);
+  const [fragGommarInitialPrompt, setFragGommarInitialPrompt] = useState<string | undefined>(undefined);
+
+  // Celebration Modal State
+  const [celebrationModal, setCelebrationModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    levelTitle?: string;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+  });
+
+  // Keep local user profile in sync with Firebase Auth User
+  useEffect(() => {
+    if (firebaseUser) {
+      const isAdminEmail = firebaseUser.email === 'admin@gom-mar.de';
+      setUser((prev) => {
+        const updated: UserProfile = {
+          ...prev,
+          email: firebaseUser.email || prev.email,
+          name: firebaseUser.displayName || prev.name || 'GOM-MAR Mitglied',
+          isRegistered: true,
+          emailVerified: firebaseUser.emailVerified,
+          role: isAdminEmail ? 'admin' : (prev.role === 'admin' && !isAdminEmail ? 'member' : (prev.role || 'member'))
+        };
+        saveUserProfile(updated);
+        return updated;
+      });
+    } else {
+      setUser((prev) => {
+        const updated: UserProfile = {
+          ...prev,
+          isRegistered: false,
+          emailVerified: false,
+          role: 'member'
+        };
+        saveUserProfile(updated);
+        return updated;
+      });
+    }
+  }, [firebaseUser]);
+
+  // Calculate overall progress across all lessons in all modules
+  const allLessons = stages.flatMap((s) => s.lessons);
+  const totalTasksCount = allLessons.length;
+  const completedTasksCount = user.completedTaskIds.length;
+  const { level, title: levelTitle, progressPercent } = calculateLevelAndTitle(completedTasksCount, totalTasksCount);
+
+  // Auto-sync level changes
+  useEffect(() => {
+    if (level !== user.level) {
+      const updatedUser = { ...user, level };
+      setUser(updatedUser);
+      saveUserProfile(updatedUser);
+    }
+  }, [completedTasksCount]);
+
+  // Handle Lesson Completion
+  const handleCompleteLesson = (lessonId: string, stageId: number) => {
+    let newCompleted = [...user.completedTaskIds];
+    let isFirstCompletion = false;
+
+    if (!newCompleted.includes(lessonId)) {
+      newCompleted.push(lessonId);
+      isFirstCompletion = true;
+    }
+
+    // Check if stage completed
+    const stageObj = stages.find((s) => s.id === stageId);
+    const stageCompleted = stageObj?.lessons.every((l) => newCompleted.includes(l.id));
+
+    let unlockedStages = [...user.unlockedStageIds];
+    if (stageCompleted && stageId < 7 && !unlockedStages.includes(stageId + 1)) {
+      unlockedStages.push(stageId + 1);
+    }
+
+    // Badges update
+    let badges = [...user.earnedBadges];
+    if (stageCompleted && !badges.includes(`Etappe ${stageId} Meister`)) {
+      badges.push(`Etappe ${stageId} Meister`);
+    }
+
+    const updatedUser: UserProfile = {
+      ...user,
+      completedTaskIds: newCompleted,
+      unlockedStageIds: unlockedStages,
+      currentStageId: stageCompleted && stageId < stages.length ? stageId + 1 : stageId,
+      earnedBadges: badges,
+    };
+
+    setUser(updatedUser);
+    saveUserProfile(updatedUser);
+
+    // Sync student record if registered in directory
+    if (user.email) {
+      addOrUpdateStudentRecord({
+        name: user.name,
+        email: user.email,
+        completedLessonsCount: newCompleted.length,
+        progressPercent: Math.min(100, Math.round((newCompleted.length / totalTasksCount) * 100)),
+        currentLessonId: lessonId,
+        tier: user.tier,
+      });
+      setStudents(loadStudents());
+    }
+
+    if (isFirstCompletion) {
+      setCelebrationModal({
+        isOpen: true,
+        title: stageCompleted ? `🎉 Etappe ${stageId} Abgeschlossen!` : `✅ Lektion ${lessonId} Erledigt!`,
+        message: stageCompleted
+          ? `Fantastisch! Du hast alle Lektionen von Etappe ${stageId} absolviert. Weiter geht's zur nächsten Etappe!`
+          : `Du hast einen weiteren wichtigen Baustein für dein Online-Nebeneinkommen fertiggestellt!`,
+        levelTitle: level > user.level ? `Level-Up: ${levelTitle}` : undefined,
+      });
+    }
+  };
+
+  const handleUpdateCampaigns = (updatedCampaigns: Campaign[]) => {
+    setCampaigns(updatedCampaigns);
+    saveCampaigns(updatedCampaigns);
+  };
+
+  const handleUpdateStages = (newStages: Stage[]) => {
+    setStages(newStages);
+    saveAcademyStages(newStages);
+  };
+
+  const handleUpdateStudents = (newStudents: StudentRecord[]) => {
+    setStudents(newStudents);
+    saveStudents(newStudents);
+  };
+
+  const handleResetStages = () => {
+    const defaultStages = resetAcademyStagesToDefault();
+    setStages(defaultStages);
+  };
+
+  const handleNavigate = (view: string, stageId?: number, lessonId?: string) => {
+    setActiveView(view);
+    if (stageId) setAcademyStageId(stageId);
+    if (lessonId) setAcademyLessonId(lessonId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavigateToToolbox = (category?: string) => {
+    setToolboxCategory(category);
+    setActiveView('toolbox');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleOpenFragGommar = (prompt?: string) => {
+    setFragGommarInitialPrompt(prompt);
+    setIsFragGommarOpen(true);
+  };
+
+  const handleResetProgress = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
+  // Current active stage & lesson titles for Frag GOM-MAR context
+  const currentStageObj = stages.find((s) => s.id === (academyStageId || 1));
+  const currentLessonObj = currentStageObj?.lessons.find((l) => l.id === (academyLessonId || '1.1'));
+
+  // Theme styling helper
+  const themeClass = user.theme === 'cyber-slate'
+    ? 'bg-slate-900 text-slate-100'
+    : user.theme === 'deep-indigo'
+    ? 'bg-zinc-950 text-purple-100'
+    : user.theme === 'clean-light'
+    ? 'bg-slate-100 text-slate-900'
+    : 'bg-slate-950 text-slate-100';
+
+  // Check if visitor is unauthenticated
+  const isNotAuthenticated = !firebaseUser;
+  const isEmailNotVerified = Boolean(firebaseUser && !firebaseUser.emailVerified);
+
+  // If Auth state is still initializing
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 space-y-4">
+        <div className="w-16 h-16 rounded-2xl bg-white border border-slate-700 p-1 shadow-xl overflow-hidden flex items-center justify-center animate-pulse">
+          <img 
+            src={gommarLogo} 
+            alt="GOM-MAR Academy" 
+            className="w-full h-full object-cover rounded-xl"
+            referrerPolicy="no-referrer"
+          />
+        </div>
+        <div className="flex items-center gap-2 text-indigo-400 font-bold text-sm">
+          <Loader2 className="w-5 h-5 animate-spin" />
+          <span>GOM-MAR Academy wird initialisiert...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // If user is authenticated in Firebase but has NOT verified their email yet
+  if (isEmailNotVerified) {
+    return (
+      <div className={`min-h-screen ${themeClass} flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-950 transition-colors duration-300 relative`}>
+        <Header
+          user={user}
+          onOpenFragGommar={handleOpenFragGommar}
+          onNavigate={handleNavigate}
+          activeView={activeView}
+        />
+        <main className="flex-1 max-w-4xl mx-auto w-full p-4 lg:p-8 flex items-center justify-center">
+          <EmailVerificationView 
+            onVerificationSuccess={() => {
+              setActiveView('dashboard');
+            }} 
+          />
+        </main>
+        <Footer 
+          theme={user.theme} 
+          onOpenLegal={handleOpenLegalModal} 
+        />
+        <LegalModal
+          isOpen={isLegalModalOpen}
+          initialDoc={legalModalDoc}
+          onClose={() => setIsLegalModalOpen(false)}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className={`min-h-screen ${themeClass} flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-950 transition-colors duration-300 relative`}>
+      {/* Header */}
+      <Header
+        user={user}
+        onOpenFragGommar={handleOpenFragGommar}
+        onNavigate={handleNavigate}
+        activeView={activeView}
+      />
+
+      {/* Main Container */}
+      <div className={`flex-1 max-w-7xl w-full mx-auto flex flex-col md:flex-row items-start ${isNotAuthenticated && activeView !== 'landing' ? 'pointer-events-none select-none filter blur-[2px] opacity-70' : ''}`}>
+        {/* Sidebar */}
+        <Sidebar
+          activeView={activeView}
+          onNavigate={handleNavigate}
+          progressPercent={progressPercent}
+          completedTasksCount={completedTasksCount}
+          totalTasksCount={totalTasksCount}
+          onOpenFragGommar={() => handleOpenFragGommar()}
+          userRole={user.role || 'member'}
+        />
+
+        {/* Content View Area */}
+        <main className="flex-1 p-4 lg:p-8 w-full min-w-0">
+          {activeView === 'dashboard' && (
+            <DashboardView
+              user={user}
+              progressPercent={progressPercent}
+              completedTasksCount={completedTasksCount}
+              totalTasksCount={totalTasksCount}
+              onNavigate={handleNavigate}
+              onOpenFragGommar={handleOpenFragGommar}
+            />
+          )}
+
+          {activeView === 'contentEngine' && (
+            <ContentEngineView />
+          )}
+
+          {activeView === 'admin' && (
+            <AdminDashboardView
+              user={user}
+              stages={stages}
+              students={students}
+              onUpdateStages={handleUpdateStages}
+              onUpdateStudents={handleUpdateStudents}
+              onResetStages={handleResetStages}
+              onNavigate={handleNavigate}
+            />
+          )}
+
+          {activeView === 'academy' && (
+            <AcademyView
+              user={user}
+              stages={stages}
+              initialStageId={academyStageId}
+              initialLessonId={academyLessonId}
+              onCompleteLesson={handleCompleteLesson}
+              onNavigateToToolbox={handleNavigateToToolbox}
+              onOpenFragGommar={handleOpenFragGommar}
+            />
+          )}
+
+          {activeView === 'email' && (
+            <EmailAutomationView
+              campaigns={campaigns}
+              onUpdateCampaigns={handleUpdateCampaigns}
+              onNavigateToToolbox={handleNavigateToToolbox}
+              onOpenFragGommar={handleOpenFragGommar}
+            />
+          )}
+
+          {activeView === 'toolbox' && (
+            <ToolboxView
+              initialCategory={toolboxCategory}
+              onOpenFragGommar={handleOpenFragGommar}
+            />
+          )}
+
+          {activeView === 'progress' && (
+            <ProgressView
+              user={user}
+              completedTasksCount={completedTasksCount}
+              totalTasksCount={totalTasksCount}
+              progressPercent={progressPercent}
+            />
+          )}
+
+          {activeView === 'profile' && (
+            <ProfileView
+              user={user}
+              onUpdateUser={(u) => {
+                setUser(u);
+                saveUserProfile(u);
+              }}
+              progressPercent={progressPercent}
+              completedTasksCount={completedTasksCount}
+            />
+          )}
+
+          {activeView === 'landing' && (
+            <PublicLandingView
+              onCancelToMemberArea={() => setActiveView('dashboard')}
+              onOpenLegal={handleOpenLegalModal}
+            />
+          )}
+
+          {activeView === 'settings' && (
+            <SettingsView
+              user={user}
+              onUpdateUser={(u) => {
+                setUser(u);
+                saveUserProfile(u);
+              }}
+              onResetProgress={handleResetProgress}
+            />
+          )}
+        </main>
+      </div>
+
+      {/* 📜 Legal Footer (Impressum, Datenschutz, Cookie-Richtlinie) */}
+      <Footer 
+        theme={user.theme} 
+        onOpenLegal={handleOpenLegalModal} 
+      />
+
+      {/* ⚖️ Legal Modal (DSGVO Datenschutz, Impressum, Cookie-Einstellungen) */}
+      <LegalModal
+        isOpen={isLegalModalOpen}
+        initialDoc={legalModalDoc}
+        onClose={() => setIsLegalModalOpen(false)}
+      />
+
+      {/* 🔒 Visitor Access Lock Overlay Modal when unauthenticated */}
+      {isNotAuthenticated && activeView !== 'landing' && (
+        <VisitorAccessGateModal
+          onOpenRegisterModal={() => setAuthModalState({ isOpen: true, mode: 'register' })}
+          onOpenLoginModal={() => setAuthModalState({ isOpen: true, mode: 'login' })}
+          onOpenLandingView={() => {
+            setActiveView('landing');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
+      )}
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={authModalState.isOpen}
+        onClose={() => setAuthModalState((prev) => ({ ...prev, isOpen: false }))}
+        initialMode={authModalState.mode}
+      />
+
+      {/* 🤖 Frag GOM-MAR AI Mentor Drawer */}
+      <FragGommarDrawer
+        isOpen={isFragGommarOpen}
+        onClose={() => setIsFragGommarOpen(false)}
+        user={user}
+        initialPrompt={fragGommarInitialPrompt}
+        currentStageTitle={currentStageObj?.title}
+        currentLessonTitle={currentLessonObj?.title}
+        onNavigate={handleNavigate}
+      />
+
+      {/* 🎉 Celebration Modal */}
+      <CelebrationModal
+        isOpen={celebrationModal.isOpen}
+        onClose={() => setCelebrationModal((prev) => ({ ...prev, isOpen: false }))}
+        title={celebrationModal.title}
+        message={celebrationModal.message}
+        levelTitle={celebrationModal.levelTitle}
+      />
+
+      {/* 📱 Mobile Bottom Navigation Bar */}
+      <BottomNav
+        activeView={activeView}
+        onNavigate={handleNavigate}
+        user={user}
+      />
+    </div>
+  );
+}

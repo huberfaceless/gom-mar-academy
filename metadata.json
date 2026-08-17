@@ -1,0 +1,6 @@
+{
+  "name": "GOM-MAR Academy",
+  "description": "Dein einfacher Weg zu deinem Online-Nebeneinkommen – Geführter Lernpfad, Mail-Automation & KI-Tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
