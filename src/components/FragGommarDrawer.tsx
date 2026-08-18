@@ -14,11 +14,17 @@ import {
 } from 'lucide-react';
 
 const renderInlineMarkdown = (text: string): React.ReactNode[] =>
-  text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((part, index) =>
-    part.startsWith('**') && part.endsWith('**')
-      ? <strong key={index} className="font-bold text-slate-950">{part.slice(2, -2)}</strong>
-      : <React.Fragment key={index}>{part}</React.Fragment>
-  );
+  text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g).filter(Boolean).map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={index} className="font-bold text-slate-950">{part.slice(2, -2)}</strong>;
+    }
+
+    if (part.startsWith('*') && part.endsWith('*')) {
+      return <em key={index}>{part.slice(1, -1)}</em>;
+    }
+
+    return <React.Fragment key={index}>{part}</React.Fragment>;
+  });
 
 const MarkdownMessage: React.FC<{ text: string }> = ({ text }) => (
   <div className="space-y-2">
@@ -305,4 +311,3 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
     </div>
   );
 };
-
