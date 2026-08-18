@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
@@ -10,6 +10,30 @@ async function startServer() {
   const PORT = Number(process.env.PORT) || 3000;
 
   app.use(express.json());
+
+  const requireSchedulerSecret = (req: Request, res: Response, next: NextFunction) => {
+    const configuredSecret = process.env.SCHEDULER_SECRET;
+    if (!configuredSecret) {
+      res.status(503).json({ error: 'Scheduler-Schutz ist nicht konfiguriert.' });
+      return;
+    }
+
+    const authHeader = req.headers.authorization;
+    const bearerToken = authHeader?.startsWith('Bearer ')
+      ? authHeader.substring(7).trim()
+      : undefined;
+    const customSecretHeader = req.headers['x-scheduler-secret'];
+    const suppliedSecret = Array.isArray(customSecretHeader)
+      ? customSecretHeader[0]
+      : customSecretHeader;
+
+    if (bearerToken !== configuredSecret && suppliedSecret !== configuredSecret) {
+      res.status(401).json({ error: 'Nicht autorisiert: Ungültiger Scheduler-Secret-Schlüssel.' });
+      return;
+    }
+
+    next();
+  };
 
   // Initialize Gemini AI Client
   const apiKey = process.env.GEMINI_API_KEY || '';
@@ -871,22 +895,8 @@ Antworte mit einem reinen JSON-Objekt:
   });
 
   // 🔒 Protected Internal Scheduler Endpoint for Cloud Scheduler / Cron
-  app.post('/api/internal/scheduler/run', async (req, res) => {
+  app.post('/api/internal/scheduler/run', requireSchedulerSecret, async (_req, res) => {
     try {
-      const configuredSecret = process.env.SCHEDULER_SECRET;
-      const authHeader = req.headers.authorization;
-      const customSecretHeader = req.headers['x-scheduler-secret'];
-      const isAppEngineCron = req.headers['x-appengine-cron'] === 'true';
-
-      if (configuredSecret) {
-        const bearerToken = authHeader?.startsWith('Bearer ') ? authHeader.substring(7).trim() : undefined;
-        const isValid = (bearerToken === configuredSecret) || (customSecretHeader === configuredSecret) || isAppEngineCron;
-        if (!isValid) {
-          res.status(401).json({ error: 'Nicht autorisiert: Ungültiger Scheduler-Secret-Schlüssel.' });
-          return;
-        }
-      }
-
       const outcome = await ServerSchedulerWorker.runTick('API_TRIGGER');
       res.json({
         success: true,
@@ -900,7 +910,7 @@ Antworte mit einem reinen JSON-Objekt:
   });
 
   // Manual immediate execution endpoint for a specific job
-  app.post('/api/publishing/run-now', async (req, res) => {
+  app.post('/api/publishing/run-now', requireSchedulerSecret, async (req, res) => {
     try {
       const { userId, jobId, pinterestToken } = req.body;
       if (!userId || !jobId) {
@@ -929,7 +939,7 @@ Antworte mit einem reinen JSON-Objekt:
   });
 
   // Manual trigger sweep for instant testing or webhook trigger
-  app.post('/api/scheduler/run-tick', async (req, res) => {
+  app.post('/api/scheduler/run-tick', requireSchedulerSecret, async (_req, res) => {
     try {
       const outcome = await ServerSchedulerWorker.runTick('API_TRIGGER');
       res.json({
@@ -964,3 +974,4 @@ Antworte mit einem reinen JSON-Objekt:
 }
 
 startServer();
+
