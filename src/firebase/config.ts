@@ -45,6 +45,7 @@ export const app = getApps().length > 0
 
 // Initialize Firebase Auth
 export const auth = getAuth(app);
+auth.languageCode = 'de';
 
 // Initialize Firestore
 export const db: Firestore = firebaseConfig.databaseId && firebaseConfig.databaseId !== '(default)'
