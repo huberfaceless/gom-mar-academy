@@ -10,7 +10,9 @@ import {
   ArrowRight, 
   HelpCircle,
   Zap,
-  Lightbulb
+  Lightbulb,
+  Copy,
+  Check
 } from 'lucide-react';
 
 const renderInlineMarkdown = (text: string): React.ReactNode[] =>
@@ -102,6 +104,7 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
     },
   ]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Quick suggestion chips
@@ -123,6 +126,16 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
   }, [messages, isLoading]);
 
   if (!isOpen) return null;
+
+  const handleCopyMessage = async (message: ChatMessage) => {
+    try {
+      await navigator.clipboard.writeText(message.text);
+      setCopiedMessageId(message.id);
+      window.setTimeout(() => setCopiedMessageId(null), 2000);
+    } catch (err) {
+      console.error('Antwort konnte nicht kopiert werden:', err);
+    }
+  };
 
   const handleSendPrompt = async (customText?: string) => {
     const textToSend = customText || inputPrompt;
@@ -233,11 +246,35 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
                   ? <MarkdownMessage text={msg.text} />
                   : <p className="whitespace-pre-line">{msg.text}</p>
                 }
-                <span className={`block text-[10px] text-right ${
-                  msg.sender === 'user' ? 'text-indigo-200' : 'text-slate-400'
-                }`}>
-                  {msg.timestamp}
-                </span>
+                <div className="mt-2 flex items-center justify-between gap-3">
+                  {msg.sender === 'gommar' ? (
+                    <button
+                      type="button"
+                      onClick={() => handleCopyMessage(msg)}
+                      className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-[10px] font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-indigo-700"
+                      aria-label="KI-Antwort kopieren"
+                    >
+                      {copiedMessageId === msg.id ? (
+                        <>
+                          <Check className="h-3 w-3" />
+                          Kopiert
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="h-3 w-3" />
+                          Kopieren
+                        </>
+                      )}
+                    </button>
+                  ) : (
+                    <span />
+                  )}
+                  <span className={`text-[10px] text-right ${
+                    msg.sender === 'user' ? 'text-indigo-200' : 'text-slate-400'
+                  }`}>
+                    {msg.timestamp}
+                  </span>
+                </div>
               </div>
 
               {msg.sender === 'user' && (
