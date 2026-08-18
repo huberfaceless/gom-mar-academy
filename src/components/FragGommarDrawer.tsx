@@ -13,6 +13,56 @@ import {
   Lightbulb
 } from 'lucide-react';
 
+const renderInlineMarkdown = (text: string): React.ReactNode[] =>
+  text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((part, index) =>
+    part.startsWith('**') && part.endsWith('**')
+      ? <strong key={index} className="font-bold text-slate-950">{part.slice(2, -2)}</strong>
+      : <React.Fragment key={index}>{part}</React.Fragment>
+  );
+
+const MarkdownMessage: React.FC<{ text: string }> = ({ text }) => (
+  <div className="space-y-2">
+    {text.split('\n').map((rawLine, index) => {
+      const line = rawLine.trim();
+
+      if (!line) return <div key={index} className="h-1" />;
+      if (/^-{3,}$/.test(line)) return <hr key={index} className="my-3 border-slate-200" />;
+
+      const heading = line.match(/^(#{1,3})\s+(.+)$/);
+      if (heading) {
+        const HeadingTag = heading[1].length === 1 ? 'h2' : heading[1].length === 2 ? 'h3' : 'h4';
+        return (
+          <HeadingTag key={index} className="pt-2 text-sm font-extrabold leading-snug text-slate-950">
+            {renderInlineMarkdown(heading[2])}
+          </HeadingTag>
+        );
+      }
+
+      const bullet = line.match(/^[-*]\s+(.+)$/);
+      if (bullet) {
+        return (
+          <div key={index} className="flex items-start gap-2 pl-1">
+            <span className="mt-0.5 font-bold text-indigo-600">•</span>
+            <span>{renderInlineMarkdown(bullet[1])}</span>
+          </div>
+        );
+      }
+
+      const numbered = line.match(/^(\d+)\.\s+(.+)$/);
+      if (numbered) {
+        return (
+          <div key={index} className="flex items-start gap-2 pl-1">
+            <span className="font-bold text-indigo-600">{numbered[1]}.</span>
+            <span>{renderInlineMarkdown(numbered[2])}</span>
+          </div>
+        );
+      }
+
+      return <p key={index}>{renderInlineMarkdown(line)}</p>;
+    })}
+  </div>
+);
+
 interface FragGommarDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -173,7 +223,10 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
                   ? 'bg-indigo-600 text-white font-medium rounded-tr-none shadow-md shadow-indigo-600/20'
                   : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none whitespace-pre-line shadow-xs'
               }`}>
-                <p>{msg.text}</p>
+                {msg.sender === 'gommar'
+                  ? <MarkdownMessage text={msg.text} />
+                  : <p className="whitespace-pre-line">{msg.text}</p>
+                }
                 <span className={`block text-[10px] text-right ${
                   msg.sender === 'user' ? 'text-indigo-200' : 'text-slate-400'
                 }`}>
@@ -252,3 +305,4 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
     </div>
   );
 };
+
