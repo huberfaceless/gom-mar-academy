@@ -131,4 +131,5 @@ export async function sendPasswordReset(email: string): Promise<void> {
     throw new Error('Bitte gib eine E-Mail-Adresse ein.');
   }
   await sendPasswordResetEmail(auth, email.trim());
+auth.languageCode = 'de';
 }
