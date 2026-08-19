@@ -54,7 +54,16 @@ async function startServer() {
   // 🤖 Frag GOM-MAR AI Mentor Endpoint
   app.post('/api/ask-gommar', async (req, res) => {
     try {
-      const { prompt, currentStageTitle, currentLessonTitle, niche, targetAudience, history } = req.body;
+      const {
+        prompt,
+        currentStageId,
+        currentLessonId,
+        currentStageTitle,
+        currentLessonTitle,
+        niche,
+        targetAudience,
+        history,
+      } = req.body;
 
       if (!prompt || typeof prompt !== 'string') {
         res.status(400).json({ error: 'Prompt ist erforderlich.' });
@@ -76,7 +85,13 @@ Verhaltensregeln:
 2. Beziehe dich direkt auf den Lernpfad der GOM-MAR Academy und gib präzise Antworten.
 3. Wenn der Nutzer nach Orientierung fragt (z.B. "Was mache ich jetzt?"), verweise ihn auf den nächsten konkreten Schritt im Lernpfad oder in der Toolbox.
 4. Halte Antworten prägnant, übersichtlich mit Bullet Points oder Schritten, wenn passend.
-5. Verwende kurze Absätze und hebe Schlüsselbegriffe hervor.`;
+5. Verwende kurze Absätze und hebe Schlüsselbegriffe hervor.
+6. Wenn deine Antwort einen konkreten nächsten Schritt in der App empfiehlt, füge als letzte Zeile genau einen passenden Marker ein:
+   - [[ACTION:academy]] für eine Lektion oder den Lernpfad
+   - [[ACTION:email]] für E-Mail-Kampagnen oder Automationen
+   - [[ACTION:toolbox]] für Vorlagen, Generatoren oder Werkzeuge
+   - [[ACTION:profile]] für Nische, Zielgruppe oder Profildaten
+   Verwende keinen Marker, wenn keine direkte Navigation sinnvoll ist. Erkläre die Marker niemals im Antworttext.`;
 
       const contents = history && Array.isArray(history) && history.length > 0
         ? [
@@ -97,7 +112,37 @@ Verhaltensregeln:
         },
       });
 
-      res.json({ answer: response.text || 'Entschuldigung, ich konnte gerade keine Antwort generieren.' });
+      const rawAnswer = response.text || '';
+      const actionMatch = rawAnswer.match(/\[\[ACTION:(academy|email|toolbox|profile)\]\]/i);
+      const actionView = actionMatch?.[1]?.toLowerCase() as 'academy' | 'email' | 'toolbox' | 'profile' | undefined;
+      const answer = rawAnswer
+        .replace(/\s*\[\[ACTION:(?:academy|email|toolbox|profile)\]\]\s*/gi, '\n')
+        .trim();
+
+      const actionLabels: Record<'academy' | 'email' | 'toolbox' | 'profile', string> = {
+        academy: 'Zur aktuellen Lektion',
+        email: 'Zum E-Mail-Bereich',
+        toolbox: 'Toolbox öffnen',
+        profile: 'Profil vervollständigen',
+      };
+
+      const suggestedAction = actionView
+        ? {
+            label: actionLabels[actionView],
+            view: actionView,
+            ...(actionView === 'academy' && Number.isInteger(currentStageId)
+              ? { stageId: currentStageId }
+              : {}),
+            ...(actionView === 'academy' && typeof currentLessonId === 'string'
+              ? { lessonId: currentLessonId }
+              : {}),
+          }
+        : undefined;
+
+      res.json({
+        answer: answer || 'Entschuldigung, ich konnte gerade keine Antwort generieren.',
+        suggestedAction,
+      });
     } catch (err: unknown) {
       console.error('Error in /api/ask-gommar:', err);
       const message = err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten.';
@@ -974,4 +1019,3 @@ Antworte mit einem reinen JSON-Objekt:
 }
 
 startServer();
-
