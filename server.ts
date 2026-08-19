@@ -114,10 +114,25 @@ Verhaltensregeln:
 
       const rawAnswer = response.text || '';
       const actionMatch = rawAnswer.match(/\[\[ACTION:(academy|email|toolbox|profile)\]\]/i);
-      const actionView = actionMatch?.[1]?.toLowerCase() as 'academy' | 'email' | 'toolbox' | 'profile' | undefined;
+      type ActionView = 'academy' | 'email' | 'toolbox' | 'profile';
+      const markerAction = actionMatch?.[1]?.toLowerCase() as ActionView | undefined;
       const answer = rawAnswer
         .replace(/\s*\[\[ACTION:(?:academy|email|toolbox|profile)\]\]\s*/gi, '\n')
         .trim();
+
+      const inferActionFromText = (text: string): ActionView | undefined => {
+        const normalizedText = text.toLowerCase();
+        if (/\b(profil|nische|zielgruppe|profildaten)\b/.test(normalizedText)) return 'profile';
+        if (/\b(e-?mail|kampagne|autoresponder|automation)\b/.test(normalizedText)) return 'email';
+        if (/\b(toolbox|werkzeug|generator|vorlage|template)\b/.test(normalizedText)) return 'toolbox';
+        if (/\b(academy|akademie|lektion|lernpfad|stage|etappe)\b/.test(normalizedText)) return 'academy';
+        return undefined;
+      };
+
+      const promptAction = inferActionFromText(prompt);
+      const answerSuggestsNavigation = /\b(klick|öffn|geh|spring|wechsel|direkt zu|findest du)\w*/i.test(answer);
+      const answerAction = answerSuggestsNavigation ? inferActionFromText(answer) : undefined;
+      const actionView = markerAction || promptAction || answerAction;
 
       const actionLabels: Record<'academy' | 'email' | 'toolbox' | 'profile', string> = {
         academy: 'Zur aktuellen Lektion',
