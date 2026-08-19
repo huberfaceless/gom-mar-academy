@@ -27,7 +27,7 @@ interface FragGommarDrawerProps {
 }
 
 const renderInlineMarkdown = (text: string): React.ReactNode[] => {
-  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\[[^\]]+\]\(https?:\/\/[^\s)]+\))/g);
+  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\*[^*\n]+\*|\[[^\]]+\]\(https?:\/\/[^\s)]+\))/g);
 
   return parts.map((part, index) => {
     if (part.startsWith('`') && part.endsWith('`')) {
@@ -40,6 +40,10 @@ const renderInlineMarkdown = (text: string): React.ReactNode[] => {
 
     if (part.startsWith('**') && part.endsWith('**')) {
       return <strong key={index} className="font-bold text-slate-950">{part.slice(2, -2)}</strong>;
+    }
+
+    if (part.startsWith('*') && part.endsWith('*')) {
+      return <em key={index}>{part.slice(1, -1)}</em>;
     }
 
     const linkMatch = part.match(/^\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)$/);
@@ -88,6 +92,12 @@ const MarkdownMessage: React.FC<{ text: string }> = ({ text }) => {
           <code className={language ? `language-${language}` : undefined}>{codeLines.join('\n')}</code>
         </pre>
       );
+      continue;
+    }
+
+    if (/^\s{0,3}([-*_])(?:\s*\1){2,}\s*$/.test(line)) {
+      blocks.push(<hr key={`divider-${index}`} className="border-0 border-t border-slate-200" />);
+      index += 1;
       continue;
     }
 
@@ -161,6 +171,7 @@ const MarkdownMessage: React.FC<{ text: string }> = ({ text }) => {
       && !/^(#{1,3})\s+/.test(lines[index])
       && !/^\s*(?:[-*+]|\d+\.)\s+/.test(lines[index])
       && !lines[index].trim().startsWith('```')
+      && !/^\s{0,3}([-*_])(?:\s*\1){2,}\s*$/.test(lines[index])
       && !lines[index].startsWith('> ')
     ) {
       paragraphLines.push(lines[index]);
