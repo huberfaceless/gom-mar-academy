@@ -26,6 +26,7 @@ import { EmailVerificationView } from './components/EmailVerificationView';
 import { AuthModal } from './components/AuthModal';
 import { Loader2 } from 'lucide-react';
 import gommarLogo from './assets/images/gommar_logo.jpg';
+import { useLanguage } from './context/LanguageContext';
 
 const DashboardView = lazy(() => import('./components/DashboardView').then((module) => ({ default: module.DashboardView })));
 const AcademyView = lazy(() => import('./components/AcademyView').then((module) => ({ default: module.AcademyView })));
@@ -39,10 +40,11 @@ const PublicLandingView = lazy(() => import('./components/PublicLandingView').th
 const ContentEngineView = lazy(() => import('./components/ContentEngine/ContentEngineView').then((module) => ({ default: module.ContentEngineView })));
 
 function ViewLoadingFallback() {
+  const { t } = useLanguage();
   return (
     <div className="flex min-h-48 items-center justify-center gap-3 text-sm font-semibold text-indigo-300">
       <Loader2 className="h-5 w-5 animate-spin" />
-      <span>Bereich wird geladen...</span>
+      <span>{t('app.loading')}</span>
     </div>
   );
 }
