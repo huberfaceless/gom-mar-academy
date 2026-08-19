@@ -49,6 +49,7 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
     },
   ]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Quick suggestion chips
@@ -123,7 +124,15 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
       setIsLoading(false);
     }
   };
-
+const handleCopyMessage = async (message: ChatMessage) => {
+  try {
+    await navigator.clipboard.writeText(message.text);
+    setCopiedMessageId(message.id);
+    window.setTimeout(() => setCopiedMessageId(null), 2000);
+  } catch (err) {
+    console.error('Kopieren fehlgeschlagen:', err);
+  }
+};
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/40 backdrop-blur-sm animate-fadeIn">
       {/* Backdrop overlay */}
@@ -187,11 +196,36 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
                   : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none whitespace-pre-line shadow-xs'
               }`}>
                 <p>{msg.text}</p>
-                <span className={`block text-[10px] text-right ${
-                  msg.sender === 'user' ? 'text-indigo-200' : 'text-slate-400'
-                }`}>
-                  {msg.timestamp}
-                </span>
+               <div className="mt-2 flex items-center justify-between gap-3">
+  {msg.sender === 'gommar' ? (
+    <button
+      type="button"
+      onClick={() => handleCopyMessage(msg)}
+      className="inline-flex items-center gap-1.5 text-[10px] font-bold text-slate-500 hover:text-indigo-600 transition-colors cursor-pointer"
+      aria-label="Antwort kopieren"
+    >
+      {copiedMessageId === msg.id ? (
+        <>
+          <Check className="w-3.5 h-3.5" />
+          Kopiert
+        </>
+      ) : (
+        <>
+          <Copy className="w-3.5 h-3.5" />
+          Kopieren
+        </>
+      )}
+    </button>
+  ) : (
+    <span />
+  )}
+
+  <span className={`block text-[10px] text-right ${
+    msg.sender === 'user' ? 'text-indigo-200' : 'text-slate-400'
+  }`}>
+    {msg.timestamp}
+  </span>
+</div>
               </div>
 
               {msg.sender === 'user' && (
