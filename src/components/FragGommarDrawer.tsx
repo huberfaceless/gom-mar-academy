@@ -14,7 +14,8 @@ import {
    Lightbulb,
   Copy,
   Check,
-  RotateCcw
+  RotateCcw,
+  MessageSquarePlus
 } from 'lucide-react';
 
 interface FragGommarDrawerProps {
@@ -26,6 +27,29 @@ interface FragGommarDrawerProps {
   currentLessonTitle?: string;
   onNavigate: (view: string, stageId?: number, lessonId?: string) => void;
 }
+
+const createWelcomeMessage = (
+  user: UserProfile,
+  currentStageTitle: string,
+): ChatMessage => ({
+  id: `welcome-${Date.now()}`,
+  sender: 'gommar',
+  text: `Hallo ${user.name}! 👋 Ich bin dein KI-Mentor "Frag GOM-MAR".
+
+Ich kenne genau deinen Lernstand (Du bist gerade bei Stage ${user.currentStageId}: "${currentStageTitle}").
+
+Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helfen?`,
+  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+});
+
+const isStoredChatMessage = (value: unknown): value is ChatMessage => {
+  if (typeof value !== 'object' || value === null) return false;
+  const message = value as Partial<ChatMessage>;
+  return typeof message.id === 'string'
+    && (message.sender === 'user' || message.sender === 'gommar')
+    && typeof message.text === 'string'
+    && typeof message.timestamp === 'string';
+};
 
 const renderInlineMarkdown = (text: string): React.ReactNode[] => {
   const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\*[^*\n]+\*|\[[^\]]+\]\(https?:\/\/[^\s)]+\))/g);
@@ -203,22 +227,15 @@ export const FragGommarDrawer: React.FC<FragGommarDrawerProps> = ({
   onNavigate,
 }) => {
   const [inputPrompt, setInputPrompt] = useState<string>('');
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: 'm1',
-      sender: 'gommar',
-      text: `Hallo ${user.name}! 👋 Ich bin dein KI-Mentor "Frag GOM-MAR".
-
-Ich kenne genau deinen Lernstand (Du bist gerade bei Stage ${user.currentStageId}: "${currentStageTitle}"). 
-
-Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helfen?`,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    },
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [
+    createWelcomeMessage(user, currentStageTitle),
   ]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const [failedPrompts, setFailedPrompts] = useState<Record<string, string>>({});
+  const [loadedStorageKey, setLoadedStorageKey] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const storageKey = `frag-gommar-chat:${(user.email || user.name || 'gast').trim().toLowerCase()}`;
 
   // Quick suggestion chips
   const quickQuestions = [
@@ -229,16 +246,67 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
   ];
 
   useEffect(() => {
-    if (initialPrompt) {
+    if (initialPrompt && loadedStorageKey === storageKey) {
       handleSendPrompt(initialPrompt);
     }
-  }, [initialPrompt]);
+  }, [initialPrompt, loadedStorageKey, storageKey]);
+
+  useEffect(() => {
+    try {
+      const storedValue = window.localStorage.getItem(storageKey);
+      if (!storedValue) {
+        setMessages([createWelcomeMessage(user, currentStageTitle)]);
+      } else {
+        const parsedValue: unknown = JSON.parse(storedValue);
+        if (Array.isArray(parsedValue) && parsedValue.length > 0 && parsedValue.every(isStoredChatMessage)) {
+          setMessages(parsedValue);
+        } else {
+          window.localStorage.removeItem(storageKey);
+          setMessages([createWelcomeMessage(user, currentStageTitle)]);
+        }
+      }
+    } catch (err) {
+      console.warn('Chatverlauf konnte nicht geladen werden:', err);
+      setMessages([createWelcomeMessage(user, currentStageTitle)]);
+    } finally {
+      setFailedPrompts({});
+      setLoadedStorageKey(storageKey);
+    }
+  }, [storageKey]);
+
+  useEffect(() => {
+    if (loadedStorageKey !== storageKey) return;
+
+    const persistentMessages = messages
+      .filter((message) => !failedPrompts[message.id])
+      .slice(-100);
+
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify(persistentMessages));
+    } catch (err) {
+      console.warn('Chatverlauf konnte nicht gespeichert werden:', err);
+    }
+  }, [failedPrompts, loadedStorageKey, messages, storageKey]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
 
   if (!isOpen) return null;
+
+  const handleStartNewChat = () => {
+    if (isLoading) return;
+    const confirmed = window.confirm(
+      'Möchtest du den bisherigen Chatverlauf wirklich löschen und einen neuen Chat starten?',
+    );
+    if (!confirmed) return;
+
+    window.localStorage.removeItem(storageKey);
+    setMessages([createWelcomeMessage(user, currentStageTitle)]);
+    setFailedPrompts({});
+    setCopiedMessageId(null);
+    setInputPrompt('');
+  };
 
   const handleSendPrompt = async (customText?: string, retryMessageId?: string) => {
     const textToSend = customText || inputPrompt;
@@ -381,12 +449,26 @@ const handleCopyMessage = async (message: ChatMessage) => {
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-950 transition-colors cursor-pointer border border-slate-200"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleStartNewChat}
+              disabled={isLoading}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-indigo-700 disabled:cursor-not-allowed disabled:opacity-50 sm:px-3"
+              aria-label="Neuen Chat starten"
+              title="Neuen Chat starten"
+            >
+              <MessageSquarePlus className="h-4 w-4" />
+              <span className="hidden text-[11px] font-bold sm:inline">Neuer Chat</span>
+            </button>
+            <button
+              onClick={onClose}
+              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-950 transition-colors cursor-pointer border border-slate-200"
+              aria-label="Frag GOM-MAR schließen"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Chat History Area */}
