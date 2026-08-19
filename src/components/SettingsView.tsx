@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Settings, Key, ShieldCheck, RefreshCw, CheckCircle2, AlertCircle, Palette, Moon, Sun, Sparkles } from 'lucide-react';
+import { Settings, Key, RefreshCw, CheckCircle2, AlertCircle, Palette, Moon, Sun, Sparkles, Languages } from 'lucide-react';
 import { UserProfile } from '../types';
+import { LanguageSelector } from './LanguageSelector';
+import { useLanguage } from '../context/LanguageContext';
 
 interface SettingsViewProps {
   user: UserProfile;
@@ -9,6 +11,7 @@ interface SettingsViewProps {
 }
 
 export const SettingsView: React.FC<SettingsViewProps> = ({ user, onUpdateUser, onResetProgress }) => {
+  const { t } = useLanguage();
   const [hasApiKey, setHasApiKey] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -65,10 +68,21 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ user, onUpdateUser, 
       <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-1">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold border border-slate-200">
           <Settings className="w-3.5 h-3.5 text-slate-600" />
-          System-Einstellungen
+          {t('settings.badge')}
         </div>
-        <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">⚙️ Einstellungen & Erscheinungsbild</h2>
-        <p className="text-xs sm:text-sm text-slate-600">Verwalte dein Design-Thema, API-Verbindungen und Systemeinstellungen.</p>
+        <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">{t('settings.title')}</h2>
+        <p className="text-xs sm:text-sm text-slate-600">{t('settings.description')}</p>
+      </div>
+
+      <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
+        <div>
+          <h3 className="text-base font-bold text-slate-950 flex items-center gap-2">
+            <Languages className="w-5 h-5 text-indigo-600" />
+            {t('settings.languageTitle')}
+          </h3>
+          <p className="text-xs text-slate-500 mt-1">{t('language.description')}</p>
+        </div>
+        <LanguageSelector />
       </div>
 
       {/* Erscheinungsbild / Theme Switcher Section */}
