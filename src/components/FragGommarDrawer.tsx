@@ -454,16 +454,21 @@ const handleCopyMessage = async (message: ChatMessage) => {
   }
 };
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/40 backdrop-blur-sm animate-fadeIn">
+    <div
+      className="fixed inset-0 z-50 flex justify-end bg-slate-950/40 backdrop-blur-sm animate-fadeIn"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Frag GOM-MAR KI-Mentor"
+    >
       {/* Backdrop overlay */}
       <div className="absolute inset-0 cursor-pointer" onClick={onClose} />
 
       {/* Drawer Body */}
-      <div className="relative w-full max-w-lg bg-white border-l border-slate-200 text-slate-900 h-full flex flex-col justify-between shadow-2xl z-10">
+      <div className="relative z-10 flex h-[100dvh] w-full max-w-lg flex-col overflow-hidden border-l border-slate-200 bg-white text-slate-900 shadow-2xl">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/80">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-white border border-slate-200 p-0.5 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+        <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-200 bg-slate-50/80 px-3 py-3 sm:px-6 sm:py-4">
+          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white p-0.5 shadow-sm sm:h-10 sm:w-10 sm:rounded-2xl">
               <img 
                 src={gommarLogo} 
                 alt="GOM-MAR" 
@@ -471,25 +476,25 @@ const handleCopyMessage = async (message: ChatMessage) => {
                 referrerPolicy="no-referrer"
               />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h3 className="font-extrabold text-base text-slate-950">🤖 Frag GOM-MAR</h3>
-                <span className="px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 text-[10px] font-mono font-bold">
+                <h3 className="whitespace-nowrap text-sm font-extrabold text-slate-950 sm:text-base">🤖 Frag GOM-MAR</h3>
+                <span className="hidden rounded-full border border-indigo-200 bg-indigo-50 px-2 py-0.5 font-mono text-[10px] font-bold text-indigo-700 sm:inline-flex">
                   KI Mentor
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500">
+              <p className="truncate text-[10px] text-slate-500 sm:text-[11px]">
                 Geführtes System-Wissen • Stage {user.currentStageId}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
             <button
               type="button"
               onClick={handleStartNewChat}
               disabled={isLoading}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-indigo-700 disabled:cursor-not-allowed disabled:opacity-50 sm:px-3"
+              className="inline-flex h-11 w-11 items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-100 hover:text-indigo-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:px-3"
               aria-label="Neuen Chat starten"
               title="Neuen Chat starten"
             >
@@ -498,7 +503,7 @@ const handleCopyMessage = async (message: ChatMessage) => {
             </button>
             <button
               onClick={onClose}
-              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-950 transition-colors cursor-pointer border border-slate-200"
+              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-600 transition-colors hover:bg-slate-200 hover:text-slate-950"
               aria-label="Frag GOM-MAR schließen"
             >
               <X className="w-5 h-5" />
@@ -507,14 +512,14 @@ const handleCopyMessage = async (message: ChatMessage) => {
         </div>
 
         {/* Chat History Area */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/50">
+        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain bg-slate-50/50 px-3 py-4 scroll-pb-4 sm:p-6">
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`flex gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex gap-2 sm:gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {msg.sender === 'gommar' && (
-                <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 p-0.5 overflow-hidden flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white p-0.5 shadow-xs sm:h-8 sm:w-8 sm:rounded-xl">
                   <img 
                     src={gommarLogo} 
                     alt="GOM-MAR" 
@@ -524,7 +529,7 @@ const handleCopyMessage = async (message: ChatMessage) => {
                 </div>
               )}
 
-              <div className={`max-w-[85%] rounded-2xl p-4 text-xs sm:text-sm leading-relaxed space-y-1 ${
+              <div className={`max-w-[90%] rounded-2xl p-3 text-sm leading-relaxed space-y-1 sm:max-w-[85%] sm:p-4 ${
                 msg.sender === 'user'
                   ? 'bg-indigo-600 text-white font-medium rounded-tr-none shadow-md shadow-indigo-600/20'
                   : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none whitespace-pre-line shadow-xs'
@@ -591,7 +596,7 @@ const handleCopyMessage = async (message: ChatMessage) => {
               </div>
 
               {msg.sender === 'user' && (
-                <div className="w-8 h-8 rounded-xl bg-slate-200 text-slate-700 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-200 text-xs font-bold text-slate-700 sm:h-8 sm:w-8 sm:rounded-xl">
                   {user.name.substring(0, 1)}
                 </div>
               )}
@@ -614,17 +619,17 @@ const handleCopyMessage = async (message: ChatMessage) => {
         </div>
 
         {/* Quick Questions Chips */}
-        <div className="px-6 py-3 border-t border-slate-200 bg-white space-y-2">
+        <div className="shrink-0 space-y-2 border-t border-slate-200 bg-white px-3 py-2.5 sm:px-6 sm:py-3">
           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1">
             <Lightbulb className="w-3 h-3 text-amber-500" />
             Häufige Fragen:
           </p>
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+          <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 scrollbar-none">
             {quickQuestions.map((q, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSendPrompt(q)}
-                className="px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-[11px] font-medium border border-slate-200 shrink-0 whitespace-nowrap transition-colors cursor-pointer"
+                className="min-h-10 shrink-0 snap-start cursor-pointer whitespace-nowrap rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] font-medium text-slate-700 transition-colors hover:bg-slate-100"
               >
                 "{q}"
               </button>
@@ -633,7 +638,10 @@ const handleCopyMessage = async (message: ChatMessage) => {
         </div>
 
         {/* Input Box */}
-        <div className="p-4 border-t border-slate-200 bg-white">
+        <div
+          className="shrink-0 border-t border-slate-200 bg-white px-3 pt-3 sm:px-4 sm:pt-4"
+          style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+        >
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -645,13 +653,18 @@ const handleCopyMessage = async (message: ChatMessage) => {
               type="text"
               value={inputPrompt}
               onChange={(e) => setInputPrompt(e.target.value)}
+              onFocus={() => {
+                window.setTimeout(() => {
+                  messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }, 150);
+              }}
               placeholder="Frage GOM-MAR nach Hilfe zu deinem System..."
-              className="flex-1 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm focus:outline-none focus:border-indigo-600 focus:bg-white transition-colors"
+              className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-base text-slate-900 placeholder:text-slate-400 transition-colors focus:border-indigo-600 focus:bg-white focus:outline-none sm:px-4 sm:text-sm"
             />
             <button
               type="submit"
               disabled={isLoading || !inputPrompt.trim()}
-              className="px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center justify-center transition-all disabled:opacity-50 cursor-pointer shadow-md shadow-indigo-600/20"
+              className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-xl bg-indigo-600 text-xs font-bold text-white shadow-md shadow-indigo-600/20 transition-all hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Send className="w-4 h-4" />
             </button>
