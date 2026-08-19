@@ -54,6 +54,20 @@ interface AcademyViewProps {
   onOpenFragGommar: (prompt?: string) => void;
 }
 
+const renderInlineLessonMarkdown = (text: string): React.ReactNode[] => {
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*\n]+\*)/g);
+
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={index} className="font-bold text-slate-900 dark:text-white">{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith('*') && part.endsWith('*')) {
+      return <em key={index}>{part.slice(1, -1)}</em>;
+    }
+    return part;
+  });
+};
+
 export const AcademyView: React.FC<AcademyViewProps> = ({
   user,
   stages = ACADEMY_STAGES,
@@ -647,41 +661,44 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
             </div>
 
             {/* Lektionsansicht Tabs Switcher */}
-            <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+            <div className="grid grid-cols-3 gap-2 border-b border-slate-200 pb-3 dark:border-slate-800">
               <button
                 onClick={() => setActiveLessonTab('handbook')}
-                className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                className={`flex min-w-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl px-2 py-2 text-center text-[10px] font-bold transition-all sm:flex-row sm:gap-2 sm:px-4 sm:text-xs ${
                   activeLessonTab === 'handbook'
                     ? 'bg-indigo-600 text-white font-black shadow-md shadow-indigo-600/20'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200'
                 }`}
               >
                 <BookOpen className="w-4 h-4" />
-                <span>📖 Lektions-Handbuch (Artikel)</span>
+                <span className="sm:hidden">Handbuch</span>
+                <span className="hidden sm:inline">Lektions-Handbuch (Artikel)</span>
               </button>
 
               <button
                 onClick={() => setActiveLessonTab('video')}
-                className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                className={`flex min-w-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl px-2 py-2 text-center text-[10px] font-bold transition-all sm:flex-row sm:gap-2 sm:px-4 sm:text-xs ${
                   activeLessonTab === 'video'
                     ? 'bg-indigo-600 text-white font-black shadow-md shadow-indigo-600/20'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200'
                 }`}
               >
                 <Video className="w-4 h-4" />
-                <span>🎥 Video & Übersicht</span>
+                <span className="sm:hidden">Video</span>
+                <span className="hidden sm:inline">Video & Übersicht</span>
               </button>
 
               <button
                 onClick={() => setActiveLessonTab('ai_tutor')}
-                className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                className={`flex min-w-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl px-2 py-2 text-center text-[10px] font-bold transition-all sm:flex-row sm:gap-2 sm:px-4 sm:text-xs ${
                   activeLessonTab === 'ai_tutor'
                     ? 'bg-purple-600 text-white font-black shadow-md shadow-purple-600/20'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200'
                 }`}
               >
                 <Bot className="w-4 h-4" />
-                <span>🤖 KI-Lektions-Tutor</span>
+                <span className="sm:hidden">KI-Tutor</span>
+                <span className="hidden sm:inline">KI-Lektions-Tutor</span>
               </button>
             </div>
 
@@ -765,7 +782,11 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                       if (paragraph.startsWith('#### ')) {
                         return <h4 key={idx} className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 mt-3 mb-1">{paragraph.replace('#### ', '')}</h4>;
                       }
-                      return <p key={idx} className="text-slate-700 dark:text-slate-300 leading-relaxed">{paragraph}</p>;
+                      return (
+                        <p key={idx} className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                          {renderInlineLessonMarkdown(paragraph)}
+                        </p>
+                      );
                     })}
                   </div>
                 ) : (
