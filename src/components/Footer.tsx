@@ -44,7 +44,7 @@ export const Footer: React.FC<FooterProps> = ({
               <img 
                 src={gommarLogo} 
                 alt="GOM-MAR Academy" 
-                className="w-8 h-8 rounded-xl object-cover shadow-sm ring-1 ring-white/10" 
+                className="w-8 h-8 rounded-xl object-contain  shadow-sm ring-1 ring-white/10" 
               />
               <span className="text-base font-black tracking-tight text-white">
                 GOM-MAR <span className="text-indigo-400">Academy</span>
