@@ -13,7 +13,8 @@ import {
   Zap,
    Lightbulb,
   Copy,
-  Check
+  Check,
+  RotateCcw
 } from 'lucide-react';
 
 interface FragGommarDrawerProps {
@@ -216,6 +217,7 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
   ]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
+  const [failedPrompts, setFailedPrompts] = useState<Record<string, string>>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Quick suggestion chips
@@ -238,55 +240,104 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
 
   if (!isOpen) return null;
 
-  const handleSendPrompt = async (customText?: string) => {
+  const handleSendPrompt = async (customText?: string, retryMessageId?: string) => {
     const textToSend = customText || inputPrompt;
     if (!textToSend.trim() || isLoading) return;
 
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      sender: 'user',
-      text: textToSend,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    };
+    if (retryMessageId) {
+      setMessages((prev) => prev.filter((message) => message.id !== retryMessageId));
+      setFailedPrompts((prev) => {
+        const next = { ...prev };
+        delete next[retryMessageId];
+        return next;
+      });
+    } else {
+      const userMessage: ChatMessage = {
+        id: Date.now().toString(),
+        sender: 'user',
+        text: textToSend,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
 
-    setMessages((prev) => [...prev, userMessage]);
+      setMessages((prev) => [...prev, userMessage]);
+    }
     setInputPrompt('');
     setIsLoading(true);
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 30000);
 
     try {
       const response = await fetch('/api/ask-gommar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({
           prompt: textToSend,
           currentStageTitle,
           currentLessonTitle,
           niche: user.niche,
           targetAudience: user.targetAudience,
-          history: messages.slice(-6).map((m) => ({ sender: m.sender, text: m.text })),
+          history: messages
+            .filter((message) => message.id !== retryMessageId)
+            .slice(-6)
+            .map((message) => ({ sender: message.sender, text: message.text })),
         }),
       });
 
-      const data = await response.json();
+      if (!response.ok) {
+        if (response.status === 429) throw new Error('RATE_LIMIT');
+        if (response.status >= 500) throw new Error('SERVER_ERROR');
+        throw new Error('REQUEST_FAILED');
+      }
+
+      let data: unknown;
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error('INVALID_RESPONSE');
+      }
+
+      const answer = typeof data === 'object'
+        && data !== null
+        && 'answer' in data
+        && typeof data.answer === 'string'
+        ? data.answer.trim()
+        : '';
+
+      if (!answer) throw new Error('EMPTY_ANSWER');
 
       const botMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         sender: 'gommar',
-        text: data.answer || 'Entschuldigung, ich konnte darauf keine Antwort generieren.',
+        text: answer,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
 
       setMessages((prev) => [...prev, botMessage]);
     } catch (err) {
       console.error('Error asking Frag GOM-MAR:', err);
+      const errorCode = err instanceof Error ? err.message : '';
+      const errorText = err instanceof DOMException && err.name === 'AbortError'
+        ? 'Die Antwort dauert ungewöhnlich lange. Bitte versuche es erneut.'
+        : errorCode === 'RATE_LIMIT'
+          ? 'Der KI-Mentor erhält gerade sehr viele Anfragen. Bitte versuche es in einem Moment erneut.'
+          : errorCode === 'SERVER_ERROR'
+            ? 'Der KI-Mentor ist vorübergehend nicht erreichbar. Bitte versuche es gleich erneut.'
+            : errorCode === 'INVALID_RESPONSE' || errorCode === 'EMPTY_ANSWER'
+              ? 'Die Antwort konnte nicht richtig verarbeitet werden. Bitte versuche es erneut.'
+              : 'Die Anfrage konnte nicht gesendet werden. Prüfe deine Verbindung und versuche es erneut.';
+      const errorMessageId = (Date.now() + 1).toString();
       const errorMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
+        id: errorMessageId,
         sender: 'gommar',
-        text: 'Derzeit ist der Mentor kurz nicht erreichbar. Bitte versuche es gleich erneut.',
+        text: errorText,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       setMessages((prev) => [...prev, errorMessage]);
+      setFailedPrompts((prev) => ({ ...prev, [errorMessageId]: textToSend }));
     } finally {
+      window.clearTimeout(timeoutId);
       setIsLoading(false);
     }
   };
@@ -362,6 +413,17 @@ const handleCopyMessage = async (message: ChatMessage) => {
                   : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none whitespace-pre-line shadow-xs'
               }`}>
                 {msg.sender === 'gommar' ? <MarkdownMessage text={msg.text} /> : <p>{msg.text}</p>}
+                {failedPrompts[msg.id] && (
+                  <button
+                    type="button"
+                    onClick={() => handleSendPrompt(failedPrompts[msg.id], msg.id)}
+                    disabled={isLoading}
+                    className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2 text-[11px] font-bold text-indigo-700 transition-colors hover:bg-indigo-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <RotateCcw className="h-3.5 w-3.5" />
+                    Erneut versuchen
+                  </button>
+                )}
                <div className="mt-2 flex items-center justify-between gap-3">
   {msg.sender === 'gommar' ? (
     <button
