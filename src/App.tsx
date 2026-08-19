@@ -496,7 +496,7 @@ export default function App() {
       <BottomNav
         activeView={activeView}
         onNavigate={handleNavigate}
-        user={user}
+        onOpenFragGommar={() => handleOpenFragGommar()}
       />
     </div>
   );
