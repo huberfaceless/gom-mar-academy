@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { UserProfile, ChatMessage } from '../types';
+import gommarLogo from '../assets/images/gommar_logo.jpg';
 import { 
   Bot, 
   Send, 
@@ -10,66 +11,8 @@ import {
   ArrowRight, 
   HelpCircle,
   Zap,
-  Lightbulb,
-  Copy,
-  Check
+  Lightbulb
 } from 'lucide-react';
-
-const renderInlineMarkdown = (text: string): React.ReactNode[] =>
-  text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g).filter(Boolean).map((part, index) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={index} className="font-bold text-slate-950">{part.slice(2, -2)}</strong>;
-    }
-
-    if (part.startsWith('*') && part.endsWith('*')) {
-      return <em key={index}>{part.slice(1, -1)}</em>;
-    }
-
-    return <React.Fragment key={index}>{part}</React.Fragment>;
-  });
-
-const MarkdownMessage: React.FC<{ text: string }> = ({ text }) => (
-  <div className="space-y-2">
-    {text.split('\n').map((rawLine, index) => {
-      const line = rawLine.trim();
-
-      if (!line) return <div key={index} className="h-1" />;
-      if (/^-{3,}$/.test(line)) return <hr key={index} className="my-3 border-slate-200" />;
-
-      const heading = line.match(/^(#{1,3})\s+(.+)$/);
-      if (heading) {
-        const HeadingTag = heading[1].length === 1 ? 'h2' : heading[1].length === 2 ? 'h3' : 'h4';
-        return (
-          <HeadingTag key={index} className="pt-2 text-sm font-extrabold leading-snug text-slate-950">
-            {renderInlineMarkdown(heading[2])}
-          </HeadingTag>
-        );
-      }
-
-      const bullet = line.match(/^[-*]\s+(.+)$/);
-      if (bullet) {
-        return (
-          <div key={index} className="flex items-start gap-2 pl-1">
-            <span className="mt-0.5 font-bold text-indigo-600">•</span>
-            <span>{renderInlineMarkdown(bullet[1])}</span>
-          </div>
-        );
-      }
-
-      const numbered = line.match(/^(\d+)\.\s+(.+)$/);
-      if (numbered) {
-        return (
-          <div key={index} className="flex items-start gap-2 pl-1">
-            <span className="font-bold text-indigo-600">{numbered[1]}.</span>
-            <span>{renderInlineMarkdown(numbered[2])}</span>
-          </div>
-        );
-      }
-
-      return <p key={index}>{renderInlineMarkdown(line)}</p>;
-    })}
-  </div>
-);
 
 interface FragGommarDrawerProps {
   isOpen: boolean;
@@ -104,7 +47,6 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
     },
   ]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Quick suggestion chips
@@ -126,16 +68,6 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
   }, [messages, isLoading]);
 
   if (!isOpen) return null;
-
-  const handleCopyMessage = async (message: ChatMessage) => {
-    try {
-      await navigator.clipboard.writeText(message.text);
-      setCopiedMessageId(message.id);
-      window.setTimeout(() => setCopiedMessageId(null), 2000);
-    } catch (err) {
-      console.error('Antwort konnte nicht kopiert werden:', err);
-    }
-  };
 
   const handleSendPrompt = async (customText?: string) => {
     const textToSend = customText || inputPrompt;
@@ -200,8 +132,13 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
         {/* Header */}
         <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/80">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center text-white font-bold shadow-md shadow-indigo-600/20">
-              <Bot className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 rounded-2xl bg-white border border-slate-200 p-0.5 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+              <img 
+                src={gommarLogo} 
+                alt="GOM-MAR" 
+                className="w-full h-full object-contain rounded-xl"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -232,8 +169,13 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
               className={`flex gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {msg.sender === 'gommar' && (
-                <div className="w-8 h-8 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
-                  <Bot className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 p-0.5 overflow-hidden flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                  <img 
+                    src={gommarLogo} 
+                    alt="GOM-MAR" 
+                    className="w-full h-full object-contain rounded-xl"
+                    referrerPolicy="no-referrer"
+                  />
                 </div>
               )}
 
@@ -242,39 +184,12 @@ Wie kann ich dir bei deiner nächsten Aufgabe oder bei deinem Online-System helf
                   ? 'bg-indigo-600 text-white font-medium rounded-tr-none shadow-md shadow-indigo-600/20'
                   : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none whitespace-pre-line shadow-xs'
               }`}>
-                {msg.sender === 'gommar'
-                  ? <MarkdownMessage text={msg.text} />
-                  : <p className="whitespace-pre-line">{msg.text}</p>
-                }
-                <div className="mt-2 flex items-center justify-between gap-3">
-                  {msg.sender === 'gommar' ? (
-                    <button
-                      type="button"
-                      onClick={() => handleCopyMessage(msg)}
-                      className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-[10px] font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-indigo-700"
-                      aria-label="KI-Antwort kopieren"
-                    >
-                      {copiedMessageId === msg.id ? (
-                        <>
-                          <Check className="h-3 w-3" />
-                          Kopiert
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="h-3 w-3" />
-                          Kopieren
-                        </>
-                      )}
-                    </button>
-                  ) : (
-                    <span />
-                  )}
-                  <span className={`text-[10px] text-right ${
-                    msg.sender === 'user' ? 'text-indigo-200' : 'text-slate-400'
-                  }`}>
-                    {msg.timestamp}
-                  </span>
-                </div>
+                <p>{msg.text}</p>
+                <span className={`block text-[10px] text-right ${
+                  msg.sender === 'user' ? 'text-indigo-200' : 'text-slate-400'
+                }`}>
+                  {msg.timestamp}
+                </span>
               </div>
 
               {msg.sender === 'user' && (
