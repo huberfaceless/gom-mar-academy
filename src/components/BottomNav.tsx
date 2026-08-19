@@ -1,5 +1,6 @@
 import React from 'react';
 import { LayoutGrid, GraduationCap, Mail, Wrench, Bot } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface BottomNavProps {
   activeView: string;
@@ -12,12 +13,13 @@ export const BottomNav: React.FC<BottomNavProps> = ({
   onNavigate,
   onOpenFragGommar,
 }) => {
+  const { t } = useLanguage();
   const tabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutGrid },
-    { id: 'academy', label: 'Academy', icon: GraduationCap },
-    { id: 'email', label: 'Marketing', icon: Mail },
-    { id: 'toolbox', label: 'Toolbox', icon: Wrench },
-    { id: 'ki', label: 'KI', icon: Bot, isAction: true },
+    { id: 'dashboard', label: t('nav.dashboard'), icon: LayoutGrid },
+    { id: 'academy', label: t('nav.academy'), icon: GraduationCap },
+    { id: 'email', label: t('nav.marketing'), icon: Mail },
+    { id: 'toolbox', label: t('nav.toolbox'), icon: Wrench },
+    { id: 'ki', label: t('nav.ai'), icon: Bot, isAction: true },
   ];
 
   return (
