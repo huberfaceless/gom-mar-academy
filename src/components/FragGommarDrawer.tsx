@@ -26,6 +26,161 @@ interface FragGommarDrawerProps {
   onNavigate: (view: string, stageId?: number, lessonId?: string) => void;
 }
 
+const renderInlineMarkdown = (text: string): React.ReactNode[] => {
+  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\[[^\]]+\]\(https?:\/\/[^\s)]+\))/g);
+
+  return parts.map((part, index) => {
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return (
+        <code key={index} className="rounded bg-slate-100 px-1 py-0.5 font-mono text-[0.9em] text-indigo-700">
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={index} className="font-bold text-slate-950">{part.slice(2, -2)}</strong>;
+    }
+
+    const linkMatch = part.match(/^\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)$/);
+    if (linkMatch) {
+      return (
+        <a
+          key={index}
+          href={linkMatch[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-medium text-indigo-600 underline decoration-indigo-300 underline-offset-2 hover:text-indigo-800"
+        >
+          {linkMatch[1]}
+        </a>
+      );
+    }
+
+    return part;
+  });
+};
+
+const MarkdownMessage: React.FC<{ text: string }> = ({ text }) => {
+  const lines = text.replace(/\r\n/g, '\n').split('\n');
+  const blocks: React.ReactNode[] = [];
+  let index = 0;
+
+  while (index < lines.length) {
+    const line = lines[index];
+
+    if (!line.trim()) {
+      index += 1;
+      continue;
+    }
+
+    if (line.trim().startsWith('```')) {
+      const language = line.trim().slice(3);
+      const codeLines: string[] = [];
+      index += 1;
+      while (index < lines.length && !lines[index].trim().startsWith('```')) {
+        codeLines.push(lines[index]);
+        index += 1;
+      }
+      index += index < lines.length ? 1 : 0;
+      blocks.push(
+        <pre key={`code-${index}`} className="overflow-x-auto rounded-xl bg-slate-950 p-3 text-xs text-slate-100">
+          <code className={language ? `language-${language}` : undefined}>{codeLines.join('\n')}</code>
+        </pre>
+      );
+      continue;
+    }
+
+    const headingMatch = line.match(/^(#{1,3})\s+(.+)$/);
+    if (headingMatch) {
+      const level = headingMatch[1].length;
+      const headingClasses = level === 1
+        ? 'text-base font-extrabold text-slate-950'
+        : level === 2
+          ? 'text-sm font-bold text-slate-950'
+          : 'text-xs font-bold uppercase tracking-wide text-slate-700';
+      blocks.push(
+        <div key={`heading-${index}`} className={headingClasses}>
+          {renderInlineMarkdown(headingMatch[2])}
+        </div>
+      );
+      index += 1;
+      continue;
+    }
+
+    const listMatch = line.match(/^\s*(?:([-*+])|(\d+)\.)\s+(.+)$/);
+    if (listMatch) {
+      const ordered = Boolean(listMatch[2]);
+      const items: string[] = [];
+      while (index < lines.length) {
+        const itemMatch = lines[index].match(/^\s*(?:([-*+])|(\d+)\.)\s+(.+)$/);
+        if (!itemMatch || Boolean(itemMatch[2]) !== ordered) break;
+        items.push(itemMatch[3]);
+        index += 1;
+      }
+      const ListTag = ordered ? 'ol' : 'ul';
+      blocks.push(
+        <ListTag
+          key={`list-${index}`}
+          className={`space-y-1 pl-5 ${ordered ? 'list-decimal' : 'list-disc'}`}
+        >
+          {items.map((item, itemIndex) => (
+            <li key={itemIndex} className="pl-0.5 marker:text-indigo-500">
+              {renderInlineMarkdown(item)}
+            </li>
+          ))}
+        </ListTag>
+      );
+      continue;
+    }
+
+    if (line.startsWith('> ')) {
+      const quoteLines: string[] = [];
+      while (index < lines.length && lines[index].startsWith('> ')) {
+        quoteLines.push(lines[index].slice(2));
+        index += 1;
+      }
+      blocks.push(
+        <blockquote key={`quote-${index}`} className="border-l-4 border-indigo-300 pl-3 italic text-slate-600">
+          {quoteLines.map((quoteLine, quoteIndex) => (
+            <React.Fragment key={quoteIndex}>
+              {quoteIndex > 0 && <br />}
+              {renderInlineMarkdown(quoteLine)}
+            </React.Fragment>
+          ))}
+        </blockquote>
+      );
+      continue;
+    }
+
+    const paragraphLines = [line];
+    index += 1;
+    while (
+      index < lines.length
+      && lines[index].trim()
+      && !/^(#{1,3})\s+/.test(lines[index])
+      && !/^\s*(?:[-*+]|\d+\.)\s+/.test(lines[index])
+      && !lines[index].trim().startsWith('```')
+      && !lines[index].startsWith('> ')
+    ) {
+      paragraphLines.push(lines[index]);
+      index += 1;
+    }
+    blocks.push(
+      <p key={`paragraph-${index}`}>
+        {paragraphLines.map((paragraphLine, paragraphIndex) => (
+          <React.Fragment key={paragraphIndex}>
+            {paragraphIndex > 0 && <br />}
+            {renderInlineMarkdown(paragraphLine)}
+          </React.Fragment>
+        ))}
+      </p>
+    );
+  }
+
+  return <div className="space-y-3">{blocks}</div>;
+};
+
 export const FragGommarDrawer: React.FC<FragGommarDrawerProps> = ({
   isOpen,
   onClose,
@@ -195,7 +350,7 @@ const handleCopyMessage = async (message: ChatMessage) => {
                   ? 'bg-indigo-600 text-white font-medium rounded-tr-none shadow-md shadow-indigo-600/20'
                   : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none whitespace-pre-line shadow-xs'
               }`}>
-                <p>{msg.text}</p>
+                {msg.sender === 'gommar' ? <MarkdownMessage text={msg.text} /> : <p>{msg.text}</p>}
                <div className="mt-2 flex items-center justify-between gap-3">
   {msg.sender === 'gommar' ? (
     <button
