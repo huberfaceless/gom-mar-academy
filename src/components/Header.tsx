@@ -4,6 +4,8 @@ import { UserProfile } from '../types';
 import gommarLogo from '../assets/images/gommar_logo.jpg';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './AuthModal';
+import { LanguageSelector } from './LanguageSelector';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeaderProps {
   user: UserProfile;
@@ -19,6 +21,7 @@ export const Header: React.FC<HeaderProps> = ({
   activeView
 }) => {
   const { user: firebaseUser, authState, logout } = useAuth();
+  const { t } = useLanguage();
   const [authModalMode, setAuthModalMode] = useState<'login' | 'register' | null>(null);
 
   const isLight = user.theme === 'clean-light' || !user.theme;
@@ -55,12 +58,12 @@ export const Header: React.FC<HeaderProps> = ({
                   {isEmailVerified ? (
                     <>
                       <UserCheck className="w-3 h-3 text-emerald-600" />
-                      <span>Verifiziert</span>
+                      <span>{t('header.verified')}</span>
                     </>
                   ) : (
                     <>
                       <AlertCircle className="w-3 h-3 text-amber-600" />
-                      <span>E-Mail unbestätigt</span>
+                      <span>{t('header.unverified')}</span>
                     </>
                   )}
                 </span>
@@ -70,7 +73,7 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
             ) : (
               <span className="text-slate-400 text-xs">
-                Besucher-Modus
+                {t('header.visitor')}
               </span>
             )}
           </div>
@@ -99,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
             </div>
             <p className={`text-xs sm:text-sm font-medium tracking-wide mt-1 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
-              Dein direkter Weg zum Online-Nebeneinkommen
+              {t('header.tagline')}
             </p>
           </div>
 
@@ -115,7 +118,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }`}
               >
                 <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
-                <span className="hidden sm:inline">Admin-Zentrale</span>
+                <span className="hidden sm:inline">{t('header.admin')}</span>
                 <span className="sm:hidden">Admin</span>
               </button>
             )}
@@ -123,11 +126,11 @@ export const Header: React.FC<HeaderProps> = ({
             {isAuthenticated ? (
               <button
                 onClick={handleLogout}
-                title="Vom Firebase-Konto abmelden"
+                title={t('header.logoutTitle')}
                 className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-700 text-slate-600 border border-slate-200 text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer"
               >
                 <LogOut className="w-3.5 h-3.5 text-slate-500" />
-                <span className="hidden sm:inline">Abmelden</span>
+                <span className="hidden sm:inline">{t('header.logout')}</span>
               </button>
             ) : (
               <div className="flex items-center gap-2">
@@ -136,10 +139,11 @@ export const Header: React.FC<HeaderProps> = ({
                   className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
                 >
                   <LogIn className="w-3.5 h-3.5" />
-                  <span>Anmelden</span>
+                  <span>{t('header.login')}</span>
                 </button>
               </div>
             )}
+            <LanguageSelector compact />
           </div>
         </div>
       </header>
