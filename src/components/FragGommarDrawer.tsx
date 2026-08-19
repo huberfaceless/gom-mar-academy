@@ -11,7 +11,9 @@ import {
   ArrowRight, 
   HelpCircle,
   Zap,
-  Lightbulb
+   Lightbulb,
+  Copy,
+  Check
 } from 'lucide-react';
 
 interface FragGommarDrawerProps {
