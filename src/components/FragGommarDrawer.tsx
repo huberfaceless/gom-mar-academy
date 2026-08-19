@@ -28,6 +28,34 @@ interface FragGommarDrawerProps {
   onNavigate: (view: string, stageId?: number, lessonId?: string) => void;
 }
 
+type SuggestedAction = NonNullable<ChatMessage['suggestedAction']>;
+
+const parseSuggestedAction = (value: unknown): SuggestedAction | undefined => {
+  if (typeof value !== 'object' || value === null) return undefined;
+  const action = value as Partial<SuggestedAction>;
+  const allowedViews: SuggestedAction['view'][] = ['academy', 'email', 'toolbox', 'profile'];
+
+  if (
+    typeof action.label !== 'string'
+    || !action.label.trim()
+    || !action.view
+    || !allowedViews.includes(action.view)
+  ) {
+    return undefined;
+  }
+
+  return {
+    label: action.label.trim(),
+    view: action.view,
+    ...(typeof action.stageId === 'number' && Number.isInteger(action.stageId)
+      ? { stageId: action.stageId }
+      : {}),
+    ...(typeof action.lessonId === 'string' && action.lessonId.trim()
+      ? { lessonId: action.lessonId }
+      : {}),
+  };
+};
+
 const createWelcomeMessage = (
   user: UserProfile,
   currentStageTitle: string,
@@ -48,7 +76,8 @@ const isStoredChatMessage = (value: unknown): value is ChatMessage => {
   return typeof message.id === 'string'
     && (message.sender === 'user' || message.sender === 'gommar')
     && typeof message.text === 'string'
-    && typeof message.timestamp === 'string';
+    && typeof message.timestamp === 'string'
+    && (message.suggestedAction === undefined || parseSuggestedAction(message.suggestedAction) !== undefined);
 };
 
 const renderInlineMarkdown = (text: string): React.ReactNode[] => {
@@ -342,6 +371,8 @@ export const FragGommarDrawer: React.FC<FragGommarDrawerProps> = ({
         signal: controller.signal,
         body: JSON.stringify({
           prompt: textToSend,
+          currentStageId: user.currentStageId,
+          currentLessonId: user.currentLessonId,
           currentStageTitle,
           currentLessonTitle,
           niche: user.niche,
@@ -372,6 +403,9 @@ export const FragGommarDrawer: React.FC<FragGommarDrawerProps> = ({
         && typeof data.answer === 'string'
         ? data.answer.trim()
         : '';
+      const suggestedAction = typeof data === 'object' && data !== null && 'suggestedAction' in data
+        ? parseSuggestedAction(data.suggestedAction)
+        : undefined;
 
       if (!answer) throw new Error('EMPTY_ANSWER');
 
@@ -380,6 +414,7 @@ export const FragGommarDrawer: React.FC<FragGommarDrawerProps> = ({
         sender: 'gommar',
         text: answer,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        suggestedAction,
       };
 
       setMessages((prev) => [...prev, botMessage]);
@@ -495,6 +530,23 @@ const handleCopyMessage = async (message: ChatMessage) => {
                   : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none whitespace-pre-line shadow-xs'
               }`}>
                 {msg.sender === 'gommar' ? <MarkdownMessage text={msg.text} /> : <p>{msg.text}</p>}
+                {msg.sender === 'gommar' && msg.suggestedAction && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onNavigate(
+                        msg.suggestedAction!.view,
+                        msg.suggestedAction!.stageId,
+                        msg.suggestedAction!.lessonId,
+                      );
+                      onClose();
+                    }}
+                    className="mt-3 inline-flex w-full items-center justify-between gap-3 rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-2.5 text-left text-xs font-bold text-indigo-700 transition-colors hover:border-indigo-300 hover:bg-indigo-100"
+                  >
+                    <span>{msg.suggestedAction.label}</span>
+                    <ArrowRight className="h-4 w-4 shrink-0" />
+                  </button>
+                )}
                 {failedPrompts[msg.id] && (
                   <button
                     type="button"
