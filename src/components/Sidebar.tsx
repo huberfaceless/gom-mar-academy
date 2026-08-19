@@ -55,7 +55,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <img 
               src={gommarLogo} 
               alt="GOM-MAR" 
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-contain rounded-lg"
               referrerPolicy="no-referrer"
             />
           </div>
