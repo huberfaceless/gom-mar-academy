@@ -2,6 +2,7 @@ import React from 'react';
 import { LayoutDashboard, GraduationCap, Mail, Wrench, Trophy, User, Settings, Bot, ChevronRight, Globe, ShieldCheck, Layers } from 'lucide-react';
 import gommarLogo from '../assets/images/gommar_logo.jpg';
 import { UserRole } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface SidebarProps {
   activeView: string;
@@ -22,22 +23,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenFragGommar,
   userRole = 'admin'
 }) => {
+  const { t } = useLanguage();
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, badge: 'Home' },
-    { id: 'contentEngine', label: 'AI Content Hub', icon: Layers, highlight: true, badge: 'Vital50' },
-    { id: 'academy', label: 'Academy', icon: GraduationCap, badge: `${completedTasksCount}/${totalTasksCount}` },
-    { id: 'email', label: 'E-Mail & CRM', icon: Mail },
-    { id: 'toolbox', label: 'Toolbox', icon: Wrench, badge: 'KI' },
-    { id: 'landing', label: 'Besucher-Funnel', icon: Globe, badge: 'Opt-In' },
-    { id: 'progress', label: 'Fortschritt', icon: Trophy },
-    { id: 'profile', label: 'Mein Profil', icon: User },
-    { id: 'settings', label: 'Einstellungen', icon: Settings },
+    { id: 'dashboard', label: t('nav.dashboard'), icon: LayoutDashboard, badge: 'Home' },
+    { id: 'contentEngine', label: t('nav.contentHub'), icon: Layers, highlight: true, badge: 'Vital50' },
+    { id: 'academy', label: t('nav.academy'), icon: GraduationCap, badge: `${completedTasksCount}/${totalTasksCount}` },
+    { id: 'email', label: t('nav.email'), icon: Mail },
+    { id: 'toolbox', label: t('nav.toolbox'), icon: Wrench, badge: t('nav.ai') },
+    { id: 'landing', label: t('nav.funnel'), icon: Globe, badge: 'Opt-In' },
+    { id: 'progress', label: t('nav.progress'), icon: Trophy },
+    { id: 'profile', label: t('nav.profile'), icon: User },
+    { id: 'settings', label: t('nav.settings'), icon: Settings },
   ];
 
   if (userRole === 'admin') {
     menuItems.splice(4, 0, {
       id: 'admin',
-      label: 'Admin-Zentrale',
+      label: t('nav.admin'),
       icon: ShieldCheck,
       badge: 'Admin'
     });
@@ -71,7 +73,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Navigation Menu */}
         <div>
           <p className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 px-3 mb-2">
-            Hauptmenü
+            {t('nav.main')}
           </p>
           <nav className="space-y-1">
             {menuItems.map((item) => {
@@ -112,16 +114,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="bg-gradient-to-br from-indigo-50/70 via-white to-slate-50 border border-indigo-100 rounded-2xl p-4 space-y-2.5 shadow-sm">
           <div className="flex items-center gap-2 text-indigo-600 font-extrabold text-xs">
             <Bot className="w-4 h-4 text-indigo-600" />
-            <span>Frag GOM-MAR AI</span>
+            <span>{t('mentor.title')}</span>
           </div>
           <p className="text-[11px] text-slate-500 leading-snug">
-            Fragen zu deiner aktuellen Lektion? Erhalte sofort präzise Antworten & Hilfestellungen.
+            {t('mentor.description')}
           </p>
           <button
             onClick={onOpenFragGommar}
             className="w-full py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm shadow-indigo-600/20 transition-all cursor-pointer"
           >
-            <span>Frage stellen</span>
+            <span>{t('mentor.ask')}</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -130,7 +132,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Progress Footer widget */}
       <div className="pt-4 mt-6 border-t border-slate-100 space-y-2">
         <div className="flex items-center justify-between text-xs font-semibold">
-          <span className="text-slate-500">Gesamt-Fortschritt</span>
+          <span className="text-slate-500">{t('progress.total')}</span>
           <span className="text-indigo-600 font-extrabold">{progressPercent}%</span>
         </div>
         <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden p-0.5 border border-slate-200/50">
@@ -140,7 +142,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           />
         </div>
         <p className="text-[10px] text-slate-400 text-center font-medium">
-          {completedTasksCount} von {totalTasksCount} Aufgaben absolviert
+          {t('progress.tasks', { completed: completedTasksCount, total: totalTasksCount })}
         </p>
       </div>
     </aside>
