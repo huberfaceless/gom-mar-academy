@@ -84,7 +84,7 @@ export const PublicLandingView: React.FC<PublicLandingViewProps> = ({
               <img 
                 src={gommarLogo} 
                 alt="GOM-MAR Academy" 
-                className="w-full h-full object-cover rounded-xl"
+                className="w-full h-full object-contain rounded-xl"
                 referrerPolicy="no-referrer"
               />
             </div>
