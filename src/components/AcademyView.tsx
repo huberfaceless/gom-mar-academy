@@ -2,6 +2,9 @@ import React, { useState, useMemo } from 'react';
 import { UserProfile, Stage, Lesson } from '../types';
 import { ACADEMY_STAGES } from '../data/academyData';
 import { LessonVideoPlayer } from './LessonVideoPlayer';
+import { useLanguage } from '../context/LanguageContext';
+import { LanguageCode } from '../i18n/translations';
+import { localizeAcademyStages } from '../i18n/academyLocalization';
 import { 
   Play, 
   CheckCircle, 
@@ -54,6 +57,30 @@ interface AcademyViewProps {
   onOpenFragGommar: (prompt?: string) => void;
 }
 
+const academyCopy: Record<LanguageCode, Record<string, string>> = {
+  de: {
+    allModules: 'Alle 99 Module', foundation: 'Modul 1–10 (Fundament)', traffic: 'Modul 11–25 (Traffic & Funnels)', scale: 'Modul 26–50 (Skalierung & Copy)', systems: 'Modul 51–75 (High-Ticket & Systeme)', empire: 'Modul 76–99 (Konzern & Imperium)',
+    aiUnavailable: 'Entschuldigung, der KI-Mentor konnte gerade nicht antworten.', aiConnection: 'Fehler bei der Verbindung zum KI-Mentor.', aiLanguage: 'Antworte vollständig auf Deutsch.', currentCourse: 'Aktueller Kurs', courseTitle: 'Die GOM-MAR Masterclass', totalProgress: 'Gesamtfortschritt', lessons: 'Lektionen',
+    search: "Suche nach Modul, Thema oder Lektion (z. B. 'Landingpage', 'Traffic', '77')…", showing: 'Zeige', ofModules: 'von 99 Modulen', range: 'Bereich:', noModules: 'Keine Module gefunden', noModulesHint: 'Versuche einen anderen Suchbegriff oder setze die Filter zurück.', reset: 'Filter zurücksetzen', module: 'Modul', completed: 'Abgeschlossen', inProgress: 'In Bearbeitung', locked: 'Gesperrt',
+    videoGuide: 'Video & Leitfaden', view: 'Ansehen', startNow: 'Jetzt starten 🚀', nextLesson: 'Nächste Lektion', lockedPrevious: 'Gesperrt • Erfordert vorherige Lektion', backCourse: '← Zurück zur Kurs-Übersicht', askMentor: '🤖 Frag GOM-MAR AI Mentor', stageLessons: 'Lektionen', stage: 'Etappe', lesson: 'Lektion', taskDone: 'Aufgabe erledigt', openTask: 'Offene Aufgabe', handbook: 'Handbuch', handbookLong: 'Lektions-Handbuch (Artikel)', video: 'Video', videoOverview: 'Video & Übersicht', aiTutor: 'KI-Tutor', aiTutorLong: 'KI-Lektions-Tutor', concepts: 'Kernkonzepte', practicalExample: 'Konkretes Praxisbeispiel:', translationFallback: 'Dieser ausführliche Artikel ist noch nicht übersetzt. Bis dahin wird das deutsche Original angezeigt.',
+    takeaway: '💡 Merk-Satz für deinen Erfolg:', tutorFor: 'GOM-MAR KI-Tutor für Lektion', tutorIntro: 'Du hast eine Frage zu dieser Lektion oder brauchst ein konkretes Beispiel für deine Nische? Frage direkt deinen persönlichen KI-Mentor!', explain: '💡 Erkläre mir das noch einfacher', example: '🎯 Beispiel für meine Nische', mistakes: '⚠️ Häufigste Anfängerfehler', questionPlaceholder: 'Deine Frage zu dieser Lektion…', mentorAnswer: 'Antwort deines KI-Mentors:', lessonProgress: 'Lektionsfortschritt', resources: 'Ressourcen & Tools', toolboxHelp: 'Nutze die GOM-MAR Toolbox, um diese Aufgabe in wenigen Sekunden mit KI-Unterstützung zu lösen:', openToolboxNow: 'GOM-MAR Toolbox jetzt öffnen →', nextStep: 'Nächster Schritt', tryNow: 'Jetzt selbst ausprobieren', nextStepText: 'Nutze unsere vorgefertigten High-Converting Templates in der GOM-MAR Toolbox und setze das Gelernte direkt in die Praxis um.', openToolbox: 'GOM-MAR Toolbox öffnen', previous: 'Vorherige Lektion', markAgain: 'Aufgabe erneut als erledigt markieren', taskComplete: 'Aufgabe abgeschlossen! ✅', next: 'Weiter ➡️',
+  },
+  en: {
+    allModules: 'All 99 modules', foundation: 'Modules 1–10 (Foundation)', traffic: 'Modules 11–25 (Traffic & Funnels)', scale: 'Modules 26–50 (Scaling & Copy)', systems: 'Modules 51–75 (High-Ticket & Systems)', empire: 'Modules 76–99 (Company & Empire)',
+    aiUnavailable: 'Sorry, the AI mentor cannot answer right now.', aiConnection: 'Could not connect to the AI mentor.', aiLanguage: 'Answer entirely in English.', currentCourse: 'Current course', courseTitle: 'The GOM-MAR Masterclass', totalProgress: 'Overall progress', lessons: 'Lessons',
+    search: "Search by module, topic, or lesson (e.g. 'Landing page', 'Traffic', '77')…", showing: 'Showing', ofModules: 'of 99 modules', range: 'Range:', noModules: 'No modules found', noModulesHint: 'Try another search term or reset the filters.', reset: 'Reset filters', module: 'Module', completed: 'Completed', inProgress: 'In progress', locked: 'Locked',
+    videoGuide: 'Video & guide', view: 'View', startNow: 'Start now 🚀', nextLesson: 'Next lesson', lockedPrevious: 'Locked • Complete the previous lesson', backCourse: '← Back to course overview', askMentor: '🤖 Ask the GOM-MAR AI Mentor', stageLessons: 'lessons', stage: 'Stage', lesson: 'Lesson', taskDone: 'Task completed', openTask: 'Open task', handbook: 'Guide', handbookLong: 'Lesson guide (article)', video: 'Video', videoOverview: 'Video & overview', aiTutor: 'AI Tutor', aiTutorLong: 'AI lesson tutor', concepts: 'core concepts', practicalExample: 'Practical example:', translationFallback: 'This detailed article is still being translated. The German original is shown in the meantime.',
+    takeaway: '💡 Key takeaway:', tutorFor: 'GOM-MAR AI tutor for lesson', tutorIntro: 'Have a question about this lesson or need an example for your niche? Ask your personal AI mentor directly!', explain: '💡 Explain it more simply', example: '🎯 Example for my niche', mistakes: '⚠️ Common beginner mistakes', questionPlaceholder: 'Your question about this lesson…', mentorAnswer: 'Your AI mentor’s answer:', lessonProgress: 'Lesson progress', resources: 'Resources & tools', toolboxHelp: 'Use the GOM-MAR Toolbox to complete this task in seconds with AI support:', openToolboxNow: 'Open the GOM-MAR Toolbox now →', nextStep: 'Next step', tryNow: 'Try it yourself now', nextStepText: 'Use our high-converting templates in the GOM-MAR Toolbox and put this lesson into practice.', openToolbox: 'Open the GOM-MAR Toolbox', previous: 'Previous lesson', markAgain: 'Mark task as completed again', taskComplete: 'Task completed! ✅', next: 'Continue ➡️',
+  },
+  pl: {
+    allModules: 'Wszystkie 99 modułów', foundation: 'Moduły 1–10 (Podstawy)', traffic: 'Moduły 11–25 (Ruch i lejki)', scale: 'Moduły 26–50 (Skalowanie i copy)', systems: 'Moduły 51–75 (High-Ticket i systemy)', empire: 'Moduły 76–99 (Firma i imperium)',
+    aiUnavailable: 'Przepraszamy, mentor AI nie może teraz odpowiedzieć.', aiConnection: 'Nie udało się połączyć z mentorem AI.', aiLanguage: 'Odpowiedz w całości po polsku.', currentCourse: 'Aktualny kurs', courseTitle: 'GOM-MAR Masterclass', totalProgress: 'Łączny postęp', lessons: 'Lekcje',
+    search: "Szukaj modułu, tematu lub lekcji (np. 'Landing page', 'Ruch', '77')…", showing: 'Wyświetlono', ofModules: 'z 99 modułów', range: 'Zakres:', noModules: 'Nie znaleziono modułów', noModulesHint: 'Wpisz inne hasło lub zresetuj filtry.', reset: 'Resetuj filtry', module: 'Moduł', completed: 'Ukończono', inProgress: 'W trakcie', locked: 'Zablokowano',
+    videoGuide: 'Wideo i przewodnik', view: 'Zobacz', startNow: 'Zacznij teraz 🚀', nextLesson: 'Następna lekcja', lockedPrevious: 'Zablokowano • Ukończ poprzednią lekcję', backCourse: '← Wróć do kursu', askMentor: '🤖 Zapytaj mentora AI GOM-MAR', stageLessons: 'lekcje', stage: 'Etap', lesson: 'Lekcja', taskDone: 'Zadanie wykonane', openTask: 'Otwarte zadanie', handbook: 'Poradnik', handbookLong: 'Poradnik lekcji (artykuł)', video: 'Wideo', videoOverview: 'Wideo i przegląd', aiTutor: 'Tutor AI', aiTutorLong: 'Tutor AI lekcji', concepts: 'główne koncepcje', practicalExample: 'Praktyczny przykład:', translationFallback: 'Ten szczegółowy artykuł jest jeszcze tłumaczony. Do tego czasu wyświetlamy niemiecki oryginał.',
+    takeaway: '💡 Najważniejsza myśl:', tutorFor: 'Tutor AI GOM-MAR dla lekcji', tutorIntro: 'Masz pytanie o lekcję lub potrzebujesz przykładu dla swojej niszy? Zapytaj osobistego mentora AI!', explain: '💡 Wyjaśnij to prościej', example: '🎯 Przykład dla mojej niszy', mistakes: '⚠️ Typowe błędy początkujących', questionPlaceholder: 'Twoje pytanie o tę lekcję…', mentorAnswer: 'Odpowiedź mentora AI:', lessonProgress: 'Postęp lekcji', resources: 'Zasoby i narzędzia', toolboxHelp: 'Użyj GOM-MAR Toolbox, aby wykonać zadanie w kilka sekund ze wsparciem AI:', openToolboxNow: 'Otwórz teraz GOM-MAR Toolbox →', nextStep: 'Następny krok', tryNow: 'Wypróbuj to teraz', nextStepText: 'Użyj naszych skutecznych szablonów w GOM-MAR Toolbox i zastosuj wiedzę w praktyce.', openToolbox: 'Otwórz GOM-MAR Toolbox', previous: 'Poprzednia lekcja', markAgain: 'Ponownie oznacz jako wykonane', taskComplete: 'Zadanie wykonane! ✅', next: 'Dalej ➡️',
+  },
+};
+
 const renderInlineLessonMarkdown = (text: string): React.ReactNode[] => {
   const parts = text.split(/(\*\*[^*]+\*\*|\*[^*\n]+\*)/g);
 
@@ -77,6 +104,9 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
   onNavigateToToolbox,
   onOpenFragGommar,
 }) => {
+  const { language } = useLanguage();
+  const copy = academyCopy[language];
+  const localizedStages = useMemo(() => localizeAcademyStages(stages, language), [stages, language]);
   const isLight = user.theme === 'clean-light' || !user.theme;
 
   // If an initial lesson ID was passed, open lesson mode directly; otherwise start in course overview
@@ -99,16 +129,16 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
   const [selectedRangeFilter, setSelectedRangeFilter] = useState<string>('all');
 
   const rangeFilters = [
-    { id: 'all', label: 'Alle 99 Module', range: [1, 99] },
-    { id: '1-10', label: 'Modul 1–10 (Fundament)', range: [1, 10] },
-    { id: '11-25', label: 'Modul 11–25 (Traffic & Funnels)', range: [11, 25] },
-    { id: '26-50', label: 'Modul 26–50 (Skalierung & Copy)', range: [26, 50] },
-    { id: '51-75', label: 'Modul 51–75 (High-Ticket & Systeme)', range: [51, 75] },
-    { id: '76-99', label: 'Modul 76–99 (Konzern & Imperium)', range: [76, 99] },
+    { id: 'all', label: copy.allModules, range: [1, 99] },
+    { id: '1-10', label: copy.foundation, range: [1, 10] },
+    { id: '11-25', label: copy.traffic, range: [11, 25] },
+    { id: '26-50', label: copy.scale, range: [26, 50] },
+    { id: '51-75', label: copy.systems, range: [51, 75] },
+    { id: '76-99', label: copy.empire, range: [76, 99] },
   ];
 
   const filteredStages = useMemo(() => {
-    return stages.filter((stage) => {
+    return localizedStages.filter((stage) => {
       // Range filter
       if (selectedRangeFilter !== 'all') {
         const foundFilter = rangeFilters.find((f) => f.id === selectedRangeFilter);
@@ -133,15 +163,15 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
 
       return true;
     });
-  }, [searchQuery, selectedRangeFilter, stages]);
+  }, [searchQuery, selectedRangeFilter, localizedStages, language]);
 
-  const currentStage = stages.find((s) => s.id === selectedStageId) || stages[0];
+  const currentStage = localizedStages.find((s) => s.id === selectedStageId) || localizedStages[0];
   const currentLesson = currentStage.lessons.find((l) => l.id === selectedLessonId) || currentStage.lessons[0];
 
   const isCompleted = currentLesson ? user.completedTaskIds.includes(currentLesson.id) : false;
 
   // Overall statistics
-  const allLessons = stages.flatMap((s) => s.lessons);
+  const allLessons = localizedStages.flatMap((s) => s.lessons);
   const totalLessonsCount = allLessons.length;
   const completedLessonsCount = user.completedTaskIds.length;
   const progressPercent = totalLessonsCount > 0 
@@ -162,8 +192,8 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
     const currentIndex = currentStage.lessons.findIndex((l) => l.id === currentLesson.id);
     if (currentIndex < currentStage.lessons.length - 1) {
       setSelectedLessonId(currentStage.lessons[currentIndex + 1].id);
-    } else if (selectedStageId < ACADEMY_STAGES.length) {
-      const nextStage = ACADEMY_STAGES.find((s) => s.id === selectedStageId + 1);
+    } else if (selectedStageId < localizedStages.length) {
+      const nextStage = localizedStages.find((s) => s.id === selectedStageId + 1);
       if (nextStage) {
         setSelectedStageId(nextStage.id);
         setSelectedLessonId(nextStage.lessons[0].id);
@@ -177,7 +207,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
     if (currentIndex > 0) {
       setSelectedLessonId(currentStage.lessons[currentIndex - 1].id);
     } else if (selectedStageId > 1) {
-      const prevStage = ACADEMY_STAGES.find((s) => s.id === selectedStageId - 1);
+      const prevStage = localizedStages.find((s) => s.id === selectedStageId - 1);
       if (prevStage) {
         setSelectedStageId(prevStage.id);
         setSelectedLessonId(prevStage.lessons[prevStage.lessons.length - 1].id);
@@ -206,7 +236,8 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          prompt: q,
+          prompt: `${copy.aiLanguage}\n\n${q}`,
+          language,
           currentStageTitle: currentStage.title,
           currentLessonTitle: `${currentLesson.id} ${currentLesson.title}`,
           niche: user.niche,
@@ -218,10 +249,10 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
       if (res.ok && data.answer) {
         setAiAnswer(data.answer);
       } else {
-        setAiAnswer(data.error || 'Entschuldigung, der KI-Mentor konnte gerade nicht antworten.');
+        setAiAnswer(data.error || copy.aiUnavailable);
       }
     } catch {
-      setAiAnswer('Fehler bei der Verbindung zum KI-Mentor.');
+      setAiAnswer(copy.aiConnection);
     } finally {
       setIsAiLoading(false);
     }
@@ -237,20 +268,20 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
         <div>
           <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold mb-2">
             <GraduationCap className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-            <span className="text-xs uppercase tracking-wider font-extrabold">Aktueller Kurs</span>
+            <span className="text-xs uppercase tracking-wider font-extrabold">{copy.currentCourse}</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">
-            Die GOM-MAR Masterclass
+            {copy.courseTitle}
           </h1>
 
           {/* Overall Progress Card (Momentum Engine Style) */}
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm card-level-1 flex flex-col gap-3">
             <div className="flex justify-between items-end">
               <div>
-                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">Gesamtfortschritt</p>
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">{copy.totalProgress}</p>
                 <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
-                  {completedLessonsCount}/{totalLessonsCount} Lektionen
+                  {completedLessonsCount}/{totalLessonsCount} {copy.lessons}
                 </p>
               </div>
               <span className="text-xl sm:text-2xl font-black text-indigo-600 dark:text-indigo-400">
@@ -282,7 +313,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Suche nach Modul, Thema oder Lektion (z.B. 'Landingpage', 'Traffic', '77', 'Copywriting')..."
+                placeholder={copy.search}
                 className={`w-full pl-10 pr-4 py-2.5 rounded-xl text-xs sm:text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${
                   isLight 
                     ? 'bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:bg-white focus:border-indigo-600' 
@@ -303,7 +334,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
             <div className={`text-xs font-semibold px-3 py-1.5 rounded-lg text-right shrink-0 border ${
               isLight ? 'bg-slate-50 border-slate-200 text-slate-600' : 'bg-slate-950 border-slate-800 text-slate-400'
             }`}>
-              Zeige <strong className="text-indigo-600 font-bold">{filteredStages.length}</strong> von 99 Modulen
+              {copy.showing} <strong className="text-indigo-600 font-bold">{filteredStages.length}</strong> {copy.ofModules}
             </div>
           </div>
 
@@ -311,7 +342,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
             <span className="text-xs text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1 mr-1 shrink-0">
               <Filter className="w-3.5 h-3.5 text-indigo-600" />
-              Bereich:
+              {copy.range}
             </span>
             {rangeFilters.map((pill) => {
               const isSelected = selectedRangeFilter === pill.id;
@@ -338,13 +369,13 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
         <div className="flex flex-col gap-6">
           {filteredStages.length === 0 ? (
             <div className="text-center py-12 bg-slate-900 border border-slate-800 rounded-2xl p-6 text-slate-400">
-              <p className="font-bold text-white text-base">Keine Module gefunden</p>
-              <p className="text-xs text-slate-500 mt-1">Versuche einen anderen Suchbegriff oder setze die Filter zurück.</p>
+              <p className="font-bold text-white text-base">{copy.noModules}</p>
+              <p className="text-xs text-slate-500 mt-1">{copy.noModulesHint}</p>
               <button
                 onClick={() => { setSearchQuery(''); setSelectedRangeFilter('all'); }}
                 className="mt-3 px-4 py-2 bg-indigo-600 text-white text-xs font-bold rounded-xl"
               >
-                Filter zurücksetzen
+                {copy.reset}
               </button>
             </div>
           ) : (
@@ -375,7 +406,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
                   <div>
                     <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
-                      Modul {stage.id}: {stage.title.replace(/^\d+\.\s*/, '')}
+                      {copy.module} {stage.id}: {stage.title.replace(/^\d+\.\s*/, '')}
                     </h2>
                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                       {stage.description}
@@ -387,21 +418,21 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                     {statusType === 'completed' && (
                       <span className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 px-3.5 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5">
                         <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                        Abgeschlossen
+                        {copy.completed}
                       </span>
                     )}
 
                     {statusType === 'in_progress' && (
                       <span className="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 px-3.5 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5">
                         <Clock className="w-4 h-4 text-indigo-600 dark:text-indigo-400 animate-pulse" />
-                        In Bearbeitung
+                        {copy.inProgress}
                       </span>
                     )}
 
                     {statusType === 'locked' && (
                       <span className="bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 px-3.5 py-1.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5">
                         <Lock className="w-4 h-4 text-slate-400" />
-                        Gesperrt
+                        {copy.locked}
                       </span>
                     )}
                   </div>
@@ -432,13 +463,13 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                               {lesson.id} {lesson.title}
                             </h3>
                             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                              Video & Leitfaden • {lesson.durationMinutes} Min
+                              {copy.videoGuide} • {lesson.durationMinutes} Min
                             </p>
                           </div>
 
                           <button className="text-xs font-bold text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1 opacity-80 group-hover:opacity-100">
                             <RotateCcw className="w-3.5 h-3.5" />
-                            <span className="hidden sm:inline">Ansehen</span>
+                            <span className="hidden sm:inline">{copy.view}</span>
                           </button>
                         </div>
                       );
@@ -462,12 +493,12 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                               {lesson.id} {lesson.title}
                             </h3>
                             <p className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mt-0.5 flex items-center gap-1">
-                              <ArrowRight className="w-3.5 h-3.5" /> Nächste Lektion • {lesson.durationMinutes} Min
+                              <ArrowRight className="w-3.5 h-3.5" /> {copy.nextLesson} • {lesson.durationMinutes} Min
                             </p>
                           </div>
 
                           <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-extrabold transition-all shadow-md shadow-indigo-600/20">
-                            Start Now 🚀
+                            {copy.startNow}
                           </button>
                         </div>
                       );
@@ -488,7 +519,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                             {lesson.id} {lesson.title}
                           </h3>
                           <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-                            Gesperrt • Erfordert vorherige Lektion
+                            {copy.lockedPrevious}
                           </p>
                         </div>
                       </div>
@@ -515,7 +546,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
           className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-extrabold flex items-center gap-2 transition-colors cursor-pointer self-start sm:self-auto"
         >
           <ArrowLeft className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-          <span>← Zurück zur Kurs-Übersicht</span>
+          <span>{copy.backCourse}</span>
         </button>
 
         <div className="flex items-center gap-2">
@@ -524,7 +555,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
             className="px-4 py-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60 text-xs font-bold flex items-center gap-2 transition-colors cursor-pointer"
           >
             <Bot className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-            <span>🤖 Frag GOM-MAR AI Mentor</span>
+            <span>{copy.askMentor}</span>
           </button>
         </div>
       </div>
@@ -532,7 +563,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
       {/* 7 Etappen Horizontal Stepper Tabs */}
       <div className="overflow-x-auto pb-2 scrollbar-none">
         <div className="flex items-center gap-2 min-w-max">
-          {ACADEMY_STAGES.map((stage) => {
+          {localizedStages.map((stage) => {
             const isStageActive = stage.id === selectedStageId;
             const completedCount = stage.lessons.filter((l) => user.completedTaskIds.includes(l.id)).length;
             const isStageFullyDone = completedCount === stage.lessons.length;
@@ -578,7 +609,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
         <div className="lg:col-span-4 space-y-3 lg:sticky lg:top-[80px] lg:self-start lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto scrollbar-thin">
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 space-y-3 shadow-sm">
             <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center justify-between">
-              <span>Etappe {currentStage.id} Lektionen</span>
+              <span>{copy.stage} {currentStage.id} {copy.stageLessons}</span>
               <span className="text-indigo-600 dark:text-indigo-400 font-extrabold">
                 {currentStage.lessons.filter((l) => user.completedTaskIds.includes(l.id)).length} / {currentStage.lessons.length}
               </span>
@@ -637,7 +668,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
               <div>
                 <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-                  Etappe {currentStage.id}: {currentStage.title} • Lektion {currentLesson.id}
+                  {copy.stage} {currentStage.id}: {currentStage.title} • {copy.lesson} {currentLesson.id}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
                   {currentLesson.title}
@@ -650,12 +681,12 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
               {isCompleted ? (
                 <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-xs font-bold shrink-0">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  <span>Aufgabe erledigt</span>
+                  <span>{copy.taskDone}</span>
                 </div>
               ) : (
                 <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-xs font-bold shrink-0">
                   <Zap className="w-4 h-4 text-amber-500" />
-                  <span>Offene Aufgabe</span>
+                  <span>{copy.openTask}</span>
                 </div>
               )}
             </div>
@@ -671,8 +702,8 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                 }`}
               >
                 <BookOpen className="w-4 h-4" />
-                <span className="sm:hidden">Handbuch</span>
-                <span className="hidden sm:inline">Lektions-Handbuch (Artikel)</span>
+                <span className="sm:hidden">{copy.handbook}</span>
+                <span className="hidden sm:inline">{copy.handbookLong}</span>
               </button>
 
               <button
@@ -684,8 +715,8 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                 }`}
               >
                 <Video className="w-4 h-4" />
-                <span className="sm:hidden">Video</span>
-                <span className="hidden sm:inline">Video & Übersicht</span>
+                <span className="sm:hidden">{copy.video}</span>
+                <span className="hidden sm:inline">{copy.videoOverview}</span>
               </button>
 
               <button
@@ -697,8 +728,8 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                 }`}
               >
                 <Bot className="w-4 h-4" />
-                <span className="sm:hidden">KI-Tutor</span>
-                <span className="hidden sm:inline">KI-Lektions-Tutor</span>
+                <span className="sm:hidden">{copy.aiTutor}</span>
+                <span className="hidden sm:inline">{copy.aiTutorLong}</span>
               </button>
             </div>
 
@@ -710,7 +741,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                   <div className="space-y-4">
                     <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                       <LayoutGrid className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                      <span>Die {currentLesson.learnContent.coreConcepts.length} Kernkonzepte</span>
+                      <span>{currentLesson.learnContent.coreConcepts.length} {copy.concepts}</span>
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {currentLesson.learnContent.coreConcepts.map((concept, idx) => (
@@ -773,6 +804,11 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                 )}
 
                 {/* Full Article Text Guide */}
+                {language !== 'de' && currentLesson.learnContent.fullArticleGuide && (
+                  <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-xs font-medium text-amber-900 dark:border-amber-700/50 dark:bg-amber-950/30 dark:text-amber-200">
+                    {copy.translationFallback}
+                  </div>
+                )}
                 {currentLesson.learnContent.fullArticleGuide ? (
                   <div className="prose prose-slate dark:prose-invert max-w-none text-slate-800 dark:text-slate-200 text-xs sm:text-sm leading-relaxed space-y-4 bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl">
                     {currentLesson.learnContent.fullArticleGuide.split('\n\n').map((paragraph, idx) => {
@@ -802,7 +838,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                   <div className="bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800/40 rounded-2xl p-5 space-y-3">
                     <p className="text-xs font-bold text-indigo-700 dark:text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
                       <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                      Konkretes Praxisbeispiel:
+                      {copy.practicalExample}
                     </p>
                     <div className="space-y-2">
                       {currentLesson.learnContent.practicalExamples.map((ex, i) => (
@@ -829,7 +865,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
 
                 {/* Core Takeaway Box */}
                 <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 space-y-3">
-                  <p className="text-xs font-bold text-amber-700 dark:text-amber-300 uppercase tracking-wider">💡 Merk-Satz für deinen Erfolg:</p>
+                  <p className="text-xs font-bold text-amber-700 dark:text-amber-300 uppercase tracking-wider">{copy.takeaway}</p>
                   <p className="text-sm font-bold text-slate-900 dark:text-white leading-snug">
                     "{currentLesson.understandContent.coreTakeaway}"
                   </p>
@@ -847,7 +883,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                   <div className="space-y-4">
                     <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                       <LayoutGrid className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                      <span>Die {currentLesson.learnContent.coreConcepts.length} Kernkonzepte</span>
+                      <span>{currentLesson.learnContent.coreConcepts.length} {copy.concepts}</span>
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {currentLesson.learnContent.coreConcepts.map((concept, idx) => (
@@ -933,10 +969,10 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                 <div className="bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-500/30 rounded-2xl p-5 space-y-4">
                   <div className="flex items-center gap-2 text-purple-800 dark:text-purple-300 font-bold text-sm">
                     <Bot className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                    <span>GOM-MAR KI-Tutor für Lektion {currentLesson.id}</span>
+                    <span>{copy.tutorFor} {currentLesson.id}</span>
                   </div>
                   <p className="text-xs text-purple-900/80 dark:text-purple-200/80 leading-relaxed">
-                    Du hast eine Frage zu dieser Lektion oder brauchst ein konkretes Beispiel für deine Nische ({user.niche || 'dein Thema'})? Frage direkt deinen persönlichen KI-Mentor!
+                    {copy.tutorIntro}
                   </p>
 
                   {/* Preset Quick Chips */}
@@ -949,7 +985,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                       }}
                       className="px-3 py-1.5 rounded-xl bg-purple-100 dark:bg-purple-900/50 hover:bg-purple-200 dark:hover:bg-purple-800/80 text-purple-800 dark:text-purple-200 border border-purple-300 dark:border-purple-500/30 text-xs font-semibold cursor-pointer transition-colors"
                     >
-                      💡 Erkläre mir das noch einfacher
+                      {copy.explain}
                     </button>
 
                     <button
@@ -960,7 +996,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                       }}
                       className="px-3 py-1.5 rounded-xl bg-purple-100 dark:bg-purple-900/50 hover:bg-purple-200 dark:hover:bg-purple-800/80 text-purple-800 dark:text-purple-200 border border-purple-300 dark:border-purple-500/30 text-xs font-semibold cursor-pointer transition-colors"
                     >
-                      🎯 Beispiel für meine Nische
+                      {copy.example}
                     </button>
 
                     <button
@@ -971,7 +1007,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                       }}
                       className="px-3 py-1.5 rounded-xl bg-purple-100 dark:bg-purple-900/50 hover:bg-purple-200 dark:hover:bg-purple-800/80 text-purple-800 dark:text-purple-200 border border-purple-300 dark:border-purple-500/30 text-xs font-semibold cursor-pointer transition-colors"
                     >
-                      ⚠️ Häufigste Anfängerfehler
+                      {copy.mistakes}
                     </button>
                   </div>
 
@@ -982,7 +1018,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                       value={aiQuestion}
                       onChange={(e) => setAiQuestion(e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && handleAskLessonAi()}
-                      placeholder="Deine Frage zu dieser Lektion..."
+                      placeholder={copy.questionPlaceholder}
                       className="flex-1 px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-purple-300 dark:border-purple-500/40 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-purple-500"
                     />
                     <button
@@ -1000,7 +1036,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                     <div className="p-4 rounded-xl bg-white dark:bg-slate-950 border border-purple-200 dark:border-purple-500/30 text-xs text-purple-900 dark:text-purple-100 space-y-2 leading-relaxed animate-fadeIn">
                       <div className="flex items-center gap-1.5 text-purple-600 dark:text-purple-400 font-bold">
                         <Sparkles className="w-4 h-4" />
-                        <span>Antwort deines KI-Mentors:</span>
+                        <span>{copy.mentorAnswer}</span>
                       </div>
                       <div className="whitespace-pre-line text-slate-800 dark:text-slate-200">
                         {aiAnswer}
@@ -1071,7 +1107,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                       return (
                         <div className="pt-3 border-t border-slate-200 dark:border-slate-700 space-y-1.5">
                           <div className="flex justify-between items-center text-xs font-semibold">
-                            <span className="text-slate-500 dark:text-slate-400">Lektionsfortschritt</span>
+                            <span className="text-slate-500 dark:text-slate-400">{copy.lessonProgress}</span>
                             <span className="text-indigo-600 dark:text-indigo-400 font-bold">{percentage}%</span>
                           </div>
                           <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
@@ -1090,7 +1126,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                 {currentLesson.learnContent.resources && currentLesson.learnContent.resources.length > 0 && (
                   <div className="pt-4 border-t border-slate-200 dark:border-slate-700 space-y-3">
                     <p className="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                      Ressourcen & Tools
+                      {copy.resources}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {currentLesson.learnContent.resources.map((res, i) => (
@@ -1129,14 +1165,14 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                 {currentLesson.actionTask.inputType === 'link_toolbox' && (
                   <div className="p-4 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-500/30 space-y-3">
                     <p className="text-xs text-purple-900 dark:text-purple-300 font-medium">
-                      Nutze die GOM-MAR Toolbox, um diese Aufgabe in wenigen Sekunden mit KI-Unterstützung zu lösen:
+                      {copy.toolboxHelp}
                     </p>
                     <button
                       onClick={() => onNavigateToToolbox(currentLesson.actionTask.toolboxCategory)}
                       className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center gap-2 transition-all cursor-pointer"
                     >
                       <Wrench className="w-4 h-4" />
-                      <span>GOM-MAR Toolbox jetzt öffnen →</span>
+                      <span>{copy.openToolboxNow}</span>
                     </button>
                   </div>
                 )}
@@ -1149,13 +1185,13 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
               <div className="flex-1 space-y-2 relative z-10">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 rounded-full text-xs font-extrabold border border-indigo-200 dark:border-indigo-800">
                   <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                  <span>Nächster Schritt</span>
+                  <span>{copy.nextStep}</span>
                 </div>
                 <h4 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white">
-                  Jetzt selbst ausprobieren
+                  {copy.tryNow}
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg">
-                  Nutze unsere vorgefertigten High-Converting Templates in der GOM-MAR Toolbox und setze das Gelernte aus dieser Lektion direkt in die Praxis um.
+                  {copy.nextStepText}
                 </p>
               </div>
 
@@ -1164,7 +1200,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                   onClick={() => onNavigateToToolbox(currentLesson.actionTask.toolboxCategory || 'landingpage')}
                   className="w-full md:w-auto px-6 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold text-xs sm:text-sm shadow-md shadow-indigo-600/20 hover:scale-105 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
                 >
-                  <span>GOM-MAR Toolbox öffnen</span>
+                  <span>{copy.openToolbox}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -1177,7 +1213,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                 className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>Vorherige Lektion</span>
+                <span>{copy.previous}</span>
               </button>
 
               <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -1191,7 +1227,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                   }`}
                 >
                   <CheckCircle className="w-4 h-4" />
-                  <span>{isCompleted ? 'Aufgabe erneut als erledigt markieren' : 'Aufgabe abgeschlossen! ✅'}</span>
+                  <span>{isCompleted ? copy.markAgain : copy.taskComplete}</span>
                 </button>
 
                 {/* Next CTA */}
@@ -1199,7 +1235,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                   onClick={handleNextLesson}
                   className="px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer"
                 >
-                  <span>Weiter ➡️</span>
+                  <span>{copy.next}</span>
                 </button>
               </div>
             </div>
