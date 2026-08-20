@@ -10,43 +10,46 @@ import {
   AuthError
 } from 'firebase/auth';
 import { auth } from './config';
+import { LanguageCode, TranslationKey, translations } from '../i18n/translations';
+
+const tr = (language: LanguageCode, key: TranslationKey) => translations[language][key] || translations.de[key];
 
 /**
  * Translates Firebase Auth error codes into clean, user-friendly German messages.
  */
-export function getFirebaseAuthErrorMessage(error: unknown): string {
-  if (!error) return 'Ein unbekannter Fehler ist aufgetreten.';
+export function getFirebaseAuthErrorMessage(error: unknown, language: LanguageCode = 'de'): string {
+  if (!error) return tr(language, 'auth.error.unknown');
 
   const authError = error as AuthError;
   const code = authError.code || '';
 
   switch (code) {
     case 'auth/email-already-in-use':
-      return 'Diese E-Mail-Adresse wird bereits für ein bestehendes Konto verwendet.';
+      return tr(language, 'auth.error.emailInUse');
     case 'auth/invalid-credential':
     case 'auth/wrong-password':
-      return 'E-Mail-Adresse oder Passwort ist nicht korrekt.';
+      return tr(language, 'auth.error.invalidCredential');
     case 'auth/user-not-found':
-      return 'Kein Benutzerkonto mit dieser E-Mail-Adresse gefunden.';
+      return tr(language, 'auth.error.userNotFound');
     case 'auth/weak-password':
-      return 'Das Passwort ist zu schwach. Bitte wähle mindestens 6 Zeichen.';
+      return tr(language, 'auth.error.weakPassword');
     case 'auth/invalid-email':
-      return 'Bitte gib eine gültige E-Mail-Adresse ein.';
+      return tr(language, 'auth.validation.email');
     case 'auth/too-many-requests':
-      return 'Zu viele fehlgeschlagene Versuche. Bitte warte einen Moment und versuche es erneut.';
+      return tr(language, 'auth.error.tooManyRequests');
     case 'auth/network-request-failed':
-      return 'Netzwerkfehler. Bitte überprüfe deine Internetverbindung.';
+      return tr(language, 'auth.error.network');
     case 'auth/user-disabled':
-      return 'Dieses Benutzerkonto wurde deaktiviert. Bitte wende dich an den Support.';
+      return tr(language, 'auth.error.userDisabled');
     case 'auth/operation-not-allowed':
-      return 'Die E-Mail/Passwort-Anmeldung ist im Firebase-Projekt noch nicht aktiviert.';
+      return tr(language, 'auth.error.operationNotAllowed');
     case 'auth/requires-recent-login':
-      return 'Diese Aktion erfordert eine erneute Anmeldung.';
+      return tr(language, 'auth.error.recentLogin');
     default:
       if (authError.message) {
-        return `Authentifizierungsfehler: ${authError.message}`;
+        return `${tr(language, 'auth.error.prefix')}: ${authError.message}`;
       }
-      return 'Ein Fehler bei der Authentifizierung ist aufgetreten. Bitte versuche es erneut.';
+      return tr(language, 'auth.error.generic');
   }
 }
 
@@ -100,10 +103,10 @@ export async function logout(): Promise<void> {
 /**
  * Send or re-send the Firebase email verification link to the currently signed in user.
  */
-export async function sendVerificationEmail(userToVerify?: User | null): Promise<void> {
+export async function sendVerificationEmail(userToVerify?: User | null, language: LanguageCode = 'de'): Promise<void> {
   const targetUser = userToVerify || auth.currentUser;
   if (!targetUser) {
-    throw new Error('Kein angemeldeter Benutzer für den E-Mail-Versand gefunden.');
+    throw new Error(tr(language, 'auth.error.noUser'));
   }
   await sendEmailVerification(targetUser);
 }
@@ -126,10 +129,9 @@ export async function reloadCurrentUser(): Promise<{ user: User | null; emailVer
 /**
  * Send password reset email.
  */
-export async function sendPasswordReset(email: string): Promise<void> {
+export async function sendPasswordReset(email: string, language: LanguageCode = 'de'): Promise<void> {
   if (!email || !email.trim()) {
-    throw new Error('Bitte gib eine E-Mail-Adresse ein.');
+    throw new Error(tr(language, 'auth.validation.email'));
   }
   await sendPasswordResetEmail(auth, email.trim());
-auth.languageCode = 'de';
 }
