@@ -652,6 +652,81 @@ Congratulations on your first measurable results. The next step is to understand
         },
       },
     },
+    7: {
+      title: '7. Your System Is Running',
+      subtitle: '🟢 AUTOMATION',
+      description: 'Complete automation, AI support, scaling, and your next step as an online entrepreneur.',
+      lessons: {
+        '7.1': {
+          stageTitle: '7. Your System Is Running', title: 'Complete Automation',
+          description: 'Let AI and automated workflows handle most of the recurring daily work.',
+          learnContent: {
+            videoTitle: 'The Complete Automation Stack',
+            summaryText: 'Your system is now connected: traffic reaches the landing page, prospects subscribe, GOM-MAR email automation sends the sequence, and purchases are processed automatically.',
+            bulletPoints: ['AI can generate fresh weekly content in seconds', 'Email sequences run for months without manual sending', 'You mainly review the key metrics each week'],
+            fullArticleGuide: `### Complete automation mode
+
+You have built the core GOM-MAR Academy system. Your digital process can now run consistently and support you like a well-maintained machine.
+
+#### The automated flow
+
+1. **Traffic**: Published Reels, Facebook posts, and Pins continue attracting visitors.
+2. **Opt-in**: Interested people subscribe through your landing page.
+3. **Email delivery**: GOM-MAR email automation handles communication and recommendations.
+4. **Commissions**: Eligible purchases are tracked and credited through the affiliate platform.`,
+            practicalExamples: ['Your recurring task can be reduced to approximately 30 minutes of weekly monitoring and content updates with the GOM-MAR AI Toolbox.'],
+          },
+          understandContent: { coreTakeaway: 'You have built a genuine, working system for additional online income.', keyPrinciples: ['Systems multiply your available time', 'Scale by increasing qualified traffic'] },
+          actionTask: { instruction: 'Confirm that all system components are active:', checklistItems: ['Landing page is live', 'GOM-MAR email automation is running', 'Traffic sources are configured', 'AI support tools are active'] },
+        },
+        '7.2': {
+          stageTitle: '7. Your System Is Running', title: 'Scaling & a Second Offer',
+          description: 'Add complementary partner offers and increase customer lifetime value.',
+          learnContent: {
+            videoTitle: 'From the First Euro to Four-Figure Monthly Revenue',
+            summaryText: 'A system that works for one qualified lead can also work for 100 or 1,000. Later emails can recommend additional useful tools and courses.',
+            bulletPoints: ['Extend your email sequence with additional messages', 'Recommend relevant complementary products', 'Build a long-term brand in your niche'],
+            fullArticleGuide: `### Scale and multiply your revenue
+
+A satisfied customer who has already purchased through your recommendation is more likely to value a future recommendation that genuinely fits their needs.
+
+#### Two ways to expand responsibly
+
+* Add a second, complementary partner product after day 14 of the email sequence.
+* Send one useful broadcast newsletter per week with current AI news, practical guidance, or relevant resources.
+
+Keep every recommendation connected to the audience’s original goal. More offers are valuable only when they provide a logical next step.`,
+            practicalExamples: ['Example: In month two, recommend an appropriate email tool or AI software subscription with recurring commission to customers who completed the starter course.'],
+          },
+          understandContent: { coreTakeaway: 'Serving existing contacts is often much more efficient than constantly acquiring new ones.', keyPrinciples: ['Expand your email funnel deliberately', 'Send useful newsletters regularly'] },
+          actionTask: { instruction: 'Use the Toolbox to create a follow-up email for a second product:', placeholder: 'Follow-up email created' },
+        },
+        '7.3': {
+          stageTitle: '7. Your System Is Running', title: 'Online Entrepreneur Milestone',
+          description: 'Congratulations—you have completed all seven core stages. Unlock your certificate.',
+          learnContent: {
+            videoTitle: 'Your Next Chapter as an Online Entrepreneur',
+            summaryText: 'You have done what many people only plan: built and tested a complete online-income system. Stay consistent and celebrate this achievement.',
+            bulletPoints: ['All seven core stages completed', 'Integrated email automation and AI tools ready to use', 'Access to the GOM-MAR Pro Community unlocked'],
+            fullArticleGuide: `### Congratulations, online entrepreneur! 🎉
+
+You have worked through the complete core GOM-MAR Academy programme, understood the system, and implemented it in practice.
+
+You now have the essential parts of an automated digital side-income system:
+
+* **A clearly defined niche and audience**
+* **A working opt-in landing page**
+* **Automated GOM-MAR email communication**
+* **Ongoing traffic routines supported by AI**
+
+Keep the system moving, stay focused, and continue building greater financial and time flexibility step by step.`,
+            practicalExamples: ['Unlock your official GOM-MAR graduate certificate.'],
+          },
+          understandContent: { coreTakeaway: 'Congratulations—you have reached the GOM-MAR Academy online-entrepreneur milestone.', keyPrinciples: ['Never stop learning', 'Use the community and share your experience'] },
+          actionTask: { instruction: 'Complete the final core module and unlock your Level 5 status.', checklistItems: ['I completed every core task', 'My system is running and ready to scale', 'I am proud to call myself an online entrepreneur'] },
+        },
+      },
+    },
   },
   pl: {
     1: {
@@ -1287,6 +1362,81 @@ Gratulacje z okazji pierwszych mierzalnych wyników. Teraz zrozum liczby i popra
           },
           understandContent: { coreTakeaway: 'To, co mierzysz, możesz poprawić.', keyPrinciples: ['Testuj A/B tematy wiadomości', 'Najpierw poprawiaj najsłabszy etap'] },
           actionTask: { instruction: 'Co zrobisz z pierwszym euro zarobionym online?', placeholder: 'Np. zainwestuję w domenę albo uczczę ten krok' },
+        },
+      },
+    },
+    7: {
+      title: '7. Twój system działa',
+      subtitle: '🟢 AUTOMATYZACJA',
+      description: 'Pełna automatyzacja, wsparcie AI, skalowanie i kolejny krok jako przedsiębiorca online.',
+      lessons: {
+        '7.1': {
+          stageTitle: '7. Twój system działa', title: 'Pełna automatyzacja',
+          description: 'Pozwól AI i automatycznym workflow obsługiwać większość powtarzalnej codziennej pracy.',
+          learnContent: {
+            videoTitle: 'Kompletny system automatyzacji',
+            summaryText: 'Twój system jest połączony: ruch trafia na landing page, zainteresowani się zapisują, automatyzacja GOM-MAR wysyła wiadomości, a zakupy są obsługiwane automatycznie.',
+            bulletPoints: ['AI może tworzyć nowe cotygodniowe treści w kilka sekund', 'Sekwencje e-mail działają miesiącami bez ręcznej wysyłki', 'Co tydzień sprawdzasz przede wszystkim najważniejsze wskaźniki'],
+            fullArticleGuide: `### Tryb pełnej automatyzacji
+
+Masz już zbudowany podstawowy system GOM-MAR Academy. Cyfrowy proces może teraz działać regularnie i wspierać Cię jak dobrze utrzymana maszyna.
+
+#### Automatyczny przepływ
+
+1. **Ruch**: Opublikowane Reelsy, wpisy na Facebooku i Piny nadal przyciągają odwiedzających.
+2. **Zapis**: Zainteresowane osoby zapisują się przez landing page.
+3. **Wysyłka e-mail**: Automatyzacja GOM-MAR prowadzi komunikację i przedstawia rekomendacje.
+4. **Prowizje**: Kwalifikujące się zakupy są śledzone i rozliczane przez platformę afiliacyjną.`,
+            practicalExamples: ['Twoje powtarzalne zadanie może ograniczyć się do około 30 minut cotygodniowego monitorowania i aktualizacji treści z GOM-MAR AI Toolbox.'],
+          },
+          understandContent: { coreTakeaway: 'Masz prawdziwy, działający system dodatkowego dochodu online.', keyPrinciples: ['Systemy zwiększają ilość dostępnego czasu', 'Skaluj przez większy ruch właściwych odbiorców'] },
+          actionTask: { instruction: 'Potwierdź aktywację wszystkich elementów systemu:', checklistItems: ['Landing page jest aktywny', 'Automatyzacja e-mail GOM-MAR działa', 'Źródła ruchu są skonfigurowane', 'Narzędzia wsparcia AI są aktywne'] },
+        },
+        '7.2': {
+          stageTitle: '7. Twój system działa', title: 'Skalowanie i druga oferta',
+          description: 'Dodawaj uzupełniające oferty partnerskie i zwiększaj długoterminową wartość klienta.',
+          learnContent: {
+            videoTitle: 'Od pierwszego euro do czterocyfrowego miesięcznego przychodu',
+            summaryText: 'System działający dla jednego właściwego kontaktu może działać także dla 100 lub 1000. W późniejszych e-mailach możesz polecać dodatkowe użyteczne narzędzia i kursy.',
+            bulletPoints: ['Rozszerz sekwencję o kolejne wiadomości', 'Polecaj dopasowane produkty uzupełniające', 'Buduj długoterminową markę w swojej niszy'],
+            fullArticleGuide: `### Skaluj i zwiększaj przychód
+
+Zadowolony klient, który kupił już dzięki Twojej rekomendacji, chętniej doceni kolejną propozycję, jeśli rzeczywiście odpowiada ona jego potrzebom.
+
+#### Dwa sposoby odpowiedzialnego rozszerzania systemu
+
+* Po 14. dniu sekwencji dodaj drugi, uzupełniający produkt partnerski.
+* Raz w tygodniu wysyłaj wartościowy newsletter z aktualnościami AI, praktyczną poradą albo dopasowanymi materiałami.
+
+Każda rekomendacja powinna wynikać z pierwotnego celu odbiorcy. Więcej ofert ma sens tylko wtedy, gdy stanowią logiczny następny krok.`,
+            practicalExamples: ['Przykład: W drugim miesiącu poleć odpowiednie narzędzie e-mail lub abonament oprogramowania AI z cykliczną prowizją klientom, którzy ukończyli kurs startowy.'],
+          },
+          understandContent: { coreTakeaway: 'Obsługa istniejących kontaktów jest często znacznie skuteczniejsza niż ciągłe pozyskiwanie nowych.', keyPrinciples: ['Rozszerzaj lejek e-mail świadomie', 'Regularnie wysyłaj wartościowe newslettery'] },
+          actionTask: { instruction: 'Użyj Toolboxa, aby utworzyć wiadomość follow-up dla drugiego produktu:', placeholder: 'Wiadomość follow-up utworzona' },
+        },
+        '7.3': {
+          stageTitle: '7. Twój system działa', title: 'Kamień milowy przedsiębiorcy online',
+          description: 'Gratulacje—ukończyłeś siedem podstawowych etapów. Odblokuj swój certyfikat.',
+          learnContent: {
+            videoTitle: 'Twój kolejny rozdział jako przedsiębiorca online',
+            summaryText: 'Zrobiłeś to, co wiele osób tylko planuje: zbudowałeś i przetestowałeś kompletny system dochodu online. Działaj regularnie i świętuj ten sukces.',
+            bulletPoints: ['Wszystkie siedem podstawowych etapów ukończone', 'Automatyzacja e-mail i narzędzia AI gotowe do użycia', 'Dostęp do społeczności GOM-MAR Pro odblokowany'],
+            fullArticleGuide: `### Gratulacje, przedsiębiorco online! 🎉
+
+Ukończyłeś pełny podstawowy program GOM-MAR Academy, zrozumiałeś system i wdrożyłeś go w praktyce.
+
+Masz teraz najważniejsze części automatycznego systemu dodatkowego dochodu cyfrowego:
+
+* **Jasno określoną niszę i grupę docelową**
+* **Działający landing page z formularzem zapisu**
+* **Automatyczną komunikację e-mail GOM-MAR**
+* **Stałe rutyny ruchu wspierane przez AI**
+
+Utrzymuj system w ruchu, zachowaj koncentrację i krok po kroku buduj większą swobodę finansową oraz czasową.`,
+            practicalExamples: ['Odblokuj oficjalny certyfikat absolwenta GOM-MAR.'],
+          },
+          understandContent: { coreTakeaway: 'Gratulacje—osiągnąłeś kamień milowy przedsiębiorcy online w GOM-MAR Academy.', keyPrinciples: ['Nigdy nie przestawaj się uczyć', 'Korzystaj ze społeczności i dziel się doświadczeniem'] },
+          actionTask: { instruction: 'Ukończ ostatni moduł podstawowy i odblokuj status poziomu 5.', checklistItems: ['Ukończyłem wszystkie zadania podstawowe', 'Mój system działa i jest gotowy do skalowania', 'Z dumą nazywam siebie przedsiębiorcą online'] },
         },
       },
     },
