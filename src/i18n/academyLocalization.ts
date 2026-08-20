@@ -279,6 +279,99 @@ Recommend only offers that genuinely fit the audience and deliver useful value.`
         },
       },
     },
+    3: {
+      title: '3. Your First System',
+      subtitle: '🟣 BUILD',
+      description: 'Your domain, landing page, affiliate-offer connection, and technical foundation.',
+      lessons: {
+        '3.1': {
+          stageTitle: '3. Your First System', title: 'Domain & Brand Name',
+          description: 'Choose a memorable name for your landing page and system.',
+          learnContent: {
+            videoTitle: 'The Perfect Domain & Brand Name',
+            summaryText: 'Your domain should be short, clear, and trustworthy. Avoid complicated spelling and special characters.',
+            bulletPoints: ['Examples: your-side-income.com, success-with-a-system.com', 'Use trusted extensions such as .com, .de, or .net', 'Do not infringe other companies’ trademarks'],
+            fullArticleGuide: `### How to choose a trustworthy domain
+
+Your domain is the web address of your opt-in page. It should sound professional and be easy to remember.
+
+#### Rules for a strong domain name
+
+1. **Clear and descriptive**: The name should suggest what the site is about—for example freedom-formula.com or smarter-start.com.
+2. **Keep it short**: Use no more than two or three words.
+3. **Choose the right extension**: .de inspires the most trust in Germany; use .com for an international offer.
+4. **Avoid third-party trademarks**: Never use protected terms such as Facebook, Digistore, or another protected brand in your domain.`,
+            practicalExamples: ['Good examples: starter-funnel.com, your-online-path.com, success-compass.com.', 'Bad example: make-money-fast-and-get-rich-1234.info.'],
+          },
+          understandContent: { coreTakeaway: 'A clean domain name creates immediate trust with new visitors.', keyPrinciples: ['Easy to type', 'Easy to understand when spoken', 'Avoid excessive hyphens'] },
+          actionTask: { instruction: 'Enter your preferred name or domain:', placeholder: 'For example, my-online-path.com' },
+        },
+        '3.2': {
+          stageTitle: '3. Your First System', title: 'Landing Page Basics',
+          description: 'Build a high-converting opt-in page that generates leads.',
+          learnContent: {
+            videoTitle: 'Anatomy of a 50%+ Opt-In Landing Page',
+            summaryText: 'A lead landing page has one goal: exchange a valuable lead magnet for the visitor’s email address. Remove distractions and keep secondary links out of sight.',
+            bulletPoints: ['1. A curiosity-driven headline that states what the visitor receives', '2. Three short core benefits', '3. An opt-in form with email field and button'],
+            fullArticleGuide: `### The anatomy of a 50%+ conversion landing page
+
+Why do 50 out of 100 visitors subscribe on one page while only two subscribe on another? The difference is simplicity and clear psychological guidance.
+
+#### Four elements of a high-converting opt-in page
+
+1. **Main headline—your curiosity hook**: Within three seconds it must explain the visitor’s benefit. Example: “Free checklist: Build your first online income stream in 30 minutes a day.”
+2. **Three concise benefit points**: State exactly what the free guide contains—for example a step-by-step plan, beginner-friendly explanations, and an instant PDF download.
+3. **A simple form**: Ask for a name only if useful and always request the email address. Use an active button such as “Download free now ➔”.
+4. **Trust elements**: Add a short reassurance such as “100% free, unsubscribe at any time, no spam.”`,
+            practicalExamples: ['Use the GOM-MAR Landing Page Assistant in the Toolbox to improve your wording automatically.'],
+          },
+          understandContent: { coreTakeaway: 'Remove every distraction. One page equals one goal.', keyPrinciples: ['Use strong contrast for the button', 'Use the headline formula “How to [achieve a goal] without [pain]”', 'Use the GOM-MAR Toolbox for concise headlines'] },
+          actionTask: { instruction: 'Use the GOM-MAR Landing Page Assistant or draft your headline:', placeholder: 'For example, How to build your first online side income in 30 minutes a day' },
+        },
+        '3.3': {
+          stageTitle: '3. Your First System', title: 'Connect Your Affiliate Offer',
+          description: 'Connect your opt-in form to the thank-you page and your affiliate link.',
+          learnContent: {
+            videoTitle: 'The Bridge-Page Redirect Strategy',
+            summaryText: 'After a visitor submits the form, redirect them to a thank-you page with your affiliate offer. Your system can generate revenue while the email sequence runs in the background.',
+            bulletPoints: ['Form submission → redirect to the thank-you page', 'The page confirms the lead magnet and presents a relevant partner offer', 'Commissions can be possible from day one'],
+            fullArticleGuide: `### The bridge-page strategy for immediate revenue
+
+The moment after registration is the most valuable point in the funnel. The prospect is attentive, using their phone or computer, and has just demonstrated trust.
+
+#### The two-step redirect process
+
+1. **Form submission**: The visitor enters an email address and clicks submit. In the background, the contact is added to your email automation.
+2. **An intelligent thank-you page**: Instead of showing only “Thank you,” redirect the visitor to a page that confirms the free guide will arrive within two minutes and invites them to watch a short recommendation video while they wait. Place your affiliate button below it. Some new leads will watch and purchase immediately.`,
+            practicalExamples: ['Example: Of 100 new leads, 40 watch the recommendation video and two to four purchase before the first follow-up email is sent.'],
+          },
+          understandContent: { coreTakeaway: 'Meet prospects at the moment when their attention is highest.', keyPrinciples: ['Never send visitors straight to an affiliate link before the opt-in', 'Secure the lead first, then make the recommendation', 'The lead now belongs to your own audience'] },
+          actionTask: { instruction: 'Confirm that you understand the redirect logic.', checklistItems: ['The visitor enters an email address', 'The lead is added to GOM-MAR email automation', 'The visitor is redirected to the affiliate thank-you page'] },
+        },
+        '3.4': {
+          stageTitle: '3. Your First System', title: 'Tracking & Test Run',
+          description: 'Test your complete system thoroughly before sending the first visitors.',
+          learnContent: {
+            videoTitle: 'System Audit: Does Everything Work?',
+            summaryText: 'Testing is essential. Submit your own details as a test lead and confirm that the welcome email arrives.',
+            bulletPoints: ['Test the form on mobile and desktop', 'Check the inbox and spam folder', 'Verify that the affiliate link tracks correctly'],
+            fullArticleGuide: `### The pre-launch test checklist
+
+Before sending visitors to your page, confirm that the complete system works. One broken link or form can cost valuable leads.
+
+#### Test these four steps yourself
+
+1. **Opt-in test**: Open the landing page on a phone and computer and subscribe using a test email address.
+2. **Redirect check**: Confirm that the thank-you or affiliate page opens immediately after submission.
+3. **Email-delivery check**: The welcome email should arrive within one to three minutes. Test every included link.
+4. **Affiliate-tracking check**: Click your partner link and verify that your affiliate ID appears correctly in the destination URL.`,
+            practicalExamples: ['A five-minute test prevents frustration and ensures every future visitor is processed correctly.'],
+          },
+          understandContent: { coreTakeaway: 'A working system gives you confidence for the traffic phase.', keyPrinciples: ['Build it properly once and use it for years', 'Find errors during testing, not through customers'] },
+          actionTask: { instruction: 'Complete a full test run of your opt-in process.', checklistItems: ['Test subscription completed successfully', 'Thank-you page opens as planned', 'GOM-MAR email automation captured the lead'] },
+        },
+      },
+    },
   },
   pl: {
     1: {
@@ -541,6 +634,99 @@ Polecaj tylko oferty, które naprawdę pasują do grupy i dostarczają użyteczn
           },
           understandContent: { coreTakeaway: 'Polecaj tylko produkty, których jakości i przydatności naprawdę ufasz.', keyPrinciples: ['Zaufanie jest najcenniejszym zasobem w biznesie online', 'Zabezpiecz i zapisz swój link afiliacyjny', 'Przetestuj proces sprzedaży z perspektywy klienta'] },
           actionTask: { instruction: 'Jak nazywa się wybrana oferta lub produkt afiliacyjny?', placeholder: 'Np. nazwa produktu lub identyfikator produktu Digistore' },
+        },
+      },
+    },
+    3: {
+      title: '3. Twój pierwszy system',
+      subtitle: '🟣 BUDOWA',
+      description: 'Domena, landing page, połączenie oferty afiliacyjnej i fundament techniczny.',
+      lessons: {
+        '3.1': {
+          stageTitle: '3. Twój pierwszy system', title: 'Domena i nazwa marki',
+          description: 'Wybierz zapadającą w pamięć nazwę landing page i całego systemu.',
+          learnContent: {
+            videoTitle: 'Idealna domena i nazwa marki',
+            summaryText: 'Domena powinna być krótka, zrozumiała i budzić zaufanie. Unikaj skomplikowanej pisowni oraz znaków specjalnych.',
+            bulletPoints: ['Przykłady: twoj-dodatkowy-dochod.pl, sukces-z-systemem.com', 'Korzystaj z zaufanych końcówek, takich jak .pl, .com, .de lub .net', 'Nie naruszaj znaków towarowych innych firm'],
+            fullArticleGuide: `### Jak wybrać wiarygodną domenę
+
+Domena jest adresem internetowym Twojej strony zapisu. Powinna brzmieć profesjonalnie i być łatwa do zapamiętania.
+
+#### Zasady dobrej nazwy domeny
+
+1. **Jasna i opisowa**: Nazwa powinna sugerować temat strony, np. formula-wolnosci.pl lub madrze-zacznij.pl.
+2. **Krótka**: Użyj maksymalnie dwóch lub trzech słów.
+3. **Odpowiednia końcówka**: .pl budzi zaufanie w Polsce, .de w Niemczech, a .com pasuje do oferty międzynarodowej.
+4. **Bez cudzych marek**: Nie używaj chronionych nazw takich jak Facebook, Digistore ani innych znaków towarowych.`,
+            practicalExamples: ['Dobre przykłady: starter-funnel.pl, twoja-droga-online.pl, kompas-sukcesu.com.', 'Zły przykład: zarabiaj-szybko-i-zostan-bogaty-1234.info.'],
+          },
+          understandContent: { coreTakeaway: 'Prosta domena od razu buduje zaufanie nowych odwiedzających.', keyPrinciples: ['Łatwa do wpisania', 'Zrozumiała podczas rozmowy telefonicznej', 'Bez nadmiaru łączników'] },
+          actionTask: { instruction: 'Wpisz wybraną nazwę lub domenę:', placeholder: 'Np. moja-droga-online.pl' },
+        },
+        '3.2': {
+          stageTitle: '3. Twój pierwszy system', title: 'Podstawy landing page',
+          description: 'Zbuduj skuteczną stronę zapisu, która pozyskuje kontakty.',
+          learnContent: {
+            videoTitle: 'Anatomia landing page z konwersją ponad 50%',
+            summaryText: 'Landing page do pozyskiwania kontaktów ma jeden cel: wymienić wartościowy lead magnet na adres e-mail odwiedzającego. Usuń rozpraszacze i schowaj dodatkowe linki.',
+            bulletPoints: ['1. Nagłówek budzący ciekawość i pokazujący korzyść', '2. Trzy krótkie główne korzyści', '3. Formularz zapisu z polem e-mail i przyciskiem'],
+            fullArticleGuide: `### Anatomia landing page z konwersją ponad 50%
+
+Dlaczego na jednej stronie zapisuje się 50 na 100 osób, a na innej tylko dwie? Różnicę tworzą prostota i jasne prowadzenie odbiorcy.
+
+#### Cztery elementy skutecznej strony zapisu
+
+1. **Główny nagłówek—haczyk ciekawości**: W ciągu trzech sekund powinien wyjaśnić korzyść. Przykład: „Bezpłatna lista kontrolna: zbuduj pierwsze źródło dochodu online w 30 minut dziennie.”
+2. **Trzy konkretne korzyści**: Pokaż dokładnie, co zawiera darmowy poradnik, np. plan krok po kroku, proste wyjaśnienia i natychmiastowy plik PDF.
+3. **Prosty formularz**: Imię jest opcjonalne, adres e-mail obowiązkowy. Użyj aktywnego przycisku, np. „Pobierz bezpłatnie ➔”.
+4. **Elementy zaufania**: Dodaj krótki komunikat: „100% bezpłatnie, rezygnacja w każdej chwili, bez spamu.”`,
+            practicalExamples: ['Skorzystaj z Asystenta Landing Page GOM-MAR w Toolboxie, aby automatycznie ulepszyć tekst.'],
+          },
+          understandContent: { coreTakeaway: 'Usuń wszystkie rozpraszacze. Jedna strona oznacza jeden cel.', keyPrinciples: ['Zastosuj wyraźny kontrast przycisku', 'Użyj formuły nagłówka „Jak [osiągnąć cel] bez [problemu]”', 'Twórz zwięzłe nagłówki z pomocą GOM-MAR Toolbox'] },
+          actionTask: { instruction: 'Użyj Asystenta Landing Page GOM-MAR lub napisz własny nagłówek:', placeholder: 'Np. Jak zbudować dodatkowy dochód online w 30 minut dziennie' },
+        },
+        '3.3': {
+          stageTitle: '3. Twój pierwszy system', title: 'Połącz ofertę afiliacyjną',
+          description: 'Połącz formularz zapisu ze stroną podziękowania i linkiem afiliacyjnym.',
+          learnContent: {
+            videoTitle: 'Strategia przekierowania przez bridge page',
+            summaryText: 'Po wysłaniu formularza skieruj odwiedzającego na stronę podziękowania z ofertą afiliacyjną. System może generować przychód, gdy sekwencja e-mail działa w tle.',
+            bulletPoints: ['Wysłanie formularza → przekierowanie na stronę podziękowania', 'Strona potwierdza lead magnet i pokazuje odpowiednią ofertę partnerską', 'Prowizja jest możliwa już od pierwszego dnia'],
+            fullArticleGuide: `### Strategia bridge page dla szybkiego przychodu
+
+Moment bezpośrednio po zapisie jest najcenniejszy w całym lejku. Odbiorca jest uważny, korzysta z telefonu lub komputera i właśnie okazał zaufanie.
+
+#### Dwuetapowy proces przekierowania
+
+1. **Wysłanie formularza**: Odwiedzający wpisuje adres e-mail i klika przycisk. W tle kontakt trafia do automatyzacji e-mail.
+2. **Inteligentna strona podziękowania**: Zamiast samego „Dziękujemy” pokaż informację, że bezpłatny poradnik dotrze w ciągu dwóch minut, oraz zaproś do obejrzenia krótkiego filmu z rekomendacją. Pod nim umieść przycisk afiliacyjny. Część nowych kontaktów obejrzy materiał i kupi od razu.`,
+            practicalExamples: ['Przykład: ze 100 nowych kontaktów 40 ogląda film, a od dwóch do czterech kupuje jeszcze przed pierwszą wiadomością follow-up.'],
+          },
+          understandContent: { coreTakeaway: 'Dotrzyj do odbiorcy wtedy, gdy jego uwaga jest największa.', keyPrinciples: ['Nie kieruj do linku afiliacyjnego przed zapisem', 'Najpierw pozyskaj kontakt, potem przedstaw rekomendację', 'Kontakt staje się częścią Twojej własnej grupy odbiorców'] },
+          actionTask: { instruction: 'Potwierdź, że rozumiesz logikę przekierowania.', checklistItems: ['Odwiedzający wpisuje adres e-mail', 'Kontakt trafia do automatyzacji e-mail GOM-MAR', 'Odwiedzający zostaje przekierowany na afiliacyjną stronę podziękowania'] },
+        },
+        '3.4': {
+          stageTitle: '3. Twój pierwszy system', title: 'Śledzenie i test systemu',
+          description: 'Dokładnie sprawdź cały system przed wysłaniem pierwszych odwiedzających.',
+          learnContent: {
+            videoTitle: 'Audyt systemu: czy wszystko działa?',
+            summaryText: 'Testowanie jest niezbędne. Zapisz się jako kontakt testowy i sprawdź, czy otrzymasz wiadomość powitalną.',
+            bulletPoints: ['Przetestuj formularz na telefonie i komputerze', 'Sprawdź skrzynkę odbiorczą oraz spam', 'Zweryfikuj prawidłowe śledzenie linku afiliacyjnego'],
+            fullArticleGuide: `### Lista kontrolna przed uruchomieniem
+
+Zanim wyślesz odwiedzających na stronę, upewnij się, że cały system działa. Jeden uszkodzony link lub formularz może kosztować cenne kontakty.
+
+#### Przetestuj samodzielnie cztery kroki
+
+1. **Test zapisu**: Otwórz landing page na telefonie i komputerze, a następnie zapisz się testowym adresem e-mail.
+2. **Test przekierowania**: Sprawdź, czy strona podziękowania lub oferta otwiera się natychmiast po zapisie.
+3. **Test dostarczenia wiadomości**: E-mail powitalny powinien dotrzeć w ciągu jednej do trzech minut. Sprawdź każdy zawarty link.
+4. **Test śledzenia afiliacyjnego**: Kliknij link partnerski i upewnij się, że identyfikator afiliacyjny jest prawidłowo przekazywany w adresie docelowym.`,
+            practicalExamples: ['Pięciominutowy test zapobiega problemom i zapewnia prawidłową obsługę każdego przyszłego odwiedzającego.'],
+          },
+          understandContent: { coreTakeaway: 'Sprawny system daje Ci pewność przed rozpoczęciem pozyskiwania ruchu.', keyPrinciples: ['Zbuduj dobrze raz i korzystaj przez lata', 'Znajdź błędy podczas testu, nie dzięki klientom'] },
+          actionTask: { instruction: 'Wykonaj pełny test procesu zapisu.', checklistItems: ['Testowy zapis zakończony powodzeniem', 'Strona podziękowania otwiera się prawidłowo', 'Automatyzacja e-mail GOM-MAR zapisała kontakt'] },
         },
       },
     },
