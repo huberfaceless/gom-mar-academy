@@ -727,6 +727,82 @@ Keep the system moving, stay focused, and continue building greater financial an
         },
       },
     },
+    8: {
+      title: '8. Bonus & Mastermind',
+      subtitle: 'Exclusive Scaling & VIP Strategies',
+      description: 'Advanced growth strategies, high-ticket funnels, and exclusive VIP resources for stronger results.',
+      lessons: {
+        '8.1': {
+          stageTitle: '8. Bonus & Mastermind', title: 'The 10x Scaling Formula',
+          description: 'Develop an organic side-income system into a scalable business through paid traffic and reinvestment.',
+          learnContent: {
+            videoTitle: 'Scale Responsibly: The Reinvestment Cycle',
+            summaryText: 'Once your organic system produces sales, you can reinvest part of the revenue in carefully tested advertising or partnerships.',
+            bulletPoints: ['Reinvest 30–50% of early profits only when affordable', 'Scale proven campaigns with targeted Meta and Google ads', 'Automate content with advanced AI workflows'],
+            fullArticleGuide: `### The 10x scaling formula for advanced marketers
+
+When an organic system consistently generates leads and sales, you have evidence that the offer and funnel can work. The next goal is to increase volume without losing control of costs.
+
+#### Three pillars of scaling
+
+1. **Paid traffic**: Use Facebook, Instagram, TikTok, or search ads to bring a clearly defined audience to the opt-in page.
+2. **Higher conversion**: Improve headlines, email subject lines, and buttons through controlled A/B tests.
+3. **Greater customer lifetime value**: Add relevant follow-up products, software subscriptions, or premium courses to the email funnel.
+
+Start with a small test budget, define a loss limit, and scale only when tracking shows repeatable positive results.`,
+            practicalExamples: ['Example: A €50 ad test generates 25 leads and two sales with €60 commission each. That produces €120 revenue and €70 before other costs.'],
+          },
+          understandContent: { coreTakeaway: 'Scaling means reinvesting part of proven profits into systems that can generate predictable additional value.', keyPrinciples: ['Know acquisition cost and customer lifetime value', 'Test in small steps before scaling'] },
+          actionTask: { instruction: 'Use the GOM-MAR Toolbox to create your first scaling post or advertising script:', placeholder: 'Scaling script created' },
+        },
+        '8.2': {
+          stageTitle: '8. Bonus & Mastermind', title: 'High-Ticket Backends & VIP Offers',
+          description: 'Learn how premium consulting and mentoring offers can produce larger individual commissions.',
+          learnContent: {
+            videoTitle: 'High-Ticket Affiliate Offers & Your Own Premium Services',
+            summaryText: 'A suitable high-ticket offer requires fewer customers, but also demands stronger qualification, trust, and responsible advice.',
+            bulletPoints: ['High-ticket affiliate programmes may pay €300–€1,000+ per sale', 'Use clear B2B qualification questions in conversations', 'Use an automated but personal appointment-booking funnel'],
+            fullArticleGuide: `### Understanding high-ticket offers
+
+Entry-level products provide an accessible first step, while high-ticket offers can address more complex problems with deeper support.
+
+#### Why consider high-ticket offers?
+
+* One €500 commission equals twenty-five €20 commissions.
+* Premium buyers expect clear outcomes, strong delivery, and honest qualification.
+* You can provide your own consultation or refer qualified prospects to an established partner programme.
+
+Never recommend a premium offer purely because of the commission. Confirm that the prospect has a genuine need, understands the commitment, and can make an informed decision.`,
+            practicalExamples: ['Example: Add an invitation on day 10 of the email sequence for qualified readers to book a free strategy call about a relevant premium partner programme.'],
+          },
+          understandContent: { coreTakeaway: 'High-ticket offers create leverage only when trust, fit, and responsible consultation come first.', keyPrinciples: ['Trust is the essential currency', 'Make every consultation genuinely useful'] },
+          actionTask: { instruction: 'Create a high-ticket email template in the email editor:', placeholder: 'High-ticket email ready' },
+        },
+        '8.3': {
+          stageTitle: '8. Bonus & Mastermind', title: 'GOM-MAR VIP Community & Partner Programme',
+          description: 'Join the partner network, earn eligible referral commissions, and exchange ideas in the VIP community.',
+          learnContent: {
+            videoTitle: 'The GOM-MAR Partner & Mastermind Network',
+            summaryText: 'Graduates can recommend the Academy through the GOM-MAR partner programme and take part in the VIP exchange.',
+            bulletPoints: ['Recurring commissions on eligible Pro subscriptions', 'VIP mastermind exchange with experienced graduates', 'Early insight into new AI tools and selected beta features'],
+            fullArticleGuide: `### Welcome to the GOM-MAR VIP inner circle
+
+By completing the programme, you have developed the ability to plan and build practical digital systems.
+
+#### Your VIP opportunities
+
+* Recommend GOM-MAR Academy through your personal affiliate link while clearly disclosing the partnership.
+* Use tested prompts, templates, and marketing resources from the Toolbox.
+* Exchange experiences with other graduates in the VIP community and learn from practical results.
+
+Respect applicable advertising rules, recommend only what fits the audience, and never promise guaranteed income.`,
+            practicalExamples: ['Use the AI assistant Mara to plan an individual partner campaign for a clearly defined audience.'],
+          },
+          understandContent: { coreTakeaway: 'A strong network helps members learn and grow faster through shared experience.', keyPrinciples: ['Share useful experience', 'Build recurring income responsibly'] },
+          actionTask: { instruction: 'Complete the Mastermind module and activate your VIP badge:', checklistItems: ['I understand responsible scaling with paid ads', 'I understand high-ticket backend offers', 'I am ready for the GOM-MAR VIP Mastermind'] },
+        },
+      },
+    },
   },
   pl: {
     1: {
@@ -1437,6 +1513,82 @@ Utrzymuj system w ruchu, zachowaj koncentrację i krok po kroku buduj większą 
           },
           understandContent: { coreTakeaway: 'Gratulacje—osiągnąłeś kamień milowy przedsiębiorcy online w GOM-MAR Academy.', keyPrinciples: ['Nigdy nie przestawaj się uczyć', 'Korzystaj ze społeczności i dziel się doświadczeniem'] },
           actionTask: { instruction: 'Ukończ ostatni moduł podstawowy i odblokuj status poziomu 5.', checklistItems: ['Ukończyłem wszystkie zadania podstawowe', 'Mój system działa i jest gotowy do skalowania', 'Z dumą nazywam siebie przedsiębiorcą online'] },
+        },
+      },
+    },
+    8: {
+      title: '8. Bonus i Mastermind',
+      subtitle: 'Ekskluzywne skalowanie i strategie VIP',
+      description: 'Zaawansowane strategie wzrostu, lejki high-ticket i ekskluzywne zasoby VIP dla lepszych wyników.',
+      lessons: {
+        '8.1': {
+          stageTitle: '8. Bonus i Mastermind', title: 'Formuła skalowania 10x',
+          description: 'Rozwiń organiczny system dodatkowego dochodu w skalowalny biznes dzięki płatnemu ruchowi i reinwestowaniu.',
+          learnContent: {
+            videoTitle: 'Odpowiedzialne skalowanie: cykl reinwestowania',
+            summaryText: 'Gdy system organiczny generuje sprzedaż, możesz reinwestować część przychodu w ostrożnie testowane reklamy lub współprace.',
+            bulletPoints: ['Reinwestuj 30–50% początkowych zysków tylko wtedy, gdy możesz sobie na to pozwolić', 'Skaluj sprawdzone kampanie reklamami Meta i Google', 'Automatyzuj treści zaawansowanymi workflow AI'],
+            fullArticleGuide: `### Formuła skalowania 10x dla zaawansowanych marketerów
+
+Jeśli organiczny system regularnie zdobywa kontakty i sprzedaże, masz dowód, że oferta oraz lejek mogą działać. Następnym celem jest zwiększanie skali bez utraty kontroli nad kosztami.
+
+#### Trzy filary skalowania
+
+1. **Płatny ruch**: Korzystaj z reklam Facebooka, Instagrama, TikToka lub wyszukiwarki, aby kierować jasno określoną grupę na stronę zapisu.
+2. **Wyższa konwersja**: Ulepszaj nagłówki, tematy wiadomości i przyciski za pomocą kontrolowanych testów A/B.
+3. **Większa wartość klienta**: Dodaj dopasowane produkty uzupełniające, abonamenty oprogramowania lub kursy premium do lejka e-mail.
+
+Zacznij od małego budżetu testowego, ustal limit straty i skaluj tylko wtedy, gdy śledzenie pokazuje powtarzalne dodatnie wyniki.`,
+            practicalExamples: ['Przykład: test reklamowy za 50 € przynosi 25 kontaktów i dwie sprzedaże z prowizją 60 € każda. To 120 € przychodu i 70 € przed innymi kosztami.'],
+          },
+          understandContent: { coreTakeaway: 'Skalowanie oznacza reinwestowanie części sprawdzonych zysków w systemy, które mogą przewidywalnie tworzyć dodatkową wartość.', keyPrinciples: ['Znaj koszt pozyskania i długoterminową wartość klienta', 'Testuj małymi krokami przed skalowaniem'] },
+          actionTask: { instruction: 'Użyj GOM-MAR Toolbox, aby utworzyć pierwszy wpis skalujący lub skrypt reklamy:', placeholder: 'Skrypt skalowania utworzony' },
+        },
+        '8.2': {
+          stageTitle: '8. Bonus i Mastermind', title: 'Backend high-ticket i oferty VIP',
+          description: 'Dowiedz się, jak oferty konsultingowe i mentoringowe premium mogą przynosić większe pojedyncze prowizje.',
+          learnContent: {
+            videoTitle: 'Afiliacja high-ticket i własne usługi premium',
+            summaryText: 'Dopasowana oferta high-ticket wymaga mniejszej liczby klientów, ale także lepszej kwalifikacji, większego zaufania i odpowiedzialnego doradztwa.',
+            bulletPoints: ['Programy afiliacyjne high-ticket mogą płacić 300–1000 € lub więcej za sprzedaż', 'Stosuj jasne pytania kwalifikacyjne B2B w rozmowie', 'Korzystaj z automatycznego, ale osobistego lejka umawiania spotkań'],
+            fullArticleGuide: `### Zrozumienie ofert high-ticket
+
+Produkty startowe zapewniają łatwiejszy pierwszy krok, natomiast oferty high-ticket mogą rozwiązywać bardziej złożone problemy dzięki głębszemu wsparciu.
+
+#### Dlaczego warto rozważyć high-ticket?
+
+* Jedna prowizja 500 € odpowiada dwudziestu pięciu prowizjom po 20 €.
+* Klienci premium oczekują jasnych rezultatów, dobrej realizacji i uczciwej kwalifikacji.
+* Możesz prowadzić własne konsultacje albo kierować właściwe osoby do sprawdzonego programu partnerskiego.
+
+Nie polecaj oferty premium wyłącznie z powodu prowizji. Upewnij się, że odbiorca ma realną potrzebę, rozumie zobowiązanie i może podjąć świadomą decyzję.`,
+            practicalExamples: ['Przykład: W 10. dniu sekwencji zaproś zakwalifikowanych czytelników na bezpłatną rozmowę strategiczną o dopasowanym programie partnerskim premium.'],
+          },
+          understandContent: { coreTakeaway: 'Oferty high-ticket dają dźwignię tylko wtedy, gdy najważniejsze są zaufanie, dopasowanie i odpowiedzialne doradztwo.', keyPrinciples: ['Zaufanie jest podstawową walutą', 'Każda konsultacja powinna dawać realną wartość'] },
+          actionTask: { instruction: 'Utwórz szablon wiadomości high-ticket w edytorze e-mail:', placeholder: 'Wiadomość high-ticket gotowa' },
+        },
+        '8.3': {
+          stageTitle: '8. Bonus i Mastermind', title: 'Społeczność VIP i program partnerski GOM-MAR',
+          description: 'Dołącz do sieci partnerskiej, zdobywaj kwalifikujące się prowizje polecające i wymieniaj doświadczenia w społeczności VIP.',
+          learnContent: {
+            videoTitle: 'Sieć partnerska i Mastermind GOM-MAR',
+            summaryText: 'Absolwenci mogą polecać Academy w programie partnerskim GOM-MAR i uczestniczyć w wymianie doświadczeń VIP.',
+            bulletPoints: ['Cykliczne prowizje od kwalifikujących się abonamentów Pro', 'Wymiana VIP Mastermind z doświadczonymi absolwentami', 'Wczesny dostęp do informacji o narzędziach AI i wybranych funkcjach beta'],
+            fullArticleGuide: `### Witamy w wewnętrznym kręgu VIP GOM-MAR
+
+Ukończenie programu rozwinęło Twoją umiejętność planowania i budowania praktycznych systemów cyfrowych.
+
+#### Twoje możliwości VIP
+
+* Polecaj GOM-MAR Academy przez osobisty link afiliacyjny, jasno informując o współpracy.
+* Korzystaj ze sprawdzonych promptów, szablonów i materiałów marketingowych w Toolboxie.
+* Wymieniaj doświadczenia z absolwentami w społeczności VIP i ucz się z praktycznych wyników.
+
+Przestrzegaj zasad reklamy, polecaj tylko rozwiązania pasujące do odbiorców i nigdy nie obiecuj gwarantowanego dochodu.`,
+            practicalExamples: ['Użyj asystentki AI Mara, aby zaplanować indywidualną kampanię partnerską dla jasno określonej grupy.'],
+          },
+          understandContent: { coreTakeaway: 'Silna sieć pomaga uczestnikom szybciej się uczyć i rozwijać dzięki wymianie doświadczeń.', keyPrinciples: ['Dziel się użytecznym doświadczeniem', 'Buduj cykliczny dochód odpowiedzialnie'] },
+          actionTask: { instruction: 'Ukończ moduł Mastermind i aktywuj odznakę VIP:', checklistItems: ['Rozumiem odpowiedzialne skalowanie płatnymi reklamami', 'Rozumiem oferty backend high-ticket', 'Jestem gotowy na GOM-MAR VIP Mastermind'] },
         },
       },
     },
