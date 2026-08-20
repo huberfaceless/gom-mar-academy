@@ -804,7 +804,7 @@ export const AcademyView: React.FC<AcademyViewProps> = ({
                 )}
 
                 {/* Full Article Text Guide */}
-                {language !== 'de' && currentStage.id > 4 && currentLesson.learnContent.fullArticleGuide && (
+                {language !== 'de' && currentStage.id > 5 && currentLesson.learnContent.fullArticleGuide && (
                   <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-xs font-medium text-amber-900 dark:border-amber-700/50 dark:bg-amber-950/30 dark:text-amber-200">
                     {copy.translationFallback}
                   </div>
