@@ -464,6 +464,101 @@ Online-business progress does not require eight hours of work every day. It requ
         },
       },
     },
+    5: {
+      title: '5. Win Prospects',
+      subtitle: '🟡 LEADS',
+      description: 'Email autoresponders, lead magnets, opt-in pages, and automated follow-up sequences.',
+      lessons: {
+        '5.1': {
+          stageTitle: '5. Win Prospects', title: 'Autoresponder Basics',
+          description: 'Your email list is your most valuable asset. Build trust that continues to work for you.',
+          learnContent: {
+            videoTitle: 'Why Your Email List Is Priceless',
+            summaryText: 'A social platform can restrict your account overnight, but your email list belongs to you. It provides a direct channel to interested prospects.',
+            bulletPoints: ['Independence from social-media algorithms', 'Strong purchase intent among engaged email readers', 'Automated delivery around the clock'],
+            fullArticleGuide: `### Why the email list is an online-business revenue engine
+
+Most successful digital entrepreneurs share one conclusion: **the money is in the list**.
+
+#### Why email marketing is so powerful
+
+1. **Ownership instead of renting attention**: A social-media account belongs to the platform. Your exported contact list belongs to your business.
+2. **Direct delivery**: Social posts may reach only a small percentage of followers, while an email goes directly to the reader’s inbox.
+3. **Strong intent**: Subscribers joined voluntarily because they want to receive your guidance and recommendations.`,
+            practicalExamples: ['Example: With 500 subscribers, a monthly recommendation bought by 3% of the list produces 15 sales. At €40 commission each, that equals €600 in recurring monthly revenue.'],
+          },
+          understandContent: { coreTakeaway: 'A healthy email list can generate approximately €1–€3 in recurring monthly revenue per engaged subscriber.', keyPrinciples: ['Protect the relationship with your list', 'Provide genuine help in every email', 'Use the integrated GOM-MAR email automation'] },
+          actionTask: { instruction: 'Open GOM-MAR email automation and create your first “My First Online Euro” campaign:', checklistItems: ['GOM-MAR email automation opened', 'Campaign created', 'Sequence overview prepared'] },
+        },
+        '5.2': {
+          stageTitle: '5. Win Prospects', title: 'Create a Lead Magnet',
+          description: 'Create an irresistible checklist, PDF, cheat sheet, or template in under 30 minutes.',
+          learnContent: {
+            videoTitle: 'The Perfect Lead Magnet in Three Steps',
+            summaryText: 'People rarely want a 200-page ebook. They want a fast, immediately useful solution such as a one-page checklist, cheat sheet, or template.',
+            bulletPoints: ['Useful in less than five minutes', 'Solves exactly one specific beginner problem', 'Creates interest in the related affiliate offer'],
+            fullArticleGuide: `### The formula for an irresistible lead magnet
+
+A lead magnet is a fair exchange: the prospect receives immediate value and gives permission to communicate by email.
+
+#### Strong formats for beginners
+
+* **One-page checklist**: “The five-point checklist for starting an online side income.”
+* **Cheat sheet**: “The ten best AI prompts for Facebook posts.”
+* **Template**: “An email template for your first customer contact.”
+
+Keep it short. A lead magnet that can be read and applied in three minutes creates an immediate sense of progress.`,
+            practicalExamples: ['Create it in Canva: Select an A4 template, add your five steps, and export it as a PDF. This can take only 20 minutes.'],
+          },
+          understandContent: { coreTakeaway: 'The lead magnet is the sample; the affiliate product is the main course.', keyPrinciples: ['Compact and valuable', 'Clean, friendly design', 'Available immediately as a PDF'] },
+          actionTask: { instruction: 'What is the title of your lead magnet?', placeholder: 'For example, The Five-Step Checklist for Your First Online Side Income' },
+        },
+        '5.3': {
+          stageTitle: '5. Win Prospects', title: 'Opt-In & Welcome Email',
+          description: 'Sequence email 1: Deliver the lead magnet and create immediate enthusiasm.',
+          learnContent: {
+            videoTitle: 'Anatomy of the Perfect Welcome Email',
+            summaryText: 'Welcome emails are often opened by more than 70% of readers. Deliver the gift immediately, say thank you, and create curiosity about the next message.',
+            bulletPoints: ['Subject: “Your checklist + important information [Download]”', 'Place the direct gift link in the first paragraph', 'Explain what useful content will arrive over the next few days'],
+            fullArticleGuide: `### Structure of welcome email 1
+
+Your first email usually has the highest open rate—often 60–70%. Do not waste that moment with a long monologue.
+
+#### The ideal structure
+
+1. **Subject line**: Make the delivery clear, for example “[Download] Here is your checklist + important information.”
+2. **Gift delivery**: Put the download link directly in the first paragraph.
+3. **Set expectations**: Briefly introduce yourself and announce an important discovery that you will share the next day.`,
+            practicalExamples: ['Use the prepared welcome-email template in GOM-MAR email automation.'],
+          },
+          understandContent: { coreTakeaway: 'The first impression determines whether future messages are read or ignored.', keyPrinciples: ['Send immediately after registration', 'Use a clear subject line', 'Write in a friendly, respectful tone'] },
+          actionTask: { instruction: 'Use the Toolbox Email Generator and add email 1 to your automation:', placeholder: 'Welcome email prepared' },
+        },
+        '5.4': {
+          stageTitle: '5. Win Prospects', title: 'Automated Follow-Up Sequence',
+          description: 'Use a five-email sequence to build trust and recommend suitable offers automatically.',
+          learnContent: {
+            videoTitle: 'The Five-Email Sales Formula',
+            summaryText: 'Many sales occur only between the third and seventh email. GOM-MAR email automation runs this sequence for you automatically.',
+            bulletPoints: ['Email 1—immediately: welcome and lead-magnet download', 'Email 2—day 1: your story and turning point', 'Email 3—day 2: the audience’s biggest mistake', 'Email 4—day 4: present the solution and affiliate link', 'Email 5—day 7: common questions and final recommendation'],
+            fullArticleGuide: `### The five-stage follow-up formula for automated sales
+
+A prospect rarely buys at the first contact. Trust grows through several useful touchpoints, and an automated sequence delivers them consistently.
+
+#### The five emails
+
+* **Email 1—day 0**: Welcome and free download.
+* **Email 2—day 1**: Story and identification—why you once faced the same situation.
+* **Email 3—day 2**: Explain the common misconception and why previous attempts fail.
+* **Email 4—day 4**: Present the recommended system and affiliate link as a practical shortcut.
+* **Email 5—day 7**: Answer frequent questions and remind the reader about the relevant bonus.`,
+            practicalExamples: ['All five emails are available as templates in GOM-MAR email automation and only need to be adapted to your audience and offer.'],
+          },
+          understandContent: { coreTakeaway: 'Automated emails can sell while you spend time with friends and family.', keyPrinciples: ['Use authentic stories', 'Aim for 80% value and trust, 20% recommendation', 'Keep sensible automatic intervals'] },
+          actionTask: { instruction: 'Activate all five emails in GOM-MAR email automation:', checklistItems: ['Email 1 configured—immediately', 'Email 2 configured—day 1', 'Email 3 configured—day 2', 'Email 4 configured—day 4', 'Email 5 configured—day 7'] },
+        },
+      },
+    },
   },
   pl: {
     1: {
@@ -911,6 +1006,101 @@ Rozwój biznesu online nie wymaga ośmiu godzin pracy dziennie. Wymaga dyscyplin
           },
           understandContent: { coreTakeaway: 'Zmień plan ruchu w codzienny nawyk.', keyPrinciples: ['Rezerwuj stałe pory działania', 'Skup się na liczbie kontaktów, nie obserwujących'] },
           actionTask: { instruction: 'Zobowiąż się do tygodniowego planu ruchu:', placeholder: 'Zarezerwuj 30 minut każdego dnia' },
+        },
+      },
+    },
+    5: {
+      title: '5. Zdobywaj zainteresowanych',
+      subtitle: '🟡 KONTAKTY',
+      description: 'Autoresponder e-mail, lead magnety, strony zapisu i automatyczne sekwencje follow-up.',
+      lessons: {
+        '5.1': {
+          stageTitle: '5. Zdobywaj zainteresowanych', title: 'Podstawy autorespondera',
+          description: 'Lista e-mail jest Twoim najcenniejszym zasobem. Buduj zaufanie, które pracuje na przyszłość.',
+          learnContent: {
+            videoTitle: 'Dlaczego lista e-mail jest bezcenna',
+            summaryText: 'Platforma społecznościowa może ograniczyć konto z dnia na dzień, natomiast lista e-mail należy do Ciebie. Zapewnia bezpośredni kontakt z zainteresowanymi osobami.',
+            bulletPoints: ['Niezależność od algorytmów mediów społecznościowych', 'Wysoka gotowość zakupowa zaangażowanych czytelników', 'Automatyczna wysyłka przez całą dobę'],
+            fullArticleGuide: `### Dlaczego lista e-mail jest silnikiem przychodu online
+
+Większość skutecznych przedsiębiorców cyfrowych zgadza się z zasadą: **pieniądze są na liście**.
+
+#### Dlaczego e-mail marketing jest tak skuteczny
+
+1. **Własność zamiast wynajmowania uwagi**: Konto społecznościowe należy do platformy, a wyeksportowana lista kontaktów należy do Twojego biznesu.
+2. **Bezpośrednie dostarczenie**: Wpis społecznościowy dociera tylko do części obserwujących, a e-mail trafia bezpośrednio do skrzynki odbiorcy.
+3. **Silna intencja**: Subskrybenci zapisali się dobrowolnie, ponieważ chcą otrzymywać Twoje wskazówki i rekomendacje.`,
+            practicalExamples: ['Przykład: przy 500 subskrybentach miesięczną rekomendację kupuje 3% listy, czyli 15 osób. Prowizja 40 € daje 600 € powtarzalnego miesięcznego przychodu.'],
+          },
+          understandContent: { coreTakeaway: 'Zdrowa lista może generować średnio około 1–3 € powtarzalnego miesięcznego przychodu na zaangażowanego subskrybenta.', keyPrinciples: ['Chroń relację z listą', 'Pomagaj naprawdę w każdej wiadomości', 'Korzystaj ze zintegrowanej automatyzacji e-mail GOM-MAR'] },
+          actionTask: { instruction: 'Otwórz automatyzację e-mail GOM-MAR i utwórz pierwszą kampanię „Moje pierwsze euro online”:', checklistItems: ['Automatyzacja e-mail GOM-MAR otwarta', 'Kampania utworzona', 'Przegląd sekwencji przygotowany'] },
+        },
+        '5.2': {
+          stageTitle: '5. Zdobywaj zainteresowanych', title: 'Utwórz lead magnet',
+          description: 'Przygotuj atrakcyjną listę kontrolną, PDF, ściągę lub szablon w mniej niż 30 minut.',
+          learnContent: {
+            videoTitle: 'Idealny lead magnet w trzech krokach',
+            summaryText: 'Ludzie rzadko chcą czytać 200-stronicowy e-book. Potrzebują szybkiego rozwiązania, które mogą od razu zastosować: jednostronicowej listy, ściągi albo szablonu.',
+            bulletPoints: ['Przydatny w mniej niż pięć minut', 'Rozwiązuje jeden konkretny problem początkującego', 'Budzi zainteresowanie powiązaną ofertą afiliacyjną'],
+            fullArticleGuide: `### Formuła atrakcyjnego lead magnetu
+
+Lead magnet jest uczciwą wymianą: odbiorca otrzymuje natychmiastową wartość i wyraża zgodę na komunikację e-mail.
+
+#### Dobre formaty dla początkujących
+
+* **Jednostronicowa lista kontrolna**: „Pięć punktów potrzebnych do rozpoczęcia dodatkowego dochodu online.”
+* **Ściąga**: „Dziesięć najlepszych promptów AI do wpisów na Facebooku.”
+* **Szablon**: „Wzór e-maila do pierwszego kontaktu z klientem.”
+
+Zachowaj zwięzłość. Lead magnet, który można przeczytać i zastosować w trzy minuty, od razu daje poczucie postępu.`,
+            practicalExamples: ['Utwórz go w Canvie: wybierz szablon A4, dodaj pięć kroków i wyeksportuj jako PDF. Całość może zająć tylko 20 minut.'],
+          },
+          understandContent: { coreTakeaway: 'Lead magnet jest próbką, a produkt afiliacyjny daniem głównym.', keyPrinciples: ['Zwięzły i wartościowy', 'Prosty, przyjazny wygląd', 'Dostępny natychmiast jako PDF'] },
+          actionTask: { instruction: 'Jaki tytuł ma Twój lead magnet?', placeholder: 'Np. Pięć kroków do pierwszego dodatkowego dochodu online' },
+        },
+        '5.3': {
+          stageTitle: '5. Zdobywaj zainteresowanych', title: 'Zapis i wiadomość powitalna',
+          description: 'Wiadomość 1: dostarcz lead magnet i od razu wzbudź entuzjazm.',
+          learnContent: {
+            videoTitle: 'Anatomia idealnej wiadomości powitalnej',
+            summaryText: 'Wiadomość powitalną otwiera często ponad 70% odbiorców. Od razu dostarcz prezent, podziękuj i wzbudź ciekawość kolejnego e-maila.',
+            bulletPoints: ['Temat: „Twoja lista kontrolna + ważna informacja [Pobierz]”', 'Bezpośredni link do prezentu w pierwszym akapicie', 'Zapowiedź wartościowych treści z kolejnych dni'],
+            fullArticleGuide: `### Struktura pierwszej wiadomości powitalnej
+
+Pierwszy e-mail ma zwykle najwyższy wskaźnik otwarć—często 60–70%. Nie marnuj tego momentu na długi monolog.
+
+#### Idealna struktura
+
+1. **Temat**: Jasno zapowiedz dostarczenie, np. „[Pobierz] Oto Twoja lista kontrolna + ważna informacja”.
+2. **Dostarczenie prezentu**: Umieść link do pobrania bezpośrednio w pierwszym akapicie.
+3. **Ustal oczekiwania**: Krótko się przedstaw i zapowiedz ważne odkrycie, którym podzielisz się następnego dnia.`,
+            practicalExamples: ['Użyj gotowego szablonu wiadomości powitalnej w automatyzacji e-mail GOM-MAR.'],
+          },
+          understandContent: { coreTakeaway: 'Pierwsze wrażenie decyduje, czy następne wiadomości będą czytane, czy ignorowane.', keyPrinciples: ['Wyślij natychmiast po zapisie', 'Użyj jasnego tematu', 'Pisz przyjaźnie i z szacunkiem'] },
+          actionTask: { instruction: 'Użyj Generatora E-mail w Toolboxie i dodaj wiadomość 1 do automatyzacji:', placeholder: 'Wiadomość powitalna przygotowana' },
+        },
+        '5.4': {
+          stageTitle: '5. Zdobywaj zainteresowanych', title: 'Automatyczna sekwencja follow-up',
+          description: 'Buduj zaufanie i automatycznie polecaj odpowiednie oferty w sekwencji pięciu wiadomości.',
+          learnContent: {
+            videoTitle: 'Formuła sprzedażowa pięciu wiadomości',
+            summaryText: 'Wiele sprzedaży następuje dopiero między trzecim a siódmym e-mailem. Automatyzacja GOM-MAR uruchamia całą sekwencję automatycznie.',
+            bulletPoints: ['E-mail 1—natychmiast: powitanie i lead magnet', 'E-mail 2—dzień 1: historia i moment przełomowy', 'E-mail 3—dzień 2: największy błąd grupy', 'E-mail 4—dzień 4: rozwiązanie i link afiliacyjny', 'E-mail 5—dzień 7: częste pytania i końcowa rekomendacja'],
+            fullArticleGuide: `### Pięcioetapowa formuła follow-up dla automatycznej sprzedaży
+
+Zainteresowana osoba rzadko kupuje przy pierwszym kontakcie. Zaufanie rośnie dzięki kilku wartościowym punktom styku, a automatyczna sekwencja dostarcza je regularnie.
+
+#### Pięć wiadomości
+
+* **E-mail 1—dzień 0**: Powitanie i bezpłatny materiał.
+* **E-mail 2—dzień 1**: Historia i identyfikacja—dlaczego kiedyś byłeś w podobnym miejscu.
+* **E-mail 3—dzień 2**: Wyjaśnienie typowego błędu i przyczyn wcześniejszych niepowodzeń.
+* **E-mail 4—dzień 4**: Przedstawienie rekomendowanego systemu i linku afiliacyjnego jako praktycznego skrótu.
+* **E-mail 5—dzień 7**: Odpowiedzi na częste pytania i przypomnienie o odpowiednim bonusie.`,
+            practicalExamples: ['Wszystkie pięć wiadomości jest dostępnych jako szablony w automatyzacji GOM-MAR. Wystarczy dopasować je do grupy i oferty.'],
+          },
+          understandContent: { coreTakeaway: 'Automatyczne wiadomości mogą sprzedawać, gdy spędzasz czas z rodziną i znajomymi.', keyPrinciples: ['Używaj autentycznych historii', '80% wartości i zaufania, 20% rekomendacji', 'Zachowaj rozsądne automatyczne odstępy'] },
+          actionTask: { instruction: 'Aktywuj wszystkie pięć wiadomości w automatyzacji GOM-MAR:', checklistItems: ['E-mail 1 skonfigurowany—natychmiast', 'E-mail 2 skonfigurowany—dzień 1', 'E-mail 3 skonfigurowany—dzień 2', 'E-mail 4 skonfigurowany—dzień 4', 'E-mail 5 skonfigurowany—dzień 7'] },
         },
       },
     },
