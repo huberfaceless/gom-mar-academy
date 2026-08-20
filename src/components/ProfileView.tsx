@@ -1,6 +1,23 @@
 import React, { useState } from 'react';
 import { UserProfile, AcademyTier } from '../types';
+import { useLanguage } from '../context/LanguageContext';
+import { LanguageCode } from '../i18n/translations';
 import { User, Crown, Check, ShieldCheck, Mail, Sparkles, BookOpen, Layers, Edit2, Save } from 'lucide-react';
+
+const profileCopy: Record<LanguageCode, Record<string, string>> = {
+  de: {
+    academy: '{name}s Academy', member: 'Mitglied', niche: 'Nische', cancel: 'Abbrechen', edit: 'Profil bearbeiten', details: 'Profil-Details anpassen', name: 'Dein Name:', nicheLabel: 'Deine Nische:', audience: 'Deine Zielgruppe:', save: 'Profil speichern', overview: 'Mitglieder-Übersicht & Kennzahlen', progress: 'Fortschritt', course: 'Aktueller Kurs', stage: 'Etappe', tasks: 'Aufgaben', milestones: 'Meilensteine', campaigns: 'Kampagnen', leads: 'Leads', memberships: 'GOM-MAR Academy Mitgliedschafts-Ebenen', choose: 'Wähle dein bevorzugtes Level für vollen Funktionszugriff:', active: 'Aktiver Plan', recommended: 'Empfohlen',
+    freeDesc: 'Grundlagen & einfache Einstiegstools zum Kennenlernen.', free1: '✓ Etappe 1 & 2 Lektionen', free2: '✓ Begrenzter KI-Zugang', free3: '✓ Grundlegende Checklisten', freeAction: 'Zu FREE wechseln', proDesc: 'Komplette Academy, E-Mail-Automation & volle KI-Toolbox.', pro1: '✓ Alle 7 Etappen freigeschaltet', pro2: '✓ GOM-MAR E-Mail-Automation', pro3: '✓ Frag GOM-MAR KI Mentor', pro4: '✓ Alle KI-Toolbox-Generatoren', proAction: 'Zu PRO aufsteigen', premiumDesc: 'Für individuelle Begleitung, VIP-Trainings & VIP-Support.', premium1: '✓ Alles aus PRO enthalten', premium2: '✓ Persönliche System-Audits', premium3: '✓ VIP 1-zu-1 KI-Prompts', premiumAction: 'Zu PREMIUM wechseln'
+  },
+  en: {
+    academy: "{name}'s Academy", member: 'Member', niche: 'Niche', cancel: 'Cancel', edit: 'Edit profile', details: 'Edit profile details', name: 'Your name:', nicheLabel: 'Your niche:', audience: 'Your target audience:', save: 'Save profile', overview: 'Member overview & metrics', progress: 'Progress', course: 'Current course', stage: 'Stage', tasks: 'Tasks', milestones: 'Milestones', campaigns: 'Campaigns', leads: 'Leads', memberships: 'GOM-MAR Academy membership levels', choose: 'Choose your preferred level for full feature access:', active: 'Active plan', recommended: 'Recommended',
+    freeDesc: 'Foundations & simple starter tools to explore.', free1: '✓ Stage 1 & 2 lessons', free2: '✓ Limited AI access', free3: '✓ Basic checklists', freeAction: 'Switch to FREE', proDesc: 'Complete Academy, email automation & full AI toolbox.', pro1: '✓ All 7 stages unlocked', pro2: '✓ GOM-MAR email automation', pro3: '✓ Ask GOM-MAR AI Mentor', pro4: '✓ All AI toolbox generators', proAction: 'Upgrade to PRO', premiumDesc: 'For personal guidance, VIP training & VIP support.', premium1: '✓ Everything in PRO', premium2: '✓ Personal system audits', premium3: '✓ VIP one-to-one AI prompts', premiumAction: 'Switch to PREMIUM'
+  },
+  pl: {
+    academy: 'Academy użytkownika {name}', member: 'Członek', niche: 'Nisza', cancel: 'Anuluj', edit: 'Edytuj profil', details: 'Edytuj dane profilu', name: 'Twoje imię:', nicheLabel: 'Twoja nisza:', audience: 'Twoja grupa docelowa:', save: 'Zapisz profil', overview: 'Przegląd i wyniki użytkownika', progress: 'Postęp', course: 'Aktualny kurs', stage: 'Etap', tasks: 'Zadania', milestones: 'Kamienie milowe', campaigns: 'Kampanie', leads: 'Leady', memberships: 'Poziomy członkostwa GOM-MAR Academy', choose: 'Wybierz poziom zapewniający pełny dostęp do funkcji:', active: 'Aktywny plan', recommended: 'Polecany',
+    freeDesc: 'Podstawy i proste narzędzia na dobry początek.', free1: '✓ Lekcje etapu 1 i 2', free2: '✓ Ograniczony dostęp do AI', free3: '✓ Podstawowe listy kontrolne', freeAction: 'Przejdź na FREE', proDesc: 'Pełna Academy, automatyzacja e-mail i wszystkie narzędzia AI.', pro1: '✓ Odblokowane wszystkie 7 etapów', pro2: '✓ Automatyzacja e-mail GOM-MAR', pro3: '✓ Mentor GOM-MAR AI', pro4: '✓ Wszystkie generatory AI', proAction: 'Przejdź na PRO', premiumDesc: 'Indywidualne wsparcie, szkolenia VIP i pomoc VIP.', premium1: '✓ Wszystko z planu PRO', premium2: '✓ Indywidualne audyty systemu', premium3: '✓ Indywidualne prompty AI VIP', premiumAction: 'Przejdź na PREMIUM'
+  }
+};
 
 interface ProfileViewProps {
   user: UserProfile;
@@ -15,6 +32,8 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
   progressPercent,
   completedTasksCount,
 }) => {
+  const { language } = useLanguage();
+  const copy = profileCopy[language];
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editName, setEditName] = useState<string>(user.name);
   const [editNiche, setEditNiche] = useState<string>(user.niche);
@@ -55,14 +74,14 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
 
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-2xl font-black text-slate-950">{user.name}'s Academy</h2>
+                <h2 className="text-2xl font-black text-slate-950">{copy.academy.replace('{name}', user.name)}</h2>
                 <span className="px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-xs font-bold flex items-center gap-1">
                   <Crown className="w-3.5 h-3.5 text-amber-600" />
-                  {user.tier} Member
+                  {user.tier} {copy.member}
                 </span>
               </div>
               <p className="text-xs text-slate-500 mt-1">
-                Nische: <strong className="text-slate-800">{user.niche}</strong>
+                {copy.niche}: <strong className="text-slate-800">{user.niche}</strong>
               </p>
             </div>
           </div>
@@ -72,7 +91,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
             className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer"
           >
             <Edit2 className="w-4 h-4" />
-            <span>{isEditing ? 'Abbrechen' : 'Profil bearbeiten'}</span>
+            <span>{isEditing ? copy.cancel : copy.edit}</span>
           </button>
         </div>
       </div>
@@ -81,12 +100,12 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
       {isEditing && (
         <div className="bg-white border border-indigo-200 rounded-3xl p-6 space-y-4 shadow-sm">
           <h3 className="text-sm font-bold text-indigo-700 uppercase tracking-wider">
-            Profil-Details anpassen
+            {copy.details}
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Dein Name:</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">{copy.name}</label>
               <input
                 type="text"
                 value={editName}
@@ -96,7 +115,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Deine Nische:</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">{copy.nicheLabel}</label>
               <input
                 type="text"
                 value={editNiche}
@@ -107,7 +126,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Deine Zielgruppe:</label>
+            <label className="block text-xs font-bold text-slate-700 mb-1">{copy.audience}</label>
             <input
               type="text"
               value={editAudience}
@@ -121,7 +140,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
             className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center gap-2 cursor-pointer transition-colors shadow-sm"
           >
             <Save className="w-4 h-4" />
-            <span>Profil speichern</span>
+            <span>{copy.save}</span>
           </button>
         </div>
       )}
@@ -130,37 +149,37 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
       <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
         <h3 className="text-base font-bold text-slate-950 flex items-center gap-2">
           <Layers className="w-5 h-5 text-indigo-600" />
-          Mitglieder-Übersicht & Kennzahlen
+          {copy.overview}
         </h3>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-1">
-            <span className="text-xs text-slate-500 font-semibold">Fortschritt</span>
+            <span className="text-xs text-slate-500 font-semibold">{copy.progress}</span>
             <p className="text-xl font-black text-indigo-600">{progressPercent} %</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-1">
-            <span className="text-xs text-slate-500 font-semibold">Aktueller Kurs</span>
-            <p className="text-sm font-extrabold text-slate-900 truncate">Stage {user.currentStageId}</p>
+            <span className="text-xs text-slate-500 font-semibold">{copy.course}</span>
+            <p className="text-sm font-extrabold text-slate-900 truncate">{copy.stage} {user.currentStageId}</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-1">
-            <span className="text-xs text-slate-500 font-semibold">Aufgaben</span>
+            <span className="text-xs text-slate-500 font-semibold">{copy.tasks}</span>
             <p className="text-xl font-black text-slate-900">{completedTasksCount}</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-1">
-            <span className="text-xs text-slate-500 font-semibold">Meilensteine</span>
+            <span className="text-xs text-slate-500 font-semibold">{copy.milestones}</span>
             <p className="text-xl font-black text-amber-600">{user.earnedBadges.length}</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-1">
-            <span className="text-xs text-slate-500 font-semibold">Kampagnen</span>
+            <span className="text-xs text-slate-500 font-semibold">{copy.campaigns}</span>
             <p className="text-xl font-black text-sky-600">{user.activeCampaignsCount}</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-1">
-            <span className="text-xs text-slate-500 font-semibold">Leads</span>
+            <span className="text-xs text-slate-500 font-semibold">{copy.leads}</span>
             <p className="text-xl font-black text-indigo-600">{user.leadsCount}</p>
           </div>
         </div>
@@ -171,10 +190,10 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
         <div>
           <h3 className="text-lg font-bold text-slate-950 flex items-center gap-2">
             <Crown className="w-5 h-5 text-amber-500" />
-            GOM-MAR Academy Mitgliedschafts-Ebenen
+            {copy.memberships}
           </h3>
           <p className="text-xs text-slate-500 mt-1">
-            Wähle dein bevorzugtes Level für vollen Funktionszugriff:
+            {copy.choose}
           </p>
         </div>
 
@@ -190,12 +209,10 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                 🆓 FREE
               </span>
               <h4 className="text-xl font-black text-slate-950">GOM-MAR FREE</h4>
-              <p className="text-xs text-slate-600">Grundlagen & einfache Einstiegstools zum Kennenlernen.</p>
+              <p className="text-xs text-slate-600">{copy.freeDesc}</p>
 
               <ul className="text-xs text-slate-600 space-y-2 pt-2 border-t border-slate-100">
-                <li className="flex items-center gap-2">✓ Etappe 1 & 2 Lektionen</li>
-                <li className="flex items-center gap-2">✓ Begrenzter KI-Zugang</li>
-                <li className="flex items-center gap-2">✓ Grundlegende Checklisten</li>
+                <li className="flex items-center gap-2">{copy.free1}</li><li className="flex items-center gap-2">{copy.free2}</li><li className="flex items-center gap-2">{copy.free3}</li>
               </ul>
             </div>
 
@@ -207,7 +224,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
-              {user.tier === 'FREE' ? 'Aktiver Plan' : 'Zu FREE wechseln'}
+              {user.tier === 'FREE' ? copy.active : copy.freeAction}
             </button>
           </div>
 
@@ -218,7 +235,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
               : 'bg-white border-slate-200'
           }`}>
             <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-indigo-600 text-white font-black text-[9px] uppercase tracking-wider">
-              Empfohlen
+              {copy.recommended}
             </div>
 
             <div className="space-y-3">
@@ -226,13 +243,10 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                 ⭐ PRO
               </span>
               <h4 className="text-xl font-black text-slate-950">GOM-MAR PRO</h4>
-              <p className="text-xs text-slate-600">Komplette Academy, E-Mail Automation & volle KI-Toolbox.</p>
+              <p className="text-xs text-slate-600">{copy.proDesc}</p>
 
               <ul className="text-xs text-slate-700 space-y-2 pt-2 border-t border-slate-100">
-                <li className="flex items-center gap-2 text-indigo-700 font-medium">✓ Alle 7 Etappen freigeschaltet</li>
-                <li className="flex items-center gap-2 text-indigo-700 font-medium">✓ GOM-MAR Mail Automation</li>
-                <li className="flex items-center gap-2 text-indigo-700 font-medium">✓ Frag GOM-MAR KI Mentor</li>
-                <li className="flex items-center gap-2 text-indigo-700 font-medium">✓ Alle KI-Toolbox Generatoren</li>
+                <li className="flex items-center gap-2 text-indigo-700 font-medium">{copy.pro1}</li><li className="flex items-center gap-2 text-indigo-700 font-medium">{copy.pro2}</li><li className="flex items-center gap-2 text-indigo-700 font-medium">{copy.pro3}</li><li className="flex items-center gap-2 text-indigo-700 font-medium">{copy.pro4}</li>
               </ul>
             </div>
 
@@ -244,7 +258,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                   : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200'
               }`}
             >
-              {user.tier === 'PRO' ? 'Aktiver Plan' : 'Zu PRO aufsteigen'}
+              {user.tier === 'PRO' ? copy.active : copy.proAction}
             </button>
           </div>
 
@@ -259,12 +273,10 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                 🚀 PREMIUM
               </span>
               <h4 className="text-xl font-black text-slate-950">GOM-MAR PREMIUM</h4>
-              <p className="text-xs text-slate-600">Für individuelle Begleitung, VIP-Trainings & VIP Support.</p>
+              <p className="text-xs text-slate-600">{copy.premiumDesc}</p>
 
               <ul className="text-xs text-slate-700 space-y-2 pt-2 border-t border-slate-100">
-                <li className="flex items-center gap-2 text-amber-800 font-medium">✓ Alles aus PRO enthalten</li>
-                <li className="flex items-center gap-2 text-amber-800 font-medium">✓ Persönliche System-Audits</li>
-                <li className="flex items-center gap-2 text-amber-800 font-medium">✓ VIP 1-zu-1 KI Prompts</li>
+                <li className="flex items-center gap-2 text-amber-800 font-medium">{copy.premium1}</li><li className="flex items-center gap-2 text-amber-800 font-medium">{copy.premium2}</li><li className="flex items-center gap-2 text-amber-800 font-medium">{copy.premium3}</li>
               </ul>
             </div>
 
@@ -276,7 +288,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                   : 'bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200'
               }`}
             >
-              {user.tier === 'PREMIUM' ? 'Aktiver Plan' : 'Zu PREMIUM wechseln'}
+              {user.tier === 'PREMIUM' ? copy.active : copy.premiumAction}
             </button>
           </div>
         </div>
