@@ -5,13 +5,12 @@ import {
   Lock, 
   User as UserIcon, 
   ArrowRight, 
-  KeyRound, 
   CheckCircle2, 
   AlertCircle, 
-  Sparkles,
   ShieldCheck
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import gommarLogo from '../assets/images/gommar_logo.jpg';
 
 export type AuthModalMode = 'login' | 'register' | 'forgot_password';
@@ -30,6 +29,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   onSuccess
 }) => {
   const { login, register, resetPassword, error, clearError } = useAuth();
+  const { t } = useLanguage();
 
   const [mode, setMode] = useState<AuthModalMode>(initialMode);
   const [name, setName] = useState<string>('');
@@ -66,17 +66,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
     const trimmedEmail = email.trim();
     if (!trimmedEmail || !trimmedEmail.includes('@')) {
-      setFormError('Bitte gib eine gültige E-Mail-Adresse ein.');
+      setFormError(t('auth.validation.email'));
       return;
     }
 
     if (mode === 'register') {
       if (!name.trim()) {
-        setFormError('Bitte gib deinen Namen oder Vornamen ein.');
+        setFormError(t('auth.validation.name'));
         return;
       }
       if (!password || password.length < 6) {
-        setFormError('Das Passwort muss mindestens 6 Zeichen lang sein.');
+        setFormError(t('auth.validation.password'));
         return;
       }
 
@@ -85,14 +85,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         await register(trimmedEmail, password, name.trim());
         if (onSuccess) onSuccess();
         onClose();
-      } catch (err: any) {
-        setFormError(err?.message || 'Registrierung fehlgeschlagen.');
+      } catch (err: unknown) {
+        setFormError(err instanceof Error ? err.message : t('auth.failure.register'));
       } finally {
         setIsSubmitting(false);
       }
     } else if (mode === 'login') {
       if (!password) {
-        setFormError('Bitte gib dein Passwort ein.');
+        setFormError(t('auth.validation.passwordRequired'));
         return;
       }
 
@@ -101,8 +101,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         await login(trimmedEmail, password);
         if (onSuccess) onSuccess();
         onClose();
-      } catch (err: any) {
-        setFormError(err?.message || 'Anmeldung fehlgeschlagen.');
+      } catch (err: unknown) {
+        setFormError(err instanceof Error ? err.message : t('auth.failure.login'));
       } finally {
         setIsSubmitting(false);
       }
@@ -110,9 +110,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setIsSubmitting(true);
       try {
         await resetPassword(trimmedEmail);
-        setResetSuccessMsg(`Wir haben dir einen Link zum Zurücksetzen deines Passworts an ${trimmedEmail} geschickt.`);
-      } catch (err: any) {
-        setFormError(err?.message || 'Konnte keine Reset-E-Mail senden.');
+        setResetSuccessMsg(t('auth.resetSent', { email: trimmedEmail }));
+      } catch (err: unknown) {
+        setFormError(err instanceof Error ? err.message : t('auth.failure.reset'));
       } finally {
         setIsSubmitting(false);
       }
@@ -125,6 +125,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
+          aria-label={t('auth.close')}
           className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
         >
           <X className="w-5 h-5" />
@@ -142,15 +143,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </div>
 
           <h2 className="text-2xl font-black text-slate-950 tracking-tight">
-            {mode === 'login' && 'Willkommen zurück! 👋'}
-            {mode === 'register' && 'Kostenloses Konto erstellen 🚀'}
-            {mode === 'forgot_password' && 'Passwort zurücksetzen 🔑'}
+            {mode === 'login' && t('auth.loginTitle')}
+            {mode === 'register' && t('auth.registerTitle')}
+            {mode === 'forgot_password' && t('auth.resetTitle')}
           </h2>
 
           <p className="text-xs text-slate-500 max-w-xs mx-auto">
-            {mode === 'login' && 'Melde dich an, um direkt in deiner GOM-MAR Academy weiterzulernen.'}
-            {mode === 'register' && 'Trage dich in 30 Sekunden ein und starte deine 7-Etappen Masterclass.'}
-            {mode === 'forgot_password' && 'Gib deine E-Mail-Adresse ein, um einen Reset-Link zu erhalten.'}
+            {mode === 'login' && t('auth.loginSubtitle')}
+            {mode === 'register' && t('auth.registerSubtitle')}
+            {mode === 'forgot_password' && t('auth.resetSubtitle')}
           </p>
         </div>
 
@@ -166,7 +167,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   : 'text-slate-500 hover:text-slate-800'
               }`}
             >
-              Anmelden
+              {t('auth.loginTab')}
             </button>
             <button
               type="button"
@@ -177,7 +178,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   : 'text-slate-500 hover:text-slate-800'
               }`}
             >
-              Neu Registrieren
+              {t('auth.registerTab')}
             </button>
           </div>
         )}
@@ -202,7 +203,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {mode === 'register' && (
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Dein Vor- und Nachname
+                {t('auth.name')}
               </label>
               <div className="relative">
                 <UserIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -211,7 +212,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="z.B. Sarah Lindemann"
+                  placeholder={t('auth.namePlaceholder')}
                   className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-indigo-600 focus:bg-white"
                 />
               </div>
@@ -220,7 +221,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">
-              Deine E-Mail-Adresse
+              {t('auth.email')}
             </label>
             <div className="relative">
               <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -229,7 +230,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@beispiel.de"
+                placeholder={t('auth.emailPlaceholder')}
                 className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-indigo-600 focus:bg-white"
               />
             </div>
@@ -239,7 +240,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className="block text-xs font-bold text-slate-700">
-                  Passwort
+                  {t('auth.password')}
                 </label>
                 {mode === 'login' && (
                   <button
@@ -247,7 +248,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     onClick={() => handleSwitchMode('forgot_password')}
                     className="text-[11px] text-indigo-600 hover:text-indigo-800 font-semibold cursor-pointer"
                   >
-                    Passwort vergessen?
+                    {t('auth.forgot')}
                   </button>
                 )}
               </div>
@@ -258,7 +259,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Mindestens 6 Zeichen"
+                  placeholder={t('auth.passwordPlaceholder')}
                   minLength={6}
                   className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-indigo-600 focus:bg-white"
                 />
@@ -273,13 +274,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           >
             <span>
               {isSubmitting ? (
-                'Wird verarbeitet...'
+                t('auth.processing')
               ) : mode === 'login' ? (
-                'Jetzt Anmelden'
+                t('auth.loginAction')
               ) : mode === 'register' ? (
-                'Kostenlos registrieren'
+                t('auth.registerAction')
               ) : (
-                'Reset-Link senden'
+                t('auth.resetAction')
               )}
             </span>
             <ArrowRight className="w-4 h-4" />
@@ -293,14 +294,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             onClick={() => handleSwitchMode('login')}
             className="w-full text-center text-xs text-slate-500 hover:text-slate-800 font-semibold cursor-pointer"
           >
-            ← Zurück zur Anmeldung
+            {t('auth.back')}
           </button>
         )}
 
         <div className="pt-2 border-t border-slate-100 text-center">
           <p className="text-[11px] text-slate-400 flex items-center justify-center gap-1">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Sichere Firebase Authentifizierung & DSGVO-konform</span>
+            <span>{t('auth.security')}</span>
           </p>
         </div>
       </div>

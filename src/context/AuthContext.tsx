@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/config';
+import { useLanguage } from './LanguageContext';
 import {
   registerWithEmail,
   loginWithEmail,
@@ -36,6 +37,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const { language } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -73,7 +75,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const signedInUser = await loginWithEmail(email, password);
       setUser(signedInUser);
     } catch (err) {
-      const msg = getFirebaseAuthErrorMessage(err);
+      const msg = getFirebaseAuthErrorMessage(err, language);
       setError(msg);
       throw new Error(msg);
     } finally {
@@ -88,7 +90,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const registeredUser = await registerWithEmail(email, password, displayName);
       setUser(registeredUser);
     } catch (err) {
-      const msg = getFirebaseAuthErrorMessage(err);
+      const msg = getFirebaseAuthErrorMessage(err, language);
       setError(msg);
       throw new Error(msg);
     } finally {
@@ -102,7 +104,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       await firebaseLogout();
       setUser(null);
     } catch (err) {
-      const msg = getFirebaseAuthErrorMessage(err);
+      const msg = getFirebaseAuthErrorMessage(err, language);
       setError(msg);
       throw new Error(msg);
     }
@@ -111,9 +113,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const sendVerificationEmail = async (): Promise<void> => {
     setError(null);
     try {
-      await firebaseSendVerification(user);
+      await firebaseSendVerification(user, language);
     } catch (err) {
-      const msg = getFirebaseAuthErrorMessage(err);
+      const msg = getFirebaseAuthErrorMessage(err, language);
       setError(msg);
       throw new Error(msg);
     }
@@ -126,7 +128,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setUser(result.user);
       return result.emailVerified;
     } catch (err) {
-      const msg = getFirebaseAuthErrorMessage(err);
+      const msg = getFirebaseAuthErrorMessage(err, language);
       setError(msg);
       return false;
     }
@@ -135,9 +137,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const resetPassword = async (email: string): Promise<void> => {
     setError(null);
     try {
-      await sendPasswordReset(email);
+      await sendPasswordReset(email, language);
     } catch (err) {
-      const msg = getFirebaseAuthErrorMessage(err);
+      const msg = getFirebaseAuthErrorMessage(err, language);
       setError(msg);
       throw new Error(msg);
     }
