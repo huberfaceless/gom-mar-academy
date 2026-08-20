@@ -170,6 +170,115 @@ Knowledge without action produces no revenue. Learn only the next step, implemen
         },
       },
     },
+    2: {
+      title: '2. Your Direction',
+      subtitle: '🔵 FOUNDATION',
+      description: 'Find your niche, define your audience, identify its main problem, and choose the right offer.',
+      lessons: {
+        '2.1': {
+          stageTitle: '2. Your Direction', title: 'Find your niche',
+          description: 'Find a profitable niche in one of the three strongest markets: health, wealth, or relationships.',
+          learnContent: {
+            videoTitle: 'The profitability formula for your niche',
+            summaryText: 'A product sells when people already search for solutions and are prepared to spend money. The three evergreen markets always contain active buyers.',
+            bulletPoints: ['1. Wealth and additional income—earning online, saving, and investing', '2. Health and fitness—weight loss, strength, vitality, and sleep', '3. Relationships and personal growth—dating, partnership, and confidence'],
+            fullArticleGuide: `### The three major markets with lasting demand
+
+A niche is a focused section of a larger market. If you choose a topic that nobody searches for, even excellent marketing will struggle. Start where people already spend money.
+
+#### The three evergreen markets
+
+1. **Wealth, career, and additional income**
+   * Topics: online business, passive income, saving, investing, and career development.
+   * Why it is profitable: People invest when the outcome can give them more money or freedom.
+
+2. **Health, fitness, and wellbeing**
+   * Topics: sustainable weight loss, back-pain relief, better sleep, and strength after 40.
+   * Why it is profitable: Health has enormous value, and people actively seek relief from discomfort.
+
+3. **Relationships, dating, and personal growth**
+   * Topics: improving relationships, finding a partner, dog training, and building confidence.
+   * Why it is profitable: Emotional needs create a strong desire to act.
+
+#### How to select a sub-niche
+
+Choose a precise focus inside a major market. Instead of “making money,” choose “building additional online income for busy employees.”`,
+            practicalExamples: ['Focused positioning: Market = health → sub-niche = healthy weight loss for working mothers without spending hours cooking.'],
+          },
+          understandContent: { coreTakeaway: 'Do not invent a market. Go where demand and spending already exist.', keyPrinciples: ['Competition in a large market proves that money is being spent', 'Position yourself in one clear sub-niche', 'Use AI support to develop and validate ideas'] },
+          actionTask: { instruction: 'Use the GOM-MAR Niche Finder or enter your selected niche here:', placeholder: 'For example, additional online income for employees' },
+        },
+        '2.2': {
+          stageTitle: '2. Your Direction', title: 'Define your audience',
+          description: 'Create your ideal-customer profile: Who are you helping, and what motivates them?',
+          learnContent: {
+            videoTitle: 'Audience analysis: Who is your ideal customer?',
+            summaryText: 'The more clearly you picture one specific person, the more relevant your copy, landing pages, and emails will sound.',
+            bulletPoints: ['Demographics: age, occupation, and life situation', 'Goals: more freedom, financial security, and family time', 'Concerns: inflation, retirement, and dependence on one employer'],
+            fullArticleGuide: `### Your ideal-customer avatar
+
+When you try to speak to everyone, you connect with nobody. Emails written “to everyone” feel cold and anonymous. Writing as if you were speaking to one real person creates immediate relevance and trust.
+
+#### Four key questions about your avatar
+
+1. **Who is this person?** Age, occupation, and family situation—for example, Thomas, 42, employed in manufacturing, married with two children.
+2. **What frustrates them now?** Too little free time, rising living costs, and the feeling of being trapped in a routine.
+3. **What do they want most?** An additional €500–€1,000 per month to reduce financial pressure and give the family more opportunities.
+4. **What doubts do they have?** “Do I have enough time?”, “Can I do this without experience?”, and “Is this legitimate?”
+
+Your communication should answer these doubts and make the desired result feel achievable.`,
+            practicalExamples: ['Weak copy: “Our system provides advanced syndication methods for digital resellers.” It is difficult to understand.', 'Strong copy: “Build an additional income stream without experience in only 30 minutes a day.” It speaks directly to the avatar.'],
+          },
+          understandContent: { coreTakeaway: 'When you try to speak to everyone, you connect with nobody.', keyPrinciples: ['Write emails as if you were writing to a good friend', 'Use the exact words your audience uses', 'Address the most urgent everyday problem'] },
+          actionTask: { instruction: 'Describe your audience in one or two sentences:', placeholder: 'For example, employees aged 30–50 who want to earn an extra €500–€1,000 without prior experience.' },
+        },
+        '2.3': {
+          stageTitle: '2. Your Direction', title: 'Identify the problem',
+          description: 'Find the burning problem for which your audience is actively seeking an immediate solution.',
+          learnContent: {
+            videoTitle: 'Find and clearly describe pain points',
+            summaryText: 'People buy emotionally and justify the decision rationally. The strongest motivations are avoiding pain and achieving a deeply desired result.',
+            bulletPoints: ['Pain: “There is too little money left at the end of the month despite working full-time.”', 'Goal: “Earn an extra €500 from home.”', 'Obstacle: “I lack technical knowledge and time.”'],
+            fullArticleGuide: `### The burning problem as a buying trigger
+
+Sales happen when an offer closes the gap between the **current situation**—pain and frustration—and the **desired situation**—the person’s goal.
+
+#### The before-and-after transformation
+
+* **Before**: Thomas has almost no money left at the end of the month. Inflation worries him, he feels trapped in his job, and he has little time or technical experience.
+* **After**: Thomas has built a simple system. It produces an additional €600 per month, giving him more security and relaxed weekends with his family.
+
+Your role as an affiliate is to present a credible bridge from the current situation to the desired outcome.`,
+            practicalExamples: ['Offer formula: “Achieve [desired result] without [greatest concern or obstacle].”'],
+          },
+          understandContent: { coreTakeaway: 'Your system removes the main obstacle and guides the audience from pain to the desired result.', keyPrinciples: ['Make the problem visible and specific', 'Explain why previous attempts failed', 'Present your route as the simplest credible next step'] },
+          actionTask: { instruction: 'What main problem does your system solve for your audience?', placeholder: 'For example, insufficient time and technical knowledge to start online' },
+        },
+        '2.4': {
+          stageTitle: '2. Your Direction', title: 'Choose an offer',
+          description: 'Select a high-converting affiliate offer from a marketplace such as Digistore24 or Copecart.',
+          learnContent: {
+            videoTitle: 'Find and evaluate the right affiliate offer',
+            summaryText: 'A strong offer combines a good conversion rate, low refund rate, fair commission, and a professional sales page.',
+            bulletPoints: ['Search the Digistore24 or Copecart marketplace', 'Review the sales page and its video', 'Check whether email templates, graphics, and banners are provided'],
+            fullArticleGuide: `### Five criteria for a strong affiliate product
+
+Not every marketplace product deserves your time. Evaluate these five points before committing to an offer.
+
+1. **A professional sales page with a strong video sales letter**: Review the page as a potential customer. Is the promise clear and credible?
+2. **Commission**: Digital courses should generally pay at least **30–50%**, or provide recurring monthly commissions.
+3. **Refund rate**: A refund rate below 10% can indicate strong customer satisfaction.
+4. **Promotional material**: Good providers supply email templates, graphics, and banners that partners may use.
+5. **Your personal promotion link**: The link contains your affiliate ID and uses tracking so eligible sales are assigned to you.
+
+Recommend only offers that genuinely fit the audience and deliver useful value.`,
+            practicalExamples: ['Practical step: Create a free Digistore24 account, review bestsellers in the Internet Marketing & Business category, and save the promotion link for your chosen offer.'],
+          },
+          understandContent: { coreTakeaway: 'Recommend only products whose quality and usefulness you genuinely trust.', keyPrinciples: ['Trust is your most valuable online-business asset', 'Secure and store your affiliate promotion link', 'Test the sales process from the customer’s perspective'] },
+          actionTask: { instruction: 'What is the name of your selected affiliate offer or product?', placeholder: 'For example, product name or Digistore product ID' },
+        },
+      },
+    },
   },
   pl: {
     1: {
@@ -323,6 +432,115 @@ Wiedza bez działania nie przynosi dochodu. Poznaj tylko następny krok, od razu
             instruction: 'Usuń rozpraszacze: której pułapki będziesz od dziś świadomie unikać?',
             placeholder: 'Np. wielogodzinnego poprawiania logo lub kolorów…',
           },
+        },
+      },
+    },
+    2: {
+      title: '2. Twój kierunek',
+      subtitle: '🔵 FUNDAMENT',
+      description: 'Znajdź niszę, określ grupę docelową, poznaj jej główny problem i wybierz odpowiednią ofertę.',
+      lessons: {
+        '2.1': {
+          stageTitle: '2. Twój kierunek', title: 'Znajdź niszę',
+          description: 'Znajdź dochodową niszę w jednym z trzech najsilniejszych rynków: zdrowie, finanse lub relacje.',
+          learnContent: {
+            videoTitle: 'Formuła rentowności Twojej niszy',
+            summaryText: 'Produkt sprzedaje się, gdy ludzie już szukają rozwiązania i są gotowi za nie zapłacić. Trzy rynki evergreen zawsze mają aktywnych klientów.',
+            bulletPoints: ['1. Finanse i dodatkowy dochód—zarabianie online, oszczędzanie i inwestowanie', '2. Zdrowie i sprawność—odchudzanie, siła, witalność i sen', '3. Relacje i rozwój osobisty—randki, partnerstwo i pewność siebie'],
+            fullArticleGuide: `### Trzy wielkie rynki z trwałym popytem
+
+Nisza jest precyzyjnie wybraną częścią większego rynku. Jeśli wybierzesz temat, którego nikt nie szuka, nawet dobry marketing nie pomoże. Zacznij tam, gdzie ludzie już wydają pieniądze.
+
+#### Trzy rynki evergreen
+
+1. **Finanse, kariera i dodatkowy dochód**
+   * Tematy: biznes online, dochód pasywny, oszczędzanie, inwestowanie i rozwój kariery.
+   * Dlaczego jest rentowny: ludzie inwestują, gdy rezultat może dać im więcej pieniędzy lub wolności.
+
+2. **Zdrowie, sprawność i dobre samopoczucie**
+   * Tematy: zdrowe odchudzanie, ból pleców, lepszy sen i budowanie siły po czterdziestce.
+   * Dlaczego jest rentowny: zdrowie ma ogromną wartość, a ludzie aktywnie szukają ulgi.
+
+3. **Relacje, randki i rozwój osobisty**
+   * Tematy: poprawa relacji, znalezienie partnera, wychowanie psa i większa pewność siebie.
+   * Dlaczego jest rentowny: potrzeby emocjonalne silnie motywują do działania.
+
+#### Jak wybrać subniszę
+
+Wybierz precyzyjny kierunek w dużym rynku. Zamiast „zarabiania pieniędzy” wybierz „dodatkowy dochód online dla zapracowanych pracowników”.`,
+            practicalExamples: ['Precyzyjne pozycjonowanie: rynek = zdrowie → subnisza = zdrowe odchudzanie dla pracujących matek bez wielogodzinnego gotowania.'],
+          },
+          understandContent: { coreTakeaway: 'Nie wymyślaj rynku. Wybierz miejsce, w którym istnieją już popyt i wydatki.', keyPrinciples: ['Konkurencja na dużym rynku potwierdza, że klienci wydają pieniądze', 'Zajmij jasną pozycję w jednej subniszy', 'Korzystaj z AI do tworzenia i oceny pomysłów'] },
+          actionTask: { instruction: 'Użyj wyszukiwarki nisz GOM-MAR lub wpisz tutaj wybraną niszę:', placeholder: 'Np. dodatkowy dochód online dla pracowników' },
+        },
+        '2.2': {
+          stageTitle: '2. Twój kierunek', title: 'Określ grupę docelową',
+          description: 'Stwórz profil idealnego klienta: komu pomagasz i co motywuje tę osobę?',
+          learnContent: {
+            videoTitle: 'Analiza grupy: kim jest Twój idealny klient?',
+            summaryText: 'Im wyraźniej widzisz jedną konkretną osobę, tym bardziej trafne będą Twoje teksty, landing page i wiadomości e-mail.',
+            bulletPoints: ['Demografia: wiek, zawód i sytuacja życiowa', 'Cele: większa wolność, bezpieczeństwo finansowe i czas dla rodziny', 'Obawy: inflacja, emerytura i zależność od jednego pracodawcy'],
+            fullArticleGuide: `### Profil idealnego klienta
+
+Jeśli próbujesz mówić do wszystkich, nie docierasz do nikogo. Wiadomości napisane „do wszystkich” brzmią chłodno i anonimowo. Pisanie jak do jednej prawdziwej osoby natychmiast zwiększa trafność i zaufanie.
+
+#### Cztery pytania o Twojego klienta
+
+1. **Kim jest ta osoba?** Wiek, zawód i sytuacja rodzinna—np. Tomasz, 42 lata, pracownik przemysłu, żonaty, dwoje dzieci.
+2. **Co obecnie ją frustruje?** Mało wolnego czasu, rosnące koszty życia i poczucie utknięcia w rutynie.
+3. **Czego pragnie najbardziej?** Dodatkowych 500–1000 € miesięcznie, aby zmniejszyć presję finansową i dać rodzinie więcej możliwości.
+4. **Jakie ma wątpliwości?** „Czy mam wystarczająco dużo czasu?”, „Czy dam radę bez doświadczenia?” i „Czy to jest wiarygodne?”
+
+Twoja komunikacja powinna odpowiadać na te wątpliwości i pokazywać, że pożądany rezultat jest osiągalny.`,
+            practicalExamples: ['Słaby tekst: „Nasz system oferuje zaawansowane metody syndykacji dla cyfrowych resellerów.” Jest niezrozumiały.', 'Dobry tekst: „Zbuduj dodatkowe źródło dochodu bez doświadczenia w 30 minut dziennie.” Trafia bezpośrednio do odbiorcy.'],
+          },
+          understandContent: { coreTakeaway: 'Jeśli próbujesz mówić do wszystkich, nie docierasz do nikogo.', keyPrinciples: ['Pisz wiadomości tak, jak do dobrego znajomego', 'Używaj dokładnych słów swojej grupy', 'Odnoś się do najbardziej pilnego codziennego problemu'] },
+          actionTask: { instruction: 'Opisz swoją grupę docelową w jednym lub dwóch zdaniach:', placeholder: 'Np. pracownicy w wieku 30–50 lat, którzy bez doświadczenia chcą zarabiać dodatkowe 500–1000 €.' },
+        },
+        '2.3': {
+          stageTitle: '2. Twój kierunek', title: 'Zidentyfikuj problem',
+          description: 'Znajdź palący problem, dla którego Twoja grupa aktywnie poszukuje natychmiastowego rozwiązania.',
+          learnContent: {
+            videoTitle: 'Znajdź i jasno opisz punkty bólu',
+            summaryText: 'Ludzie kupują emocjonalnie, a decyzję uzasadniają racjonalnie. Najsilniejszą motywacją jest uniknięcie bólu lub osiągnięcie ważnego celu.',
+            bulletPoints: ['Ból: „Mimo pełnego etatu pod koniec miesiąca brakuje pieniędzy.”', 'Cel: „Zarabiać dodatkowe 500 € z domu.”', 'Przeszkoda: „Brakuje mi wiedzy technicznej i czasu.”'],
+            fullArticleGuide: `### Palący problem jako impuls zakupowy
+
+Sprzedaż następuje, gdy oferta zamyka lukę między **obecną sytuacją**—bólem i frustracją—a **pożądaną sytuacją**—celem klienta.
+
+#### Przemiana „przed i po”
+
+* **Przed**: Tomasz pod koniec miesiąca prawie nie ma pieniędzy. Martwi go inflacja, czuje się uwięziony w pracy i brakuje mu czasu oraz doświadczenia technicznego.
+* **Po**: Tomasz zbudował prosty system. Zapewnia mu dodatkowe 600 € miesięcznie, większe bezpieczeństwo i spokojniejsze weekendy z rodziną.
+
+Twoją rolą jako partnera afiliacyjnego jest pokazanie wiarygodnego mostu od obecnej sytuacji do pożądanego rezultatu.`,
+            practicalExamples: ['Formuła oferty: „Osiągnij [pożądany rezultat] bez [największej obawy lub przeszkody].”'],
+          },
+          understandContent: { coreTakeaway: 'Twój system usuwa główną przeszkodę i prowadzi odbiorcę od problemu do pożądanego rezultatu.', keyPrinciples: ['Pokaż problem konkretnie', 'Wyjaśnij, dlaczego wcześniejsze próby się nie udały', 'Przedstaw swoją drogę jako najprostszy wiarygodny następny krok'] },
+          actionTask: { instruction: 'Jaki główny problem Twojej grupy rozwiązuje Twój system?', placeholder: 'Np. brak czasu i wiedzy technicznej potrzebnej do startu online' },
+        },
+        '2.4': {
+          stageTitle: '2. Twój kierunek', title: 'Wybierz ofertę',
+          description: 'Wybierz skuteczną ofertę afiliacyjną z platformy takiej jak Digistore24 lub Copecart.',
+          learnContent: {
+            videoTitle: 'Znajdź i oceń odpowiednią ofertę afiliacyjną',
+            summaryText: 'Dobra oferta łączy wysoką konwersję, niski poziom zwrotów, uczciwą prowizję i profesjonalną stronę sprzedażową.',
+            bulletPoints: ['Przeszukaj platformę Digistore24 lub Copecart', 'Oceń stronę sprzedażową i jej wideo', 'Sprawdź dostępność szablonów e-mail, grafik i banerów'],
+            fullArticleGuide: `### Pięć kryteriów dobrego produktu afiliacyjnego
+
+Nie każdy produkt na platformie zasługuje na Twój czas. Przed wyborem oceń pięć punktów.
+
+1. **Profesjonalna strona z dobrym wideo sprzedażowym**: Obejrzyj stronę jak potencjalny klient. Czy obietnica jest jasna i wiarygodna?
+2. **Prowizja**: Kursy cyfrowe powinny zwykle zapewniać co najmniej **30–50%** albo prowizje cykliczne.
+3. **Poziom zwrotów**: Wskaźnik poniżej 10% może świadczyć o wysokim zadowoleniu klientów.
+4. **Materiały promocyjne**: Dobrzy dostawcy udostępniają partnerom szablony e-mail, grafiki i banery.
+5. **Osobisty link promocyjny**: Link zawiera Twój identyfikator afiliacyjny i śledzenie, dzięki któremu sprzedaż zostanie przypisana do Ciebie.
+
+Polecaj tylko oferty, które naprawdę pasują do grupy i dostarczają użyteczną wartość.`,
+            practicalExamples: ['Krok praktyczny: załóż bezpłatne konto Digistore24, przejrzyj bestsellery w kategorii Internet Marketing & Business i zapisz link promocyjny wybranej oferty.'],
+          },
+          understandContent: { coreTakeaway: 'Polecaj tylko produkty, których jakości i przydatności naprawdę ufasz.', keyPrinciples: ['Zaufanie jest najcenniejszym zasobem w biznesie online', 'Zabezpiecz i zapisz swój link afiliacyjny', 'Przetestuj proces sprzedaży z perspektywy klienta'] },
+          actionTask: { instruction: 'Jak nazywa się wybrana oferta lub produkt afiliacyjny?', placeholder: 'Np. nazwa produktu lub identyfikator produktu Digistore' },
         },
       },
     },
