@@ -559,6 +559,99 @@ A prospect rarely buys at the first contact. Trust grows through several useful 
         },
       },
     },
+    6: {
+      title: '6. Turn Visitors into Customers',
+      subtitle: '🔴 MONETISATION',
+      description: 'Affiliate-marketing psychology, conversion improvement, and long-term trust building.',
+      lessons: {
+        '6.1': {
+          stageTitle: '6. Turn Visitors into Customers', title: 'Email Monetisation',
+          description: 'Turn interested readers into enthusiastic customers step by step—without pressure.',
+          learnContent: {
+            videoTitle: 'Sell through Honest Recommendations',
+            summaryText: 'People dislike being sold to, but they enjoy making a good purchase. Explain honestly why you value the product and what concrete benefit it provides.',
+            bulletPoints: ['Explain the before-and-after transformation', 'Show genuine results or demonstrations', 'Make the call-to-action link clearly visible'],
+            fullArticleGuide: `### Honest selling through recommendation marketing
+
+Sustainable monetisation grows from trust. When readers see that you genuinely want to help, they are more willing to consider your recommendations.
+
+#### Three principles of monetisation
+
+1. **Present the product as a shortcut**: Explain how it saves time and prevents expensive mistakes.
+2. **Use a clear call to action**: Label the link or button precisely—for example, “👉 Click here to access the system.”
+3. **Handle objections**: Address doubts proactively, such as whether previous experience is required, and give an honest answer.`,
+            practicalExamples: ['Use the prepared templates in the GOM-MAR Email Generator.'],
+          },
+          understandContent: { coreTakeaway: 'A good salesperson acts as an adviser who helps customers make the best decision for themselves.', keyPrinciples: ['Never make false promises', 'Use clear language', 'Explain the specific benefit'] },
+          actionTask: { instruction: 'Create a sales email with the Toolbox Email Generator:', placeholder: 'Sales email generated' },
+        },
+        '6.2': {
+          stageTitle: '6. Turn Visitors into Customers', title: 'Conversion Boosters & Bonuses',
+          description: 'Increase sales with exclusive bonuses and responsible scarcity.',
+          learnContent: {
+            videoTitle: 'The Bonus Lever for Affiliate Sales',
+            summaryText: 'Give prospects a clear reason to buy through your affiliate link by including a useful exclusive bonus, such as a checklist or an AI prompt collection.',
+            bulletPoints: ['Create one simple additional bonus', 'Use genuine scarcity—for example, for the first 20 buyers', 'A relevant bonus can increase conversion substantially'],
+            fullArticleGuide: `### The bonus lever for stronger sales
+
+If ten affiliates promote the same product, why should a prospect buy through you? A relevant **exclusive bonus** can make your recommendation more useful.
+
+#### Suitable bonus ideas
+
+* A personal checklist.
+* A short five-minute explanation video.
+* Your own tested prompt collection.
+
+Customers who purchase through your link can send their receipt by email and receive the promised bonus. Keep the process simple and deliver it promptly.`,
+            practicalExamples: ['Example: “Buy the course through my link and receive my ten tested AI prompts at no additional cost.”'],
+          },
+          understandContent: { coreTakeaway: 'A relevant bonus gives prospects a strong reason to purchase through your recommendation instead of directly from the provider.', keyPrinciples: ['The bonus must complement the main product', 'Make email delivery simple'] },
+          actionTask: { instruction: 'What bonus could you offer your customers?', placeholder: 'For example, My Ten Best AI Prompts for Facebook Posts as a PDF' },
+        },
+        '6.3': {
+          stageTitle: '6. Turn Visitors into Customers', title: 'Trust & Social Proof',
+          description: 'Use testimonials, customer feedback, and transparency to strengthen credibility.',
+          learnContent: {
+            videoTitle: 'Add Social Proof to Email Marketing',
+            summaryText: 'People look to the experiences of others. Authentic quotations, testimonials, and short case studies can resolve remaining doubts.',
+            bulletPoints: ['Add short genuine quotations to follow-up emails', 'Share your own milestone results honestly', 'Answer frequent objections proactively'],
+            fullArticleGuide: `### Social proof as a credibility booster
+
+People often trust the experiences of other customers more than advertising claims.
+
+#### Forms of social proof
+
+* **Quotations and screenshots**: Genuine feedback from participants or customers.
+* **Case studies**: For example, “How Markus generated his first three leads in 14 days.”
+* **Transparency**: Explain honestly what worked, what did not, and what conditions affected the result.`,
+            practicalExamples: ['Include verified quotations from successful participants in relevant sales emails, with permission where required.'],
+          },
+          understandContent: { coreTakeaway: 'Trust is priceless. Someone who receives honest guidance is more likely to value future recommendations.', keyPrinciples: ['Credibility before boasting', 'Authentic stories beat advertising slogans'] },
+          actionTask: { instruction: 'Confirm that objection handling and trust building are included in your sequence.', checklistItems: ['Frequent customer questions identified', 'Answers added to email 5', 'Genuine feedback or demonstrations linked'] },
+        },
+        '6.4': {
+          stageTitle: '6. Turn Visitors into Customers', title: 'First Revenue & Analysis',
+          description: 'Analyse open rates, click rates, and sales—and celebrate your first result.',
+          learnContent: {
+            videoTitle: 'Your First Commissions & Data Analysis',
+            summaryText: 'Once leads move through the system, the first commissions can follow. Identify which emails receive the most opens and clicks.',
+            bulletPoints: ['Target open rate: above 30–40%', 'Target click rate: above 5–10%', 'Review commissions in the affiliate dashboard'],
+            fullArticleGuide: `### Understand metrics and celebrate first commissions
+
+Congratulations on your first measurable results. The next step is to understand the numbers and improve one weak point at a time.
+
+#### Three essential metrics
+
+1. **Open rate**: The percentage of recipients who open the email. A useful initial target is above 30%.
+2. **Click-through rate**: The percentage of readers who click the included link. A useful initial target is above 5%.
+3. **Conversion rate**: The percentage of visitors who purchase on the destination page. A common starting target is 1–3%.`,
+            practicalExamples: ['If an email has a weak open rate, test a clearer and more relevant subject line.'],
+          },
+          understandContent: { coreTakeaway: 'What you measure, you can improve.', keyPrinciples: ['A/B-test subject lines', 'Improve the weakest step first'] },
+          actionTask: { instruction: 'What will you do with your first euro earned online?', placeholder: 'For example, reinvest in the domain or celebrate the milestone' },
+        },
+      },
+    },
   },
   pl: {
     1: {
@@ -1101,6 +1194,99 @@ Zainteresowana osoba rzadko kupuje przy pierwszym kontakcie. Zaufanie rośnie dz
           },
           understandContent: { coreTakeaway: 'Automatyczne wiadomości mogą sprzedawać, gdy spędzasz czas z rodziną i znajomymi.', keyPrinciples: ['Używaj autentycznych historii', '80% wartości i zaufania, 20% rekomendacji', 'Zachowaj rozsądne automatyczne odstępy'] },
           actionTask: { instruction: 'Aktywuj wszystkie pięć wiadomości w automatyzacji GOM-MAR:', checklistItems: ['E-mail 1 skonfigurowany—natychmiast', 'E-mail 2 skonfigurowany—dzień 1', 'E-mail 3 skonfigurowany—dzień 2', 'E-mail 4 skonfigurowany—dzień 4', 'E-mail 5 skonfigurowany—dzień 7'] },
+        },
+      },
+    },
+    6: {
+      title: '6. Zmieniaj odwiedzających w klientów',
+      subtitle: '🔴 MONETYZACJA',
+      description: 'Psychologia afiliacji, zwiększanie konwersji i długoterminowe budowanie zaufania.',
+      lessons: {
+        '6.1': {
+          stageTitle: '6. Zmieniaj odwiedzających w klientów', title: 'Monetyzacja e-mail',
+          description: 'Krok po kroku zmieniaj zainteresowanych czytelników w zadowolonych klientów—bez nacisku.',
+          learnContent: {
+            videoTitle: 'Sprzedaż przez uczciwe rekomendacje',
+            summaryText: 'Ludzie nie lubią, gdy coś im się wciska, ale lubią dokonywać dobrych zakupów. Uczciwie wyjaśnij, dlaczego cenisz produkt i jaką konkretną korzyść zapewnia.',
+            bulletPoints: ['Wyjaśnij przemianę przed i po', 'Pokaż prawdziwe wyniki lub demonstracje', 'Umieść wyraźnie widoczny link wezwania do działania'],
+            fullArticleGuide: `### Uczciwa sprzedaż przez marketing rekomendacyjny
+
+Trwała monetyzacja wyrasta z zaufania. Gdy czytelnicy widzą, że naprawdę chcesz pomóc, chętniej rozważają Twoje rekomendacje.
+
+#### Trzy zasady monetyzacji
+
+1. **Pokaż produkt jako skrót**: Wyjaśnij, jak oszczędza czas i pomaga uniknąć kosztownych błędów.
+2. **Użyj jasnego wezwania do działania**: Precyzyjnie podpisz link lub przycisk, np. „👉 Kliknij tutaj, aby uzyskać dostęp do systemu”.
+3. **Odpowiadaj na obiekcje**: Z wyprzedzeniem odnieś się do wątpliwości, np. czy potrzebne jest doświadczenie, i odpowiedz uczciwie.`,
+            practicalExamples: ['Użyj gotowych szablonów w Generatorze E-mail GOM-MAR.'],
+          },
+          understandContent: { coreTakeaway: 'Dobry sprzedawca jest doradcą, który pomaga klientowi podjąć najlepszą dla niego decyzję.', keyPrinciples: ['Bez fałszywych obietnic', 'Zrozumiały język', 'Konkretnie pokazana korzyść'] },
+          actionTask: { instruction: 'Utwórz e-mail sprzedażowy w Generatorze E-mail Toolboxa:', placeholder: 'E-mail sprzedażowy wygenerowany' },
+        },
+        '6.2': {
+          stageTitle: '6. Zmieniaj odwiedzających w klientów', title: 'Zwiększanie konwersji i bonusy',
+          description: 'Zwiększaj sprzedaż dzięki ekskluzywnym bonusom i odpowiedzialnemu ograniczeniu dostępności.',
+          learnContent: {
+            videoTitle: 'Dźwignia bonusu w sprzedaży afiliacyjnej',
+            summaryText: 'Daj odbiorcom jasny powód zakupu przez Twój link, dołączając wartościowy ekskluzywny bonus, np. listę kontrolną lub zestaw promptów AI.',
+            bulletPoints: ['Utwórz jeden prosty dodatkowy bonus', 'Stosuj prawdziwe ograniczenie, np. dla pierwszych 20 kupujących', 'Dopasowany bonus może znacznie zwiększyć konwersję'],
+            fullArticleGuide: `### Dźwignia bonusu dla lepszej sprzedaży
+
+Jeśli dziesięciu partnerów promuje ten sam produkt, dlaczego odbiorca ma kupić przez Ciebie? Dopasowany **ekskluzywny bonus** może zwiększyć wartość Twojej rekomendacji.
+
+#### Pomysły na bonus
+
+* Osobista lista kontrolna.
+* Krótki, pięciominutowy film wyjaśniający.
+* Własny zestaw sprawdzonych promptów.
+
+Kupujący przez Twój link może wysłać potwierdzenie e-mailem i otrzymać obiecany bonus. Utrzymuj prosty proces i dostarczaj materiał szybko.`,
+            practicalExamples: ['Przykład: „Kup kurs przez mój link, a otrzymasz bez dodatkowych kosztów dziesięć sprawdzonych promptów AI.”'],
+          },
+          understandContent: { coreTakeaway: 'Dopasowany bonus daje odbiorcy mocny powód do zakupu przez Twoją rekomendację zamiast bezpośrednio u dostawcy.', keyPrinciples: ['Bonus musi uzupełniać główny produkt', 'Uprość dostarczenie e-mailem'] },
+          actionTask: { instruction: 'Jaki bonus możesz zaoferować kupującym?', placeholder: 'Np. Moje dziesięć najlepszych promptów AI do wpisów na Facebooku w PDF' },
+        },
+        '6.3': {
+          stageTitle: '6. Zmieniaj odwiedzających w klientów', title: 'Zaufanie i dowody społeczne',
+          description: 'Wykorzystuj opinie klientów i przejrzystość, aby wzmacniać wiarygodność.',
+          learnContent: {
+            videoTitle: 'Dowody społeczne w e-mail marketingu',
+            summaryText: 'Ludzie kierują się doświadczeniami innych. Autentyczne cytaty, opinie i krótkie studia przypadku mogą usunąć ostatnie wątpliwości.',
+            bulletPoints: ['Dodaj krótkie autentyczne cytaty do wiadomości follow-up', 'Uczciwie dziel się własnymi wynikami etapowymi', 'Odpowiadaj z wyprzedzeniem na częste obiekcje'],
+            fullArticleGuide: `### Dowody społeczne jako wzmocnienie wiarygodności
+
+Ludzie często bardziej ufają doświadczeniom klientów niż twierdzeniom reklamowym.
+
+#### Formy dowodów społecznych
+
+* **Cytaty i zrzuty ekranu**: Prawdziwe opinie uczestników lub klientów.
+* **Studia przypadku**: Na przykład „Jak Marek zdobył pierwsze trzy kontakty w 14 dni”.
+* **Przejrzystość**: Uczciwie wyjaśnij, co działało, co nie działało i jakie warunki wpłynęły na rezultat.`,
+            practicalExamples: ['Za zgodą autorów dodaj zweryfikowane cytaty skutecznych uczestników do odpowiednich wiadomości sprzedażowych.'],
+          },
+          understandContent: { coreTakeaway: 'Zaufanie jest bezcenne. Osoba, która otrzyma uczciwą poradę, bardziej doceni przyszłe rekomendacje.', keyPrinciples: ['Wiarygodność przed przechwałkami', 'Autentyczne historie są lepsze niż slogany reklamowe'] },
+          actionTask: { instruction: 'Potwierdź, że obsługa obiekcji i budowanie zaufania są częścią sekwencji.', checklistItems: ['Częste pytania klientów zidentyfikowane', 'Odpowiedzi dodane do e-maila 5', 'Autentyczne opinie lub demonstracje podlinkowane'] },
+        },
+        '6.4': {
+          stageTitle: '6. Zmieniaj odwiedzających w klientów', title: 'Pierwszy przychód i analiza',
+          description: 'Analizuj wskaźniki otwarć, kliknięć i sprzedaży oraz świętuj pierwszy wynik.',
+          learnContent: {
+            videoTitle: 'Pierwsze prowizje i analiza danych',
+            summaryText: 'Gdy kontakty przechodzą przez system, mogą pojawić się pierwsze prowizje. Sprawdź, które wiadomości mają najwięcej otwarć i kliknięć.',
+            bulletPoints: ['Docelowy wskaźnik otwarć: powyżej 30–40%', 'Docelowy wskaźnik kliknięć: powyżej 5–10%', 'Sprawdzaj prowizje w panelu afiliacyjnym'],
+            fullArticleGuide: `### Zrozum wskaźniki i świętuj pierwsze prowizje
+
+Gratulacje z okazji pierwszych mierzalnych wyników. Teraz zrozum liczby i poprawiaj po jednym słabym punkcie.
+
+#### Trzy najważniejsze wskaźniki
+
+1. **Wskaźnik otwarć**: Procent odbiorców, którzy otworzyli e-mail. Dobry cel początkowy to ponad 30%.
+2. **Wskaźnik kliknięć**: Procent czytelników, którzy kliknęli zawarty link. Dobry cel początkowy to ponad 5%.
+3. **Współczynnik konwersji**: Procent odwiedzających, którzy kupili na stronie docelowej. Typowy cel początkowy to 1–3%.`,
+            practicalExamples: ['Jeśli wiadomość ma niski wskaźnik otwarć, przetestuj prostszy i trafniejszy temat.'],
+          },
+          understandContent: { coreTakeaway: 'To, co mierzysz, możesz poprawić.', keyPrinciples: ['Testuj A/B tematy wiadomości', 'Najpierw poprawiaj najsłabszy etap'] },
+          actionTask: { instruction: 'Co zrobisz z pierwszym euro zarobionym online?', placeholder: 'Np. zainwestuję w domenę albo uczczę ten krok' },
         },
       },
     },
