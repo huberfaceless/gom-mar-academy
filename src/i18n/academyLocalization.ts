@@ -372,6 +372,98 @@ Before sending visitors to your page, confirm that the complete system works. On
         },
       },
     },
+    4: {
+      title: '4. Reach People',
+      subtitle: '🟠 TRAFFIC',
+      description: 'Free traffic strategies for Facebook, Instagram, Pinterest, and YouTube—without an advertising budget.',
+      lessons: {
+        '4.1': {
+          stageTitle: '4. Reach People', title: 'Facebook Niche Groups',
+          description: 'Generate 5–15 high-quality leads a day from existing Facebook groups.',
+          learnContent: {
+            videoTitle: 'Organic Value-Driven Traffic from Facebook Groups',
+            summaryText: 'Find groups where your audience already discusses its problems. Answer questions with genuine value and point people towards your free lead magnet.',
+            bulletPoints: ['Find 5–10 relevant groups in your niche', 'Provide genuine value instead of promotional spam', 'Use storytelling: “How I solved this problem…”'],
+            fullArticleGuide: `### Organic lead generation in Facebook niche groups
+
+Millions of people use Facebook groups every day to discuss specific interests and problems. You do not have to find them individually—they are already gathered in relevant communities.
+
+#### The value formula for group posts
+
+1. **Never post blunt advertising spam**: Messages such as “Make money—click here” are deleted quickly and can lead to account restrictions.
+2. **Use story plus value**: Share a personal experience or observation, give three useful tips, and finish with a curiosity-driven invitation. For example: “I created a compact PDF summary. Comment INFO if you would like a copy.”
+3. **Follow up through comments**: Send each person who comments a friendly direct message containing the link to your landing page.`,
+            practicalExamples: ['Example post: “I struggled to find time for a side income while working full-time. These three routines helped me. Let me know if you would like the checklist.” A useful post like this can generate 20–40 comments.'],
+          },
+          understandContent: { coreTakeaway: 'Helpful posts start conversations and naturally draw interested people to your profile.', keyPrinciples: ['Help first, sell later', 'Optimise your profile like a landing page', 'Use the GOM-MAR Content Generator for post ideas'] },
+          actionTask: { instruction: 'Create your first group post with the GOM-MAR Toolbox:', placeholder: 'For example, Facebook value post drafted' },
+        },
+        '4.2': {
+          stageTitle: '4. Reach People', title: 'Instagram Reels & Stories',
+          description: 'Build reach with concise Reels and interactive Stories.',
+          learnContent: {
+            videoTitle: 'The Three-Second Reel Formula for Reach',
+            summaryText: 'Reels can provide substantial free reach. Use three parts: a curiosity hook, three useful tips, and a call to action such as “Comment START for the guide.”',
+            bulletPoints: ['Use a visual hook in the first three seconds', 'Use suitable trending audio and clear captions', 'Use automated DMs to send links after comments'],
+            fullArticleGuide: `### Short-form reach with Instagram Reels
+
+Instagram rewards short videos that hold attention. You do not have to show your face: faceless channels can use screen recordings, nature footage, desk scenes, or aesthetic video clips.
+
+#### Three building blocks of a successful Reel
+
+1. **Hook—seconds 0–3**: Display a strong line such as “Three things nobody tells you about building a side income online.”
+2. **Value—seconds 3–12**: Present short, practical points in the video or caption.
+3. **Call to action**: Finish with “Comment START and I will send you the free guide by DM.”`,
+            practicalExamples: ['Faceless Reel: Film yourself pouring coffee at a desk, place the hook on screen, and add three tips plus the response instruction in the caption.'],
+          },
+          understandContent: { coreTakeaway: 'Reels attract new viewers; Stories turn followers into grateful leads.', keyPrinciples: ['Shorter is usually better—7 to 15 seconds', 'Use curiosity instead of jargon', 'Consistency beats occasional bursts of motivation'] },
+          actionTask: { instruction: 'Draft one Reel idea for your niche:', placeholder: 'For example, Three things you did not know about online income' },
+        },
+        '4.3': {
+          stageTitle: '4. Reach People', title: 'Pinterest & YouTube Evergreen Traffic',
+          description: 'Build search traffic that continues to generate clicks months later.',
+          learnContent: {
+            videoTitle: 'Passive Traffic from Visual Search Engines',
+            summaryText: 'Unlike fast-moving social feeds, Pinterest and YouTube behave like visual search engines. A strong Pin can send daily visitors to your landing page for years.',
+            bulletPoints: ['Link Pinterest Pins directly to your landing page', 'Use relevant keywords in titles and descriptions', 'Use YouTube Shorts to accelerate reach'],
+            fullArticleGuide: `### Sustainable evergreen traffic
+
+Instagram posts quickly disappear down the feed, while Pinterest and YouTube work like search engines. Content published today can still bring new visitors in twelve months.
+
+#### Pinterest marketing in three steps
+
+1. Create vertical graphics in Canva—ideally 1080 × 1920 pixels.
+2. Write keyword-rich titles such as “Guide: Build a side income from home.”
+3. Link each Pin directly to your opt-in landing page.`,
+            practicalExamples: ['One successful Pin can generate 300–500 clicks per month for months without requiring a new daily post.'],
+          },
+          understandContent: { coreTakeaway: 'Evergreen traffic builds a durable digital foundation for long-term success.', keyPrinciples: ['Create reusable Canva templates for fast Pins', 'Keywords are essential for search rankings'] },
+          actionTask: { instruction: 'Plan your first three Pinterest Pins with Toolbox support.', checklistItems: ['Pinterest account created and configured', 'Three keyword phrases identified', 'Pins created and linked to the landing page'] },
+        },
+        '4.4': {
+          stageTitle: '4. Reach People', title: 'Your Seven-Day Traffic Plan',
+          description: 'Create structure with only 30 minutes of daily action for consistent leads.',
+          learnContent: {
+            videoTitle: 'The 30-Minute Daily Workflow',
+            summaryText: 'Results come from daily routines, not one-off actions. Thirty focused minutes per day are enough.',
+            bulletPoints: ['Days 1–3: Facebook value posts and comments', 'Days 4–5: Instagram Reel and Story interaction', 'Days 6–7: Publish Pinterest Pins and review results'],
+            fullArticleGuide: `### A structured 30-minute daily plan
+
+Online-business progress does not require eight hours of work every day. It requires discipline with small, repeatable actions.
+
+#### Your weekly plan
+
+* **Monday to Wednesday—15 minutes**: Share one useful post in two Facebook groups and answer questions.
+* **Thursday to Friday—15 minutes**: Publish one Reel or Short and reply to direct messages.
+* **Saturday—15 minutes**: Plan three Pinterest Pins.
+* **Sunday**: Rest and review the leads generated during the week.`,
+            practicalExamples: ['After 30 days, you may have published 20 group posts, 10 Reels, and 15 Pins—enough activity to generate 50–150 leads and your first sales.'],
+          },
+          understandContent: { coreTakeaway: 'Turn your traffic plan into a daily habit.', keyPrinciples: ['Reserve fixed time slots', 'Focus on lead numbers rather than follower numbers'] },
+          actionTask: { instruction: 'Commit to your weekly traffic schedule:', placeholder: 'Reserve 30 minutes every day' },
+        },
+      },
+    },
   },
   pl: {
     1: {
@@ -727,6 +819,98 @@ Zanim wyślesz odwiedzających na stronę, upewnij się, że cały system dział
           },
           understandContent: { coreTakeaway: 'Sprawny system daje Ci pewność przed rozpoczęciem pozyskiwania ruchu.', keyPrinciples: ['Zbuduj dobrze raz i korzystaj przez lata', 'Znajdź błędy podczas testu, nie dzięki klientom'] },
           actionTask: { instruction: 'Wykonaj pełny test procesu zapisu.', checklistItems: ['Testowy zapis zakończony powodzeniem', 'Strona podziękowania otwiera się prawidłowo', 'Automatyzacja e-mail GOM-MAR zapisała kontakt'] },
+        },
+      },
+    },
+    4: {
+      title: '4. Docieraj do ludzi',
+      subtitle: '🟠 RUCH',
+      description: 'Bezpłatne strategie ruchu na Facebooku, Instagramie, Pintereście i YouTube—bez budżetu reklamowego.',
+      lessons: {
+        '4.1': {
+          stageTitle: '4. Docieraj do ludzi', title: 'Grupy niszowe na Facebooku',
+          description: 'Zdobywaj codziennie 5–15 wartościowych kontaktów z istniejących grup na Facebooku.',
+          learnContent: {
+            videoTitle: 'Organiczny ruch z wartościowych treści w grupach Facebooka',
+            summaryText: 'Znajdź grupy, w których Twoi odbiorcy już rozmawiają o swoich problemach. Odpowiadaj konkretnie i kieruj zainteresowanych do bezpłatnego lead magnetu.',
+            bulletPoints: ['Znajdź 5–10 odpowiednich grup w swojej niszy', 'Dostarczaj realną wartość zamiast reklamowego spamu', 'Wykorzystuj historie: „Jak rozwiązałem ten problem…”'],
+            fullArticleGuide: `### Organiczne pozyskiwanie kontaktów w grupach niszowych
+
+Miliony osób codziennie rozmawiają w grupach na Facebooku o konkretnych zainteresowaniach i problemach. Nie musisz szukać ich pojedynczo—są już zgromadzeni w odpowiednich społecznościach.
+
+#### Formuła wartościowego wpisu grupowego
+
+1. **Bez nachalnego spamu**: Wpisy w stylu „Zarabiaj pieniądze—kliknij tutaj” szybko są usuwane i mogą prowadzić do ograniczenia konta.
+2. **Historia plus wartość**: Opisz własne doświadczenie, podaj trzy praktyczne wskazówki i zakończ zaproszeniem budzącym ciekawość. Przykład: „Przygotowałem krótkie podsumowanie PDF. Napisz INFO w komentarzu, jeśli chcesz je otrzymać.”
+3. **Strategia komentarzy**: Każdej komentującej osobie wyślij przyjazną wiadomość prywatną z linkiem do landing page.`,
+            practicalExamples: ['Przykład: „Długo nie mogłem znaleźć czasu na dodatkowy dochód przy pełnym etacie. Pomogły mi te trzy rutyny. Daj znać, jeśli chcesz listę kontrolną.” Taki wpis może wygenerować 20–40 komentarzy.'],
+          },
+          understandContent: { coreTakeaway: 'Pomocne wpisy rozpoczynają rozmowy i naturalnie przyciągają zainteresowanych na Twój profil.', keyPrinciples: ['Najpierw pomóż, później sprzedawaj', 'Zoptymalizuj profil jak landing page', 'Korzystaj z Generatora Treści GOM-MAR'] },
+          actionTask: { instruction: 'Utwórz pierwszy wpis grupowy z pomocą GOM-MAR Toolbox:', placeholder: 'Np. gotowy projekt wartościowego wpisu na Facebooka' },
+        },
+        '4.2': {
+          stageTitle: '4. Docieraj do ludzi', title: 'Instagram Reels i Stories',
+          description: 'Buduj zasięg krótkimi Reelsami i interaktywnymi Stories.',
+          learnContent: {
+            videoTitle: 'Trzysekundowa formuła Reelsa zwiększającego zasięg',
+            summaryText: 'Reelsy mogą zapewnić duży bezpłatny zasięg. Użyj trzech części: haczyka ciekawości, trzech wskazówek i wezwania „Napisz START w komentarzu, aby otrzymać poradnik.”',
+            bulletPoints: ['Wizualny haczyk w pierwszych trzech sekundach', 'Dopasowane popularne audio i czytelne napisy', 'Automatyczne wiadomości prywatne wysyłające link po komentarzu'],
+            fullArticleGuide: `### Zasięg krótkich filmów dzięki Instagram Reels
+
+Instagram promuje krótkie filmy, które utrzymują uwagę. Nie musisz pokazywać twarzy: kanał faceless może korzystać z nagrań ekranu, natury, biurka lub estetycznych ujęć.
+
+#### Trzy elementy skutecznego Reelsa
+
+1. **Haczyk—sekundy 0–3**: Pokaż mocny tekst, np. „Trzy rzeczy, których nikt nie mówi o dodatkowym dochodzie online.”
+2. **Wartość—sekundy 3–12**: Przedstaw krótkie praktyczne punkty w filmie albo opisie.
+3. **Wezwanie do działania**: Zakończ zdaniem „Napisz START w komentarzu, a wyślę Ci bezpłatny poradnik w wiadomości prywatnej.”`,
+            practicalExamples: ['Reels faceless: nagraj nalewanie kawy przy biurku, umieść haczyk na ekranie, a trzy wskazówki i instrukcję odpowiedzi dodaj w opisie.'],
+          },
+          understandContent: { coreTakeaway: 'Reelsy przyciągają nowych widzów, a Stories zmieniają obserwujących w wartościowe kontakty.', keyPrinciples: ['Krócej zwykle znaczy lepiej—7 do 15 sekund', 'Ciekawość zamiast żargonu', 'Regularność wygrywa z chwilowym zapałem'] },
+          actionTask: { instruction: 'Zaplanuj jeden pomysł na Reels w swojej niszy:', placeholder: 'Np. Trzy rzeczy, których nie wiesz o dochodzie online' },
+        },
+        '4.3': {
+          stageTitle: '4. Docieraj do ludzi', title: 'Evergreen na Pintereście i YouTube',
+          description: 'Buduj ruch z wyszukiwarek, który przynosi kliknięcia także po wielu miesiącach.',
+          learnContent: {
+            videoTitle: 'Pasywny ruch z wizualnych wyszukiwarek',
+            summaryText: 'W odróżnieniu od szybkich kanałów społecznościowych Pinterest i YouTube działają jak wizualne wyszukiwarki. Dobry Pin może przez lata codziennie kierować użytkowników na landing page.',
+            bulletPoints: ['Linkuj Piny bezpośrednio do landing page', 'Używaj trafnych słów kluczowych w tytule i opisie', 'Przyspieszaj zasięg dzięki YouTube Shorts'],
+            fullArticleGuide: `### Trwały ruch evergreen
+
+Wpisy na Instagramie szybko znikają w kanale, natomiast Pinterest i YouTube działają jak wyszukiwarki. Treść opublikowana dzisiaj może nadal zdobywać odwiedzających za dwanaście miesięcy.
+
+#### Marketing na Pintereście w trzech krokach
+
+1. Twórz w Canvie pionowe grafiki, najlepiej 1080 × 1920 pikseli.
+2. Pisz tytuły bogate w słowa kluczowe, np. „Poradnik: jak zbudować dodatkowy dochód z domu”.
+3. Linkuj każdy Pin bezpośrednio do landing page z formularzem zapisu.`,
+            practicalExamples: ['Jeden skuteczny Pin może przez wiele miesięcy generować 300–500 kliknięć miesięcznie bez codziennego publikowania.'],
+          },
+          understandContent: { coreTakeaway: 'Ruch evergreen buduje trwały cyfrowy fundament długoterminowego sukcesu.', keyPrinciples: ['Twórz szablony Canva do szybkiego przygotowania Pinów', 'Słowa kluczowe decydują o pozycji w wynikach'] },
+          actionTask: { instruction: 'Zaplanuj pierwsze trzy Piny z pomocą Toolboxa.', checklistItems: ['Konto Pinterest utworzone i skonfigurowane', 'Trzy frazy kluczowe zidentyfikowane', 'Piny utworzone i połączone z landing page'] },
+        },
+        '4.4': {
+          stageTitle: '4. Docieraj do ludzi', title: 'Twój siedmiodniowy plan ruchu',
+          description: 'Wprowadź strukturę: wystarczy 30 minut działania dziennie, aby regularnie zdobywać kontakty.',
+          learnContent: {
+            videoTitle: 'Codzienny workflow w 30 minut',
+            summaryText: 'Wyniki przynoszą codzienne rutyny, a nie jednorazowe akcje. Wystarczy trzydzieści minut skupionej pracy dziennie.',
+            bulletPoints: ['Dni 1–3: wartościowe wpisy i komentarze na Facebooku', 'Dni 4–5: Instagram Reel i interakcje w Stories', 'Dni 6–7: publikacja Pinów i analiza wyników'],
+            fullArticleGuide: `### Uporządkowany plan 30 minut dziennie
+
+Rozwój biznesu online nie wymaga ośmiu godzin pracy dziennie. Wymaga dyscypliny w małych, powtarzalnych działaniach.
+
+#### Twój plan tygodniowy
+
+* **Od poniedziałku do środy—15 minut**: Udostępnij jeden wartościowy wpis w dwóch grupach i odpowiedz na pytania.
+* **Od czwartku do piątku—15 minut**: Opublikuj jeden Reel lub Short i odpowiedz na wiadomości.
+* **Sobota—15 minut**: Zaplanuj trzy Piny.
+* **Niedziela**: Odpocznij i przeanalizuj kontakty pozyskane w ciągu tygodnia.`,
+            practicalExamples: ['Po 30 dniach możesz mieć 20 wpisów grupowych, 10 Reelsów i 15 Pinów—aktywność wystarczającą do zdobycia 50–150 kontaktów i pierwszych sprzedaży.'],
+          },
+          understandContent: { coreTakeaway: 'Zmień plan ruchu w codzienny nawyk.', keyPrinciples: ['Rezerwuj stałe pory działania', 'Skup się na liczbie kontaktów, nie obserwujących'] },
+          actionTask: { instruction: 'Zobowiąż się do tygodniowego planu ruchu:', placeholder: 'Zarezerwuj 30 minut każdego dnia' },
         },
       },
     },
