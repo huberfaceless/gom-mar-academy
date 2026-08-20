@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Lesson } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 import { 
   Play, 
   Pause, 
@@ -29,6 +30,12 @@ interface LessonVideoPlayerProps {
 }
 
 export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, niche }) => {
+  const { language } = useLanguage();
+  const copy = {
+    de: { chapters: ['Einführung & Überblick', 'Kern-Prinzipien & Methodik', 'Praxisbeispiel & Anwendung', 'Zusammenfassung & Umsetzung'], lesson: 'Lektion', keyPoints: 'Die wichtigsten Punkte sind:', takeaway: 'Merk-Satz:', chapterReached: 'Kapitel erreicht.', changeUrl: 'Video-URL ändern', embed: '🎥 YouTube Video einbetten', addUrl: 'Füge einen YouTube-Link oder Video-Embed ein für Lektion', save: 'Speichern', reset: 'Zurücksetzen', parts: ['Teil 1: Einführung & Ausrichtung', 'Teil 2: Die 3 Kern-Prinzipien', 'Teil 3: Konkretes Praxisbeispiel'], playHint: 'Klicke Play, um das Video mit Audio-Erklärung zu starten', back10: '10s zurück', interactive: 'Interaktive Video-Kapitel', chapterHint: 'Klicke ein Kapitel, um direkt dorthin zu springen' },
+    en: { chapters: ['Introduction & overview', 'Core principles & method', 'Practical example & application', 'Summary & implementation'], lesson: 'Lesson', keyPoints: 'The key points are:', takeaway: 'Key takeaway:', chapterReached: 'Chapter reached.', changeUrl: 'Change video URL', embed: '🎥 Embed YouTube video', addUrl: 'Add a YouTube link or video embed for lesson', save: 'Save', reset: 'Reset', parts: ['Part 1: Introduction & direction', 'Part 2: The 3 core principles', 'Part 3: Practical example'], playHint: 'Press Play to start the video with audio narration', back10: 'Back 10s', interactive: 'Interactive video chapters', chapterHint: 'Select a chapter to jump straight to it' },
+    pl: { chapters: ['Wprowadzenie i przegląd', 'Główne zasady i metoda', 'Przykład i zastosowanie', 'Podsumowanie i wdrożenie'], lesson: 'Lekcja', keyPoints: 'Najważniejsze punkty:', takeaway: 'Kluczowa myśl:', chapterReached: 'Rozdział rozpoczęty.', changeUrl: 'Zmień adres wideo', embed: '🎥 Osadź wideo YouTube', addUrl: 'Dodaj link YouTube lub osadzone wideo dla lekcji', save: 'Zapisz', reset: 'Resetuj', parts: ['Część 1: Wprowadzenie i kierunek', 'Część 2: 3 główne zasady', 'Część 3: Praktyczny przykład'], playHint: 'Naciśnij Play, aby uruchomić wideo z narracją', back10: 'Cofnij 10 s', interactive: 'Interaktywne rozdziały wideo', chapterHint: 'Wybierz rozdział, aby od razu do niego przejść' },
+  }[language];
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
@@ -56,10 +63,10 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
 
   // Parse chapters time into seconds
   const chaptersWithSeconds = (lesson.learnContent.videoChapters || [
-    { time: '0:00', title: '01. Einführung & Überblick' },
-    { time: '2:15', title: '02. Kern-Prinzipien & Methodik' },
-    { time: '4:30', title: '03. Praxisbeispiel & Anwendung' },
-    { time: '6:50', title: '04. Zusammenfassung & Umsetzung' },
+    { time: '0:00', title: `01. ${copy.chapters[0]}` },
+    { time: '2:15', title: `02. ${copy.chapters[1]}` },
+    { time: '4:30', title: `03. ${copy.chapters[2]}` },
+    { time: '6:50', title: `04. ${copy.chapters[3]}` },
   ]).map((chap) => {
     const parts = chap.time.split(':');
     const sec = parts.length === 2 ? parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10) : 0;
@@ -106,13 +113,13 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
 
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'de-DE';
+    utterance.lang = language === 'de' ? 'de-DE' : language === 'pl' ? 'pl-PL' : 'en-US';
     utterance.rate = playbackSpeed;
 
     // Try to pick a natural German voice if available
     const voices = window.speechSynthesis.getVoices();
-    const deVoice = voices.find((v) => v.lang.includes('de'));
-    if (deVoice) utterance.voice = deVoice;
+    const localizedVoice = voices.find((v) => v.lang.toLowerCase().startsWith(language));
+    if (localizedVoice) utterance.voice = localizedVoice;
 
     window.speechSynthesis.speak(utterance);
   };
@@ -125,7 +132,7 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
           window.speechSynthesis.resume();
         } else {
           // Construct narration text for current lesson
-          const narrationText = `Lektion ${lesson.id}: ${lesson.title}. ${lesson.learnContent.summaryText} Die wichtigsten Punkte sind: ${lesson.learnContent.bulletPoints.join('. ')}. Merk-Satz: ${lesson.understandContent.coreTakeaway}`;
+          const narrationText = `${copy.lesson} ${lesson.id}: ${lesson.title}. ${lesson.learnContent.summaryText} ${copy.keyPoints} ${lesson.learnContent.bulletPoints.join('. ')}. ${copy.takeaway} ${lesson.understandContent.coreTakeaway}`;
           speakNarration(narrationText);
         }
       }
@@ -142,7 +149,7 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
     setCurrentTime(clamped);
     if (isPlaying && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      const textToSpeak = `Kapitel erreicht. ${lesson.title}. ${lesson.learnContent.summaryText}`;
+      const textToSpeak = `${copy.chapterReached} ${lesson.title}. ${lesson.learnContent.summaryText}`;
       speakNarration(textToSpeak);
     }
   };
@@ -202,7 +209,7 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
           className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
         >
           <Link2 className="w-3.5 h-3.5 text-emerald-400" />
-          <span>{customVideoUrl ? 'Video-URL ändern' : '🎥 YouTube Video einbetten'}</span>
+          <span>{customVideoUrl ? copy.changeUrl : copy.embed}</span>
         </button>
       </div>
 
@@ -210,7 +217,7 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
       {isEditingUrl && (
         <div className="p-4 rounded-2xl bg-slate-900 border border-emerald-500/40 text-xs space-y-3 animate-fadeIn">
           <p className="font-bold text-emerald-300">
-            Füge einen YouTube-Link oder Video-Embed für Lektion {lesson.id} ein:
+            {copy.addUrl} {lesson.id}:
           </p>
           <div className="flex items-center gap-2">
             <input
@@ -225,7 +232,7 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
               className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold flex items-center gap-1 transition-colors cursor-pointer"
             >
               <Check className="w-4 h-4" />
-              <span>Speichern</span>
+              <span>{copy.save}</span>
             </button>
             {customVideoUrl && (
               <button
@@ -235,7 +242,7 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
                 }}
                 className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
               >
-                Zurücksetzen
+                {copy.reset}
               </button>
             )}
           </div>
@@ -265,7 +272,7 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
               <Tv className="w-4 h-4 text-emerald-400" />
               <span className="font-extrabold text-white">Etappe {lesson.stageId}</span>
               <span className="text-slate-500">•</span>
-              <span className="text-emerald-400 font-semibold">Lektion {lesson.id}</span>
+              <span className="text-emerald-400 font-semibold">{copy.lesson} {lesson.id}</span>
             </div>
 
             <div className="flex items-center gap-2">
@@ -281,7 +288,7 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
               <div className="space-y-3 animate-fadeIn">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold">
                   <Sparkles className="w-4 h-4 text-emerald-400 animate-spin" />
-                  <span>Teil 1: Einführung & Ausrichtung</span>
+                  <span>{copy.parts[0]}</span>
                 </div>
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight leading-tight">
                   {lesson.title}
@@ -296,7 +303,7 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
               <div className="space-y-3 animate-fadeIn">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-bold">
                   <Zap className="w-4 h-4 text-blue-400" />
-                  <span>Teil 2: Die 3 Kern-Prinzipien</span>
+                  <span>{copy.parts[1]}</span>
                 </div>
                 <div className="grid grid-cols-1 gap-2 text-left bg-slate-900/80 backdrop-blur border border-slate-800 p-4 rounded-2xl">
                   {lesson.learnContent.bulletPoints.map((bp, idx) => (
@@ -313,7 +320,7 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
               <div className="space-y-3 animate-fadeIn">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-bold">
                   <Lightbulb className="w-4 h-4 text-purple-400" />
-                  <span>Teil 3: Konkretes Praxisbeispiel</span>
+                  <span>{copy.parts[2]}</span>
                 </div>
                 <div className="bg-purple-950/40 border border-purple-500/30 p-4 rounded-2xl text-xs sm:text-sm text-purple-100 font-medium leading-relaxed text-left">
                   {lesson.learnContent.practicalExamples?.[0] || lesson.learnContent.summaryText}
@@ -339,7 +346,7 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
                 🎙️ {isPlaying ? (
                   <span>Sprachausgabe: "{lesson.learnContent.summaryText.slice(0, 110)}..."</span>
                 ) : (
-                  <span>Klicke Play, um das Video mit Audio-Erklärung zu starten</span>
+                  <span>{copy.playHint}</span>
                 )}
               </div>
             )}
@@ -386,7 +393,7 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
                 <button
                   onClick={() => handleSeek(currentTime - 10)}
                   className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
-                  title="10s zurück"
+                  title={copy.back10}
                 >
                   <Rewind className="w-4 h-4" />
                 </button>
@@ -460,9 +467,9 @@ export const LessonVideoPlayer: React.FC<LessonVideoPlayerProps> = ({ lesson, ni
         <div className="flex items-center justify-between text-xs">
           <p className="font-extrabold text-white uppercase tracking-wider flex items-center gap-1.5">
             <Clock className="w-4 h-4 text-emerald-400" />
-            <span>Interaktive Video-Kapitel ({chaptersWithSeconds.length})</span>
+            <span>{copy.interactive} ({chaptersWithSeconds.length})</span>
           </p>
-          <span className="text-[11px] text-slate-400">Klicke ein Kapitel, um direkt dorthin zu springen</span>
+          <span className="text-[11px] text-slate-400">{copy.chapterHint}</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
