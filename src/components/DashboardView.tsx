@@ -1,5 +1,7 @@
 import React from 'react';
 import { UserProfile, Lesson } from '../types';
+import { useLanguage } from '../context/LanguageContext';
+import { LanguageCode } from '../i18n/translations';
 import { ACADEMY_STAGES } from '../data/academyData';
 import { 
   Rocket, 
@@ -19,6 +21,23 @@ import {
   CircleDot
 } from 'lucide-react';
 
+const dashboardCopy: Record<LanguageCode, Record<string, string>> = {
+  de: {
+    greeting: 'Willkommen zurück, {name}!', intro: 'Dein System läuft. Lass uns heute den nächsten entscheidenden Schritt für dein Business machen.', next: '🎯 Dein nächster Schritt', lesson: 'Lektion', start: 'Lektion {id} starten', continue: 'Lektion fortsetzen', approx: 'Ca. {minutes} Min', learningProgress: 'Dein Lernfortschritt', phase: 'Phase {stage}: {title} • {completed} von {total} Lektionen', stage1: 'Etappe 1 (Start)', stage2: 'Etappe 2 (Funnels)', stage3: 'Etappe 3 (Traffic)', stage47: 'Etappe 4–7 (Skalierung)', clearPath: 'Dein klarer Weg', allModules: 'Alle Module in der Academy ansehen', current: 'Aktuell', course: 'Gesamter Kurs', modules: '99 Module verfügbar', level: 'Level', status: 'Status', emailSystem: 'E-Mail-System', mails: '5 E-Mails', active: 'Aktiv geschaltet', toolbox: 'Toolbox', aiTools: 'KI-Tools', ready: 'Bereit zum Einsatz',
+    road1: 'Schritt 1: Grundlagen & Wertschöpfung', road2: 'Schritt 2: Nischen- & Zielgruppenwahl', road3: 'Schritt 3: High-Converting Landingpage', road4: 'Schritt 4: Automatisierte E-Mail-Sequenz', road5: 'Schritt 5: Organische Traffic-Generierung', fallbackTitle: 'Wie funktioniert Online-Einkommen?', fallbackDescription: 'Starte mit den Grundlagen des GOM-MAR Systems und lerne, wie du automatisiert digitalen Mehrwert aufbaust.'
+  },
+  en: {
+    greeting: 'Welcome back, {name}!', intro: 'Your system is running. Let’s take the next decisive step for your business today.', next: '🎯 Your next step', lesson: 'Lesson', start: 'Start lesson {id}', continue: 'Continue lesson', approx: 'Approx. {minutes} min', learningProgress: 'Your learning progress', phase: 'Stage {stage}: {title} • {completed} of {total} lessons', stage1: 'Stage 1 (Start)', stage2: 'Stage 2 (Funnels)', stage3: 'Stage 3 (Traffic)', stage47: 'Stages 4–7 (Scaling)', clearPath: 'Your clear path', allModules: 'View all Academy modules', current: 'Current', course: 'Entire course', modules: '99 modules available', level: 'Level', status: 'Status', emailSystem: 'Email system', mails: '5 emails', active: 'Activated', toolbox: 'Toolbox', aiTools: 'AI tools', ready: 'Ready to use',
+    road1: 'Step 1: Foundations & value creation', road2: 'Step 2: Choose niche & target audience', road3: 'Step 3: High-converting landing page', road4: 'Step 4: Automated email sequence', road5: 'Step 5: Organic traffic generation', fallbackTitle: 'How does online income work?', fallbackDescription: 'Start with the foundations of the GOM-MAR system and learn how to build digital value automatically.'
+  },
+  pl: {
+    greeting: 'Witaj ponownie, {name}!', intro: 'Twój system działa. Zróbmy dziś kolejny decydujący krok dla Twojego biznesu.', next: '🎯 Twój następny krok', lesson: 'Lekcja', start: 'Rozpocznij lekcję {id}', continue: 'Kontynuuj lekcję', approx: 'Około {minutes} min', learningProgress: 'Twój postęp w nauce', phase: 'Etap {stage}: {title} • {completed} z {total} lekcji', stage1: 'Etap 1 (Start)', stage2: 'Etap 2 (Lejki)', stage3: 'Etap 3 (Ruch)', stage47: 'Etapy 4–7 (Skalowanie)', clearPath: 'Twoja jasna droga', allModules: 'Zobacz wszystkie moduły Academy', current: 'Aktualnie', course: 'Cały kurs', modules: 'Dostępnych 99 modułów', level: 'Poziom', status: 'Status', emailSystem: 'System e-mail', mails: '5 wiadomości', active: 'Aktywny', toolbox: 'Narzędzia', aiTools: 'Narzędzia AI', ready: 'Gotowe do użycia',
+    road1: 'Krok 1: Podstawy i tworzenie wartości', road2: 'Krok 2: Wybór niszy i grupy docelowej', road3: 'Krok 3: Skuteczna strona docelowa', road4: 'Krok 4: Automatyczna sekwencja e-mail', road5: 'Krok 5: Organiczne pozyskiwanie ruchu', fallbackTitle: 'Jak działa dochód online?', fallbackDescription: 'Zacznij od podstaw systemu GOM-MAR i naucz się automatycznie tworzyć wartość cyfrową.'
+  }
+};
+
+const formatCopy = (template: string, values: Record<string, string | number>) => Object.entries(values).reduce((text, [key, value]) => text.replaceAll(`{${key}}`, String(value)), template);
+
 interface DashboardViewProps {
   user: UserProfile;
   progressPercent: number;
@@ -36,6 +55,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onNavigate,
   onOpenFragGommar,
 }) => {
+  const { language } = useLanguage();
+  const copy = dashboardCopy[language];
   const isLight = user.theme === 'clean-light' || !user.theme;
 
   // Find current stage & next incomplete lesson
@@ -61,11 +82,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
   // Dynamic roadmap steps for "Dein klarer Weg"
   const baseRoadmapMilestones = [
-    { step: 1, title: 'Schritt 1: Grundlagen & Wertschöpfung', lessonId: '1.1', stageId: 1 },
-    { step: 2, title: 'Schritt 2: Nischen- & Zielgruppenwahl', lessonId: '1.2', stageId: 1 },
-    { step: 3, title: 'Schritt 3: High-Converting Landingpage', lessonId: '1.3', stageId: 1 },
-    { step: 4, title: 'Schritt 4: Automatisierte E-Mail-Sequenz', lessonId: '2.1', stageId: 2 },
-    { step: 5, title: 'Schritt 5: Organische Traffic-Generierung', lessonId: '2.2', stageId: 2 }
+    { step: 1, title: copy.road1, lessonId: '1.1', stageId: 1 },
+    { step: 2, title: copy.road2, lessonId: '1.2', stageId: 1 },
+    { step: 3, title: copy.road3, lessonId: '1.3', stageId: 1 },
+    { step: 4, title: copy.road4, lessonId: '2.1', stageId: 2 },
+    { step: 5, title: copy.road5, lessonId: '2.2', stageId: 2 }
   ];
 
   const firstIncompleteIdx = baseRoadmapMilestones.findIndex((r) => !user.completedTaskIds.includes(r.lessonId));
@@ -75,7 +96,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     const isCurrent = firstIncompleteIdx === -1 ? (idx === baseRoadmapMilestones.length - 1) : (idx === firstIncompleteIdx);
     return {
       ...item,
-      title: isCurrent ? `${item.title} (Aktuell)` : item.title,
+      title: isCurrent ? `${item.title} (${copy.current})` : item.title,
       isCompleted,
       isCurrent,
     };
@@ -88,10 +109,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* 1. Header Greeting (As in Screen 3) */}
       <div className="space-y-2">
         <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight ${isLight ? 'text-slate-950' : 'text-white'}`}>
-          Willkommen zurück, {user.name}!
+          {formatCopy(copy.greeting, { name: user.name })}
         </h1>
         <p className={`text-sm sm:text-base font-normal ${isLight ? 'text-slate-600' : 'text-slate-400'} max-w-2xl leading-relaxed`}>
-          Dein System läuft. Lass uns heute den nächsten entscheidenden Schritt für dein Business machen.
+          {copy.intro}
         </p>
       </div>
 
@@ -108,17 +129,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <Rocket className="w-4 h-4 text-white" />
             </div>
             <span className="text-xs font-black uppercase tracking-wider text-indigo-600">
-              🎯 Dein Nächster Schritt
+              {copy.next}
             </span>
           </div>
 
           {/* Lesson Title */}
           <div className="space-y-2">
             <h2 className={`text-xl sm:text-2xl lg:text-3xl font-black tracking-tight ${isLight ? 'text-slate-950' : 'text-white'}`}>
-              Lektion {nextLesson?.id || '1.1'}: {nextLesson?.title || 'Wie funktioniert Online-Einkommen?'}
+              {copy.lesson} {nextLesson?.id || '1.1'}: {nextLesson?.title || copy.fallbackTitle}
             </h2>
             <p className={`text-sm sm:text-base leading-relaxed ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>
-              {nextLesson?.description || 'Starte mit den Grundlagen des GOM-MAR Systems und lerne, wie du automatisiert digitalen Mehrwert aufbaust.'}
+              {nextLesson?.description || copy.fallbackDescription}
             </p>
           </div>
 
@@ -129,13 +150,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               id="btn-resume-next-lesson"
               className="px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/25 hover:shadow-indigo-600/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 cursor-pointer"
             >
-              <span>{isFreshStart ? `Lektion ${nextLesson?.id || '1.1'} starten` : 'Lektion fortsetzen'}</span>
+              <span>{isFreshStart ? formatCopy(copy.start, { id: nextLesson?.id || '1.1' }) : copy.continue}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
             <div className={`flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-xl ${isLight ? 'text-slate-500 bg-slate-100/80' : 'text-slate-400 bg-slate-800'}`}>
               <Clock className="w-4 h-4 text-slate-400" />
-              <span>Ca. {nextLesson?.durationMinutes || 15} Min</span>
+              <span>{formatCopy(copy.approx, { minutes: nextLesson?.durationMinutes || 15 })}</span>
             </div>
           </div>
         </div>
@@ -149,10 +170,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="flex items-center justify-between">
             <div>
               <h3 className={`text-lg sm:text-xl font-black tracking-tight ${isLight ? 'text-slate-950' : 'text-white'}`}>
-                Dein Lernfortschritt
+                {copy.learningProgress}
               </h3>
               <p className={`text-xs font-bold ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
-                Phase {currentStage.id}: {currentStage.title} • {completedTasksCount} von {totalTasksCount} Lektionen
+                {formatCopy(copy.phase, { stage: currentStage.id, title: currentStage.title, completed: completedTasksCount, total: totalTasksCount })}
               </p>
             </div>
             <div className="text-2xl sm:text-3xl font-black text-indigo-600">
@@ -171,16 +192,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           {/* Phase Markers */}
           <div className="flex items-center justify-between text-[11px] font-semibold text-slate-400 pt-1">
             <span className={user.currentStageId === 1 ? 'font-extrabold text-indigo-600' : completedTasksCount > 0 ? 'text-slate-500' : 'text-slate-400'}>
-              Etappe 1 (Start)
+              {copy.stage1}
             </span>
             <span className={user.currentStageId === 2 ? 'font-extrabold text-indigo-600' : 'text-slate-400'}>
-              Etappe 2 (Funnels)
+              {copy.stage2}
             </span>
             <span className={user.currentStageId === 3 ? 'font-extrabold text-indigo-600' : 'text-slate-400'}>
-              Etappe 3 (Traffic)
+              {copy.stage3}
             </span>
             <span className={user.currentStageId >= 4 ? 'font-extrabold text-indigo-600' : 'text-slate-400'}>
-              Etappe 4–7 (Skalierung)
+              {copy.stage47}
             </span>
           </div>
         </div>
@@ -193,12 +214,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h3 className={`text-lg sm:text-xl font-black tracking-tight ${isLight ? 'text-slate-950' : 'text-white'}`}>
-              Dein klarer Weg
+              {copy.clearPath}
             </h3>
             <button
               onClick={() => onNavigate('academy')}
               className="text-slate-400 hover:text-indigo-600 transition-colors p-1"
-              title="Alle Module in der Academy ansehen"
+              title={copy.allModules}
             >
               <ExternalLink className="w-4 h-4" />
             </button>
@@ -266,26 +287,26 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           isLight ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-900 border-slate-800'
         }`}>
           <div className="flex items-center justify-between text-slate-400 text-xs font-semibold mb-1">
-            <span>Gesamter Kurs</span>
+            <span>{copy.course}</span>
             <GraduationCap className="w-4 h-4 text-indigo-600" />
           </div>
           <div className={`text-xl sm:text-2xl font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
             {progressPercent}%
           </div>
-          <p className="text-[10px] text-slate-400 mt-1">99 Module verfügbar</p>
+          <p className="text-[10px] text-slate-400 mt-1">{copy.modules}</p>
         </div>
 
         <div className={`p-4 rounded-2xl border transition-all ${
           isLight ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-900 border-slate-800'
         }`}>
           <div className="flex items-center justify-between text-slate-400 text-xs font-semibold mb-1">
-            <span>Level</span>
+            <span>{copy.level}</span>
             <Trophy className="w-4 h-4 text-amber-500" />
           </div>
           <div className="text-xl sm:text-2xl font-black text-amber-500">
-            Level {user.level}
+            {copy.level} {user.level}
           </div>
-          <p className="text-[10px] text-slate-400 mt-1">{user.tier} Status</p>
+          <p className="text-[10px] text-slate-400 mt-1">{user.tier} {copy.status}</p>
         </div>
 
         <div 
@@ -295,13 +316,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           }`}
         >
           <div className="flex items-center justify-between text-slate-400 text-xs font-semibold mb-1">
-            <span>E-Mail System</span>
+            <span>{copy.emailSystem}</span>
             <Mail className="w-4 h-4 text-indigo-600" />
           </div>
           <div className={`text-xl sm:text-2xl font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
-            5 Mails
+            {copy.mails}
           </div>
-          <p className="text-[10px] text-emerald-600 font-bold mt-1">Aktiv geschaltet</p>
+          <p className="text-[10px] text-emerald-600 font-bold mt-1">{copy.active}</p>
         </div>
 
         <div 
@@ -311,16 +332,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           }`}
         >
           <div className="flex items-center justify-between text-slate-400 text-xs font-semibold mb-1">
-            <span>Toolbox</span>
+            <span>{copy.toolbox}</span>
             <Wrench className="w-4 h-4 text-indigo-600" />
           </div>
           <div className={`text-xl sm:text-2xl font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
-            KI Tools
+            {copy.aiTools}
           </div>
-          <p className="text-[10px] text-indigo-600 font-bold mt-1">Bereit zum Einsatz</p>
+          <p className="text-[10px] text-indigo-600 font-bold mt-1">{copy.ready}</p>
         </div>
       </div>
     </div>
   );
 };
-
